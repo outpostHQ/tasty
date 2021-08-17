@@ -1,0 +1,187 @@
+{
+  "$schema": "./.vscode/package.schema.json",
+  "name": "tastycss",
+  "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "types/index.d.ts",
+  "license": "MIT",
+  "typesVersions": {
+    ">= 4.1": {
+      "*": [
+        "types/index.d.ts"
+      ]
+    }
+  },
+  "jsdelivr": "dist/index.global.js",
+  "unpkg": "dist/index.global.js",
+  "exports": {
+    ".": {
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.mjs",
+      "types": "./types/index.d.ts"
+    },
+    "./global": "./dist/index.global.js"
+  },
+  "files": [
+    "react/*.js",
+    "react/*.map",
+    "dist/*.js",
+    "dist/*.map",
+    "types/*.d.ts"
+  ],
+  "sideEffects": false,
+  "repository": "numldesign/tatsy",
+  "homepage": "https://tasty.numl.design/",
+  "bugs": "https://github.com/numldesign/tasty/issues",
+  "contributors": [
+    "Andrey Yamanov <tenphi@gmail.com>"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "component",
+    "components",
+    "create",
+    "css",
+    "css-in-js",
+    "global",
+    "globals",
+    "javascript",
+    "js",
+    "nesting",
+    "object",
+    "object-oriented",
+    "oo",
+    "oocss",
+    "oriented",
+    "scope",
+    "scoped",
+    "style",
+    "styled",
+    "styles",
+    "stylesheet",
+    "stylesheets",
+    "theme",
+    "themes",
+    "theming",
+    "token",
+    "tokens",
+    "type",
+    "typed",
+    "types",
+    "transform",
+    "ts",
+    "variable",
+    "variables"
+  ],
+  "scripts": {
+    "build": "rollup -c rollup.config.js"
+  },
+  "devDependencies": {
+    "@web/test-runner": "0.13.16"
+  },
+  "dependencies": {
+    "styled-components": "^5.3.0"
+  },
+  "browserslist": [
+    "last 1 chrome versions",
+    "last 1 firefox versions",
+    "last 1 safari versions",
+    "maintained node versions"
+  ],
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "es6": true,
+      "node": true
+    },
+    "extends": "eslint:recommended",
+    "globals": {
+      "describe": false,
+      "expect": false,
+      "test": false
+    },
+    "parserOptions": {
+      "ecmaVersion": 12,
+      "sourceType": "module",
+      "ecmaFeatures": {
+        "modules": true
+      }
+    },
+    "rules": {
+      "semi": [
+        "error",
+        "never"
+      ]
+    },
+    "overrides": [
+      {
+        "files": "*.ts",
+        "env": {
+          "browser": true,
+          "es6": true,
+          "node": true
+        },
+        "extends": [
+          "plugin:@typescript-eslint/recommended"
+        ],
+        "parser": "@typescript-eslint/parser",
+        "parserOptions": {
+          "ecmaVersion": 2020,
+          "sourceType": "module",
+          "ecmaFeatures": {
+            "jsx": true
+          }
+        },
+        "settings": {
+          "react": {
+            "version": "detect"
+          }
+        },
+        "rules": {
+          "@typescript-eslint/ban-types": [
+            "error",
+            {
+              "extendDefaults": true,
+              "types": {
+                "{}": false
+              }
+            }
+          ],
+          "@typescript-eslint/no-explicit-any": "off",
+          "@typescript-eslint/no-for-in-array": "off",
+          "@typescript-eslint/no-unnecessary-qualifier": "off",
+          "@typescript-eslint/no-unnecessary-type-assertion": "off",
+          "@typescript-eslint/promise-function-async": "off",
+          "@typescript-eslint/restrict-plus-operands": "off"
+        }
+      }
+    ]
+  },
+  "prettier": {
+    "arrowParens": "always",
+    "bracketSpacing": true,
+    "printWidth": 240,
+    "quoteProps": "consistent",
+    "semi": false,
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "all",
+    "useTabs": true,
+    "overrides": [
+      {
+        "files": [
+          "*.json",
+          "*.md",
+          ".prettierrc",
+          "*.yml"
+        ],
+        "options": {
+          "useTabs": false
+        }
+      }
+    ]
+  }
+}
