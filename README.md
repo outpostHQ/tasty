@@ -43,4 +43,4 @@ Please follow our [contributing guidelines](CONTRIBUTING.md).
 
 Tasty is a project by [Forneu](https://forneu.com).
 
-Released under the [MIT License](LICENSE.md).
+Released under the [MIT License](LICENSE).
