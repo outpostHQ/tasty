@@ -1,7 +1,7 @@
 {
   "$schema": "./.vscode/package.schema.json",
   "name": "tastycss",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "type": "module",
   "main": "dist/cjs/index.js",
   "module": "dist/mjs/index.js",
@@ -29,11 +29,9 @@
     }
   },
   "files": [
-    "react/*.js",
-    "react/*.map",
-    "dist/*.js",
-    "dist/*.map",
-    "types/*.d.ts"
+    "dist/**/*.js",
+    "dist/**/*.map",
+    "dist/**/*.d.ts"
   ],
   "sideEffects": false,
   "repository": "numldesign/tatsy",
