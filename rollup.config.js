@@ -31,38 +31,38 @@ const getPlugins = (type, format) => {
 }
 
 export default [
-  // {
-  //   input: 'src/index.ts',
-  //   output: [
-  //     {
-  //       name: 'tastycss',
-  //       dir: 'dist/mjs',
-  //       format: 'es',
-  //       sourcemap: true,
-  //     },
-  //   ],
-  //   inlineDynamicImports: true,
-  //   plugins: getPlugins('', 'mjs'),
-  // },
-  // {
-  //   input: 'src/index.ts',
-  //   output: [
-  //     {
-  //       name: 'tastycss',
-  //       dir: 'dist/cjs',
-  //       format: 'cjs',
-  //       sourcemap: true,
-  //     },
-  //   ],
-  //   inlineDynamicImports: true,
-  //   plugins: getPlugins('', 'cjs'),
-  // },
+  {
+    input: 'src/index.ts',
+    output: [
+      {
+        name: 'tastycss',
+        dir: 'dist/mjs',
+        format: 'es',
+        sourcemap: true,
+      },
+    ],
+    inlineDynamicImports: true,
+    plugins: getPlugins('', 'mjs'),
+  },
+  {
+    input: 'src/index.ts',
+    output: [
+      {
+        name: 'tastycss',
+        dir: 'dist/cjs',
+        format: 'cjs',
+        sourcemap: true,
+      },
+    ],
+    inlineDynamicImports: true,
+    plugins: getPlugins('', 'cjs'),
+  },
 	{
 	  external: [
       'styled-components',
       'node_modules/react',
     ],
-    input: 'src/react-component/index.tsx',
+    input: 'src/react/index.tsx',
     output: [
       {
         name: 'tastycss/react',
@@ -79,7 +79,7 @@ export default [
       'styled-components',
       'node_modules/react',
     ],
-    input: 'src/react-component/index.tsx',
+    input: 'src/react/index.tsx',
     output: [
       {
         name: 'tastycss/react',

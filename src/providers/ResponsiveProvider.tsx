@@ -1,4 +1,4 @@
-import { createContext, ReactNode } from 'node_modules/react';
+import { createContext, ReactNode } from 'react';
 
 export const ResponsiveContext = createContext([980]);
 
