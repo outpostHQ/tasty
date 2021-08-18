@@ -1,2 +1,2 @@
 export * from './types/styles';
-export * from './types/component';
+export * from './stringify/index';

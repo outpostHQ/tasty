@@ -113,3 +113,6 @@ react
 # WebStorm
 .idea
 
+# Stats
+stats.html
+stats-react.html

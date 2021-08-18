@@ -1,8 +1,4 @@
-import { CSSProperties } from 'react';
-
 export type NuStyles = {
-  [key in keyof CSSProperties]?: NuResponsiveStyleValue<CSSProperties[key]>;
-} & {
   [key: string]: NuResponsiveStyleValue<string | number | boolean | undefined>;
 };
 

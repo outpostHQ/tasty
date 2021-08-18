@@ -5,8 +5,8 @@ import {
   ReactElement,
   ReactNodeArray,
   ReactPortal,
-} from 'react';
-import { NuStyles } from '../utils/styles';
+} from 'node_modules/react';
+import { NuStyles } from '../types/styles';
 
 export interface BasePropsWithoutChildren extends Pick<AllHTMLAttributes<HTMLElement>, 'className' | 'role' | 'id'> {
   /** QA ID for e2e testing **/
