@@ -4,7 +4,6 @@
     "module": "esnext",
     "lib": ["dom", "esnext"],
     "declaration": true,
-    "declarationDir": "dist",
     "noEmitOnError": false,
     "sourceMap": true,
     "allowJs": true,
@@ -25,6 +24,5 @@
     "noEmit": true,
     "downlevelIteration": true
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx"],
   "exclude": ["dist/**/*", "react", "styled-components"]
 }

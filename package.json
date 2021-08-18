@@ -1,7 +1,7 @@
 {
   "$schema": "./.vscode/package.schema.json",
   "name": "tastycss",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "type": "module",
   "main": "dist/cjs/index.js",
   "module": "dist/mjs/index.js",
@@ -23,9 +23,9 @@
       "types": "./dist/mjs/index.d.ts"
     },
     "./react": {
-      "require": "./dist/react/cjs/index.js",
-      "import": "./dist/react/mjs/index.js",
-      "types": "./dist/react/mjs/index.d.ts"
+      "require": "./dist/cjs/react/index.js",
+      "import": "./dist/mjs/react/index.js",
+      "types": "./dist/mjs/react/index.d.ts"
     }
   },
   "files": [
