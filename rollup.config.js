@@ -10,83 +10,85 @@ import pkg from './package.json';
 const DEV = !!process.env.ROLLUP_WATCH;
 const ENV = DEV ? 'development' : 'production';
 const VERSION = `"${pkg.version}"`;
-const getPlugins = (type) => [
-  visualizer({
-    filename: `stats${type ? `-${type}` : ''}.html`
-  }),
-  replace({
-    'process.env.NODE_ENV': JSON.stringify(ENV),
-    'process.env.APP_VERSION': VERSION,
-  }),
-  commonjs(),
-  typescript({
-    tsconfig: `tsconfig${type ? `-${type}` : ''}.json`,
-  }),
-  localResolve({
-    extensions: ['.jsx', '.js', '.tsx', '.ts'],
-  }),
-  ENV === 'development' ? undefined : terser(),
-];
+const getPlugins = (type, format) => {
+  return [
+    visualizer({
+      filename: `stats${type ? `-${type}` : ''}.html`
+    }),
+    replace({
+      'process.env.NODE_ENV': JSON.stringify(ENV),
+      'process.env.APP_VERSION': VERSION,
+    }),
+    typescript({
+      tsconfig: `tsconfig${type ? `-${type}` : ''}-${format}.json`,
+    }),
+    commonjs(),
+    localResolve({
+      extensions: ['.jsx', '.js', '.tsx', '.ts'],
+    }),
+    ENV === 'development' ? undefined : terser(),
+  ];
+}
 
 export default [
-  {
-    input: 'src/index.ts',
-    output: [
-      {
-        name: 'TastyCSS',
-        file: 'dist/index.mjs',
-        format: 'es',
-        sourcemap: true,
-      },
-    ],
-    inlineDynamicImports: true,
-    plugins: getPlugins(),
-  },
-  {
-    input: 'src/index.ts',
-    output: [
-      {
-        name: 'TastyCSS',
-        file: 'dist/index.cjs',
-        format: 'cjs',
-        sourcemap: true,
-      },
-    ],
-    inlineDynamicImports: true,
-    plugins: getPlugins(),
-  },
+  // {
+  //   input: 'src/index.ts',
+  //   output: [
+  //     {
+  //       name: 'tastycss',
+  //       dir: 'dist/mjs',
+  //       format: 'es',
+  //       sourcemap: true,
+  //     },
+  //   ],
+  //   inlineDynamicImports: true,
+  //   plugins: getPlugins('', 'mjs'),
+  // },
+  // {
+  //   input: 'src/index.ts',
+  //   output: [
+  //     {
+  //       name: 'tastycss',
+  //       dir: 'dist/cjs',
+  //       format: 'cjs',
+  //       sourcemap: true,
+  //     },
+  //   ],
+  //   inlineDynamicImports: true,
+  //   plugins: getPlugins('', 'cjs'),
+  // },
 	{
 	  external: [
       'styled-components',
       'node_modules/react',
     ],
-    input: 'src/react/index.tsx',
+    input: 'src/react-component/index.tsx',
     output: [
       {
-        name: 'TastyCSS React',
-        file: 'react/index.mjs',
+        name: 'tastycss/react',
+        dir: 'dist/react/mjs',
         format: 'es',
         sourcemap: true,
       },
     ],
     inlineDynamicImports: true,
-    plugins: getPlugins('react'),
+    plugins: getPlugins('react', 'mjs'),
   },
   {
 	  external: [
       'styled-components',
       'node_modules/react',
     ],
-    input: 'src/react/index.tsx',
+    input: 'src/react-component/index.tsx',
     output: [
       {
-        name: 'TastyCSS React',
-        file: 'react/index.cjs',
+        name: 'tastycss/react',
+        dir: 'dist/react/cjs/',
         format: 'cjs',
         sourcemap: true,
       },
     ],
     inlineDynamicImports: true,
-    plugins: getPlugins('react'),
+    plugins: getPlugins('react', 'cjs'),
   },
 ];

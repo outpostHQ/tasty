@@ -1,11 +1,11 @@
 {
   "$schema": "./.vscode/package.schema.json",
   "name": "tastycss",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "module",
-  "main": "dist/index.cjs",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
+  "main": "dist/cjs/index.js",
+  "module": "dist/mjs/index.js",
+  "types": "dist/mjs/index.d.ts",
   "license": "MIT",
   "typesVersions": {
     ">= 4.1": {
@@ -18,14 +18,14 @@
   "unpkg": "dist/index.global.js",
   "exports": {
     ".": {
-      "require": "./dist/index.cjs",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/cjs/index.js",
+      "import": "./dist/mjs/index.js",
+      "types": "./dist/mjs/index.d.ts"
     },
     "./react": {
-      "require": "./dist/react/index.cjs",
-      "import": "./dist/react/index.mjs",
-      "types": "./dist/react/index.d.ts"
+      "require": "./dist/react/cjs/index.js",
+      "import": "./dist/react/mjs/index.js",
+      "types": "./dist/react/mjs/index.d.ts"
     }
   },
   "files": [
