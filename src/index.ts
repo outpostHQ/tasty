@@ -1,2 +1,2 @@
-export * from './types/styles';
+export * from './types/render';
 export * from './stringify/index';

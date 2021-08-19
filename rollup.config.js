@@ -28,14 +28,12 @@ const getPlugins = (type, format) => {
     }),
     ENV === 'development' ? undefined : terser(),
   ];
-}
+};
+const external = ['react/jsx-runtime', 'react', 'styled-components'];
 
 export default [
   {
-	  external: [
-      'styled-components',
-      'node_modules/react',
-    ],
+    external,
     input: 'src/react/index.tsx',
     output: [
       {
@@ -49,10 +47,7 @@ export default [
     plugins: getPlugins('react', 'mjs'),
   },
   {
-	  external: [
-      'styled-components',
-      'node_modules/react',
-    ],
+    external,
     input: 'src/react/index.tsx',
     output: [
       {

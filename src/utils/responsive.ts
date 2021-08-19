@@ -1,4 +1,4 @@
-import { NuResponsiveStyleValue } from '../types/styles';
+import { NuResponsiveStyleValue } from '../types/render';
 
 export function mediaWrapper(cssRules, points) {
   return points

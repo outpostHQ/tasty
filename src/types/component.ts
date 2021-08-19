@@ -6,7 +6,7 @@ import {
   ReactNodeArray,
   ReactPortal,
 } from 'react';
-import { NuStyles } from '../types/styles';
+import { NuStyles } from './render';
 
 export interface BasePropsWithoutChildren extends Pick<AllHTMLAttributes<HTMLElement>, 'className' | 'role' | 'id'> {
   /** QA ID for e2e testing **/

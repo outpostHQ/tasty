@@ -80,8 +80,9 @@
     "variables"
   ],
   "scripts": {
-    "build": "rollup -c rollup.config.js",
-    "prepublishOnly": "npm run build"
+    "build": "rollup -c rollup.config.js && yarn size-limit",
+    "prepublishOnly": "npm run build",
+    "fix": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\" && eslint --fix --cache src --ext .js,.ts,.jsx,.tsx"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "20.0.0",
@@ -213,5 +214,19 @@
         }
       }
     ]
-  }
+  },
+  "size-limit": [
+    {
+      "name": "TastyCSS Core",
+      "path": [
+        "dist/mjs/index.js"
+      ]
+    },
+    {
+      "name": "TastyCSS React",
+      "path": [
+        "dist/mjs/react/index.js"
+      ]
+    }
+  ]
 }

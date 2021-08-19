@@ -9,7 +9,7 @@ import {
   NuStyleStateList,
   NuStyleStateMap,
   NuStyleStateMapList
-} from '../types/styles';
+} from '../types/render';
 
 export const NO_VALUES = [false, 'n', 'no', 'false'];
 export const YES_VALUES = [true, 'y', 'yes', 'true'];
