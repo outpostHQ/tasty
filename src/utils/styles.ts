@@ -1,4 +1,4 @@
-import { getCombinations } from './getCombinations';
+import { getModCombinations } from './getModCombinations';
 import {
   NuComputeModel,
   NuCSSMap,
@@ -27,12 +27,6 @@ export const CUSTOM_UNITS = {
   gp: 'var(--column-gap)',
   // global setting
   wh: 'var(--window-height)',
-  // span unit for GridProvider
-  sp: function spanWidth(num) {
-    return `((${num} * var(--column-width)) + (${
-      num - 1
-    } * var(--column-gap)))`;
-  },
 };
 
 export const DIRECTIONS = ['top', 'right', 'bottom', 'left'];
@@ -695,67 +689,6 @@ export function styleHandlerCacheWrapper(styleHandler, limit = 1000) {
 }
 
 /**
- * Fill all unspecified states and cover all possible combinations of presented modifiers.
- * @param {NuStyleStateList} stateList
- * @param {string[]} [allModes]
- * @return {NuStyleStateList}
- */
-export function normalizeStates(stateList, allModes) {
-  let baseState;
-
-  stateList.forEach((state) => {
-    if (!state.mods.length) {
-      baseState = state;
-    }
-
-    state.mods.sort();
-  });
-
-  if (!baseState) {
-    baseState = {
-      mods: [],
-      value: '',
-    };
-
-    stateList.unshift(baseState);
-  }
-
-  if (!allModes) {
-    const allModesSet = new Set();
-
-    stateList.forEach((state) =>
-      state.mods.forEach((mod) => allModesSet.add(mod)),
-    );
-
-    allModes = Array.from(allModesSet);
-  }
-
-  const allCombinations = getCombinations(allModes).concat([]);
-
-  allCombinations.forEach((comb) => {
-    comb.sort();
-
-    const existState = stateList.find(
-      (state) => state.mods.join() === comb.join(),
-    );
-
-    if (existState) return;
-
-    stateList.push({
-      mods: comb,
-      notMods: [],
-      value: baseState.value,
-    });
-  });
-
-  stateList.forEach((state) => {
-    state.notMods = allModes.filter((mod) => !state.mods.includes(mod));
-  });
-
-  return stateList;
-}
-
-/**
  * Replace state values with new ones.
  * For example, if you want to replace initial values with finite CSS code.
  * @param {NuStyleStateList|NuStyleStateMapList} states
@@ -841,7 +774,7 @@ export function styleMapToStyleMapStateList(
 
   const styleStateMapList: NuStyleStateList = [];
 
-  getCombinations(allModsArr, true).forEach((combination) => {
+  getModCombinations(allModsArr, true).forEach((combination) => {
     styleStateMapList.push({
       mods: combination,
       notMods: allModsArr.filter((mod) => !combination.includes(mod)),
@@ -869,9 +802,6 @@ export const STATE_OPERATORS = {
 
 export const STATE_OPERATOR_LIST = ['!', '&', '|', '^'];
 
-/**
- *
- */
 function convertTokensToComputeUnits(tokens: any[]) {
   if (tokens.length === 1) {
     return tokens[0];
@@ -1060,7 +990,7 @@ export function computeState(
   const func = COMPUTE_FUNC_MAP[computeModel[0]];
 
   if (!func) {
-    console.warn('nusc: unexpected compute method in the model', computeModel);
+    console.warn('tastycss: unexpected compute method in the model', computeModel);
     // return false;
   }
 

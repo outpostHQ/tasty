@@ -1,7 +1,7 @@
 {
   "$schema": "./.vscode/package.schema.json",
   "name": "tastycss",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "type": "module",
   "main": "dist/cjs/index.js",
   "module": "dist/mjs/index.js",
@@ -81,10 +81,12 @@
   ],
   "scripts": {
     "build": "rollup -c rollup.config.js && yarn size-limit",
+    "test": "web-test-runner test/*.test.js --node-resolve",
     "prepublishOnly": "npm run build",
     "fix": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\" && eslint --fix --cache src --ext .js,.ts,.jsx,.tsx"
   },
   "devDependencies": {
+    "@open-wc/testing": "2.5.33",
     "@rollup/plugin-commonjs": "20.0.0",
     "@rollup/plugin-typescript": "8.2.5",
     "@size-limit/preset-small-lib": "5.0.3",
@@ -94,6 +96,7 @@
     "@types/react-dom": "17.0.9",
     "@typescript-eslint/eslint-plugin": "4.29.2",
     "@typescript-eslint/parser": "4.29.2",
+    "@web/dev-server-esbuild": "0.2.14",
     "@web/test-runner": "0.13.16",
     "eslint": "7.32.0",
     "eslint-config-prettier": "8.3.0",
