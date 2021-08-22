@@ -5,8 +5,6 @@
 
 A set of modules is for CSS-in-JS solution that includes state-to-style bindings, SRR and next-level developer experience. It includes a framework-agnostic implementation 
 
-* [Website](https://tasty.numl.design)
-
 
 ## Installation
 
@@ -32,7 +30,7 @@ yarn add tastycss styled-components
 
 ## Documentation
 
-TBD
+WIP
 
 ## Contributing
 
