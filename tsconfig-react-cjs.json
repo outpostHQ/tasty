@@ -2,6 +2,6 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "jsx": "react-jsx",
-    "declaration": false
+    "declarationDir": "dist/cjs/react"
   },
 }
