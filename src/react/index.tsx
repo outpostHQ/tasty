@@ -6,6 +6,7 @@ import { renderStyles, setStyleHandlerMap } from '../stringify';
 import { modAttrs } from './utils/modAttrs';
 import { AllBaseProps } from '../types/component';
 import { NuStyles } from './styled';
+import './globals';
 
 const DEFAULT_STYLES: NuStyles = {
   display: 'inline-block',

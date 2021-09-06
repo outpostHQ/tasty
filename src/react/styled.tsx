@@ -19,7 +19,7 @@ export type NuStyles = {
 export * from '../types/component';
 export { useContextStyles, StyleProvider } from '../providers/StylesProvider';
 
-export interface StyledProps {
+export interface StyledProps<T extends string> {
   /** The name of the element. It can be used to override styles in context. */
   name?: string,
   /** The tag name of the element. */
@@ -28,14 +28,18 @@ export interface StyledProps {
   styles?: NuStyles,
   /** Default css of the element. */
   css?: string,
+  /** The list of available modifiers. Providing it will show a warning each time you set an incorrect modifier on the element */
+  availableMods?: T[],
 }
 
-export function styled({ name, tag, styles: defaultStyles, css: defaultCSS }: StyledProps) {
-  let Base;
+export type AllBasePropsWithMods<T extends string> = Omit<AllBaseProps, 'mods'> & { mods: Record<T, boolean | null | undefined> };
+
+export function styled<T extends string>(allProps: StyledProps<T>) {
+  let { name, tag, styles: defaultStyles, css: defaultCSS, availableMods } = allProps;
   let Element = styledComponents[tag || 'div'](({ css }) => css);
 
   if (name) {
-    Base = (allProps: AllBaseProps, ref) => {
+    return forwardRef((allProps: AllBasePropsWithMods<T>, ref) => {
       let {
         as,
         styles,
@@ -68,9 +72,9 @@ export function styled({ name, tag, styles: defaultStyles, css: defaultCSS }: St
           css={css}
         />
       );
-    };
+    });
   } else {
-    Base = (allProps: AllBaseProps, ref) => {
+    return forwardRef((allProps: AllBasePropsWithMods<T>, ref) => {
       let {
         as,
         styles,
@@ -87,7 +91,7 @@ export function styled({ name, tag, styles: defaultStyles, css: defaultCSS }: St
       const contextBreakpoints = useContext(ResponsiveContext);
       const zones = pointsToZones(breakpoints || contextBreakpoints);
 
-      css = `${css || ''}${renderStyles(allStyles, zones)}`;
+      css = `${defaultCSS || ''}${css || ''}${renderStyles(allStyles, zones)}`;
 
       if (mods) {
         Object.assign(props, modAttrs(mods));
@@ -103,8 +107,6 @@ export function styled({ name, tag, styles: defaultStyles, css: defaultCSS }: St
           css={css}
         />
       );
-    };
+    });
   }
-
-  return forwardRef(Base);
 }
