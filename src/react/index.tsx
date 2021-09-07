@@ -1,6 +1,6 @@
 import { forwardRef, useContext } from 'react'
 import styledComponents from 'styled-components'
-import { BreakpointsContext } from '../providers/BreakpointsProvider'
+import { BreakpointsContext, BreakpointsProvider } from '../providers/BreakpointsProvider'
 import { pointsToZones } from '../utils/responsive'
 import { renderStyles } from '../stringify'
 import { modAttrs } from './utils/modAttrs'
@@ -34,7 +34,7 @@ const Base = (allProps: AllBaseProps, ref) => {
  * The base component of the TastyReact.
  */
 const _Base = forwardRef(Base)
-export { _Base as Base }
+export { _Base as Base, BreakpointsProvider }
 export * from '../types/component'
 export { useContextStyles, StyleProvider } from '../providers/StylesProvider'
 export { styled } from './styled'
