@@ -56,4 +56,5 @@ const _Base = forwardRef(Base);
 export { _Base as Base, setStyleHandlerMap };
 export * from '../types/component';
 export { useContextStyles, StyleProvider } from '../providers/StylesProvider';
-export * from './styled';
+export { styled } from './styled';
+export { styled as default } from './styled';
