@@ -1,6 +1,4 @@
-import { renderStyles, setStyleHandlerMap, clearStyleHandlerMap, createStyle } from './renderStyles';
-import { DEFAULT_STYLE_HANDLER_MAP } from '../styles';
+import '../styles/predefined'
 
-setStyleHandlerMap(DEFAULT_STYLE_HANDLER_MAP);
-
-export { renderStyles, setStyleHandlerMap, createStyle, clearStyleHandlerMap };
+export { renderStyles } from './renderStyles'
+export { defineCustomStyle, defineStyleAlias, createStyle } from '../styles'

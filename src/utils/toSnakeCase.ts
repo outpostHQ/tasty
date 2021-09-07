@@ -1,3 +1,3 @@
-export function toSnakeCase(str) {
-  return str.replace(/[A-Z]/g, (s) => `-${s.toLowerCase()}`);
+export function toSnakeCase(str: string): string {
+	return str.replace(/[A-Z]/g, (s) => `-${s.toLowerCase()}`)
 }

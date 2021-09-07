@@ -1,7 +1,7 @@
 {
   "$schema": "./.vscode/package.schema.json",
   "name": "tastycss",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "type": "module",
   "main": "dist/cjs/index.js",
   "module": "dist/mjs/index.js",
@@ -99,14 +99,18 @@
     "@testing-library/react": "12.0.0",
     "@types/react": "17.0.18",
     "@types/react-dom": "17.0.9",
+    "@types/styled-components": "5.1.14",
     "@typescript-eslint/eslint-plugin": "4.29.2",
     "@typescript-eslint/parser": "4.29.2",
     "@web/dev-server-esbuild": "0.2.14",
     "@web/test-runner": "0.13.16",
+    "babel-eslint": "10.1.0",
     "eslint": "7.32.0",
     "eslint-config-prettier": "8.3.0",
     "eslint-config-react-app": "6.0.0",
+    "eslint-plugin-flowtype": "5.9.2",
     "eslint-plugin-import": "2.24.0",
+    "eslint-plugin-jsx-a11y": "6.4.1",
     "eslint-plugin-react": "7.24.0",
     "eslint-plugin-react-hooks": "4.2.0",
     "prettier": "2.3.2",
@@ -130,81 +134,11 @@
     "last 1 safari versions",
     "maintained node versions"
   ],
-  "eslintConfig": {
-    "env": {
-      "browser": true,
-      "es6": true,
-      "node": true
-    },
-    "extends": "eslint:recommended",
-    "globals": {
-      "describe": false,
-      "expect": false,
-      "test": false
-    },
-    "parserOptions": {
-      "ecmaVersion": 12,
-      "sourceType": "module",
-      "ecmaFeatures": {
-        "modules": true
-      }
-    },
-    "rules": {
-      "semi": [
-        "error",
-        "never"
-      ]
-    },
-    "overrides": [
-      {
-        "files": "*.ts",
-        "env": {
-          "browser": true,
-          "es6": true,
-          "node": true
-        },
-        "extends": [
-          "plugin:@typescript-eslint/recommended"
-        ],
-        "parser": "@typescript-eslint/parser",
-        "parserOptions": {
-          "ecmaVersion": 2020,
-          "sourceType": "module",
-          "ecmaFeatures": {
-            "jsx": true
-          }
-        },
-        "settings": {
-          "react": {
-            "version": "detect"
-          }
-        },
-        "rules": {
-          "@typescript-eslint/ban-types": [
-            "error",
-            {
-              "extendDefaults": true,
-              "types": {
-                "{}": false
-              }
-            }
-          ],
-          "@typescript-eslint/no-explicit-any": "off",
-          "@typescript-eslint/no-for-in-array": "off",
-          "@typescript-eslint/no-unnecessary-qualifier": "off",
-          "@typescript-eslint/no-unnecessary-type-assertion": "off",
-          "@typescript-eslint/promise-function-async": "off",
-          "@typescript-eslint/restrict-plus-operands": "off"
-        }
-      }
-    ]
-  },
   "prettier": {
     "arrowParens": "always",
     "bracketSpacing": true,
-    "printWidth": 240,
+    "printWidth": 120,
     "quoteProps": "consistent",
-    "semi": false,
     "singleQuote": true,
     "tabWidth": 2,
     "trailingComma": "all",

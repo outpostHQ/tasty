@@ -1,33 +1,33 @@
-import { parseStyle, DIRECTIONS, filterMods } from '../utils/styles';
+import { parseStyle, DIRECTIONS, filterMods } from '../utils/styles'
 
 export function paddingStyle({ padding }) {
-  if (typeof padding === 'number') {
-    padding = `${padding}px`;
-  }
+	if (typeof padding === 'number') {
+		padding = `${padding}px`
+	}
 
-  if (!padding) return '';
+	if (!padding) return ''
 
-  if (padding === true) padding = '1x';
+	if (padding === true) padding = '1x'
 
-  let { values, mods } = parseStyle(padding);
+	let { values, mods } = parseStyle(padding)
 
-  const directions = filterMods(mods, DIRECTIONS);
+	const directions = filterMods(mods, DIRECTIONS)
 
-  if (!values.length) {
-    values = ['var(--gap)'];
-  }
+	if (!values.length) {
+		values = ['var(--gap)']
+	}
 
-  if (!directions.length) {
-    return { padding: values.join(' ') };
-  }
+	if (!directions.length) {
+		return { padding: values.join(' ') }
+	}
 
-  return directions.reduce((styles, dir) => {
-    const index = DIRECTIONS.indexOf(dir);
+	return directions.reduce((styles, dir) => {
+		const index = DIRECTIONS.indexOf(dir)
 
-    styles[`padding-${dir}`] = values[index] || values[index % 2] || values[0];
+		styles[`padding-${dir}`] = values[index] || values[index % 2] || values[0]
 
-    return styles;
-  }, {});
+		return styles
+	}, {})
 }
 
-paddingStyle.__lookupStyles = ['padding'];
+paddingStyle.__lookupStyles = ['padding']

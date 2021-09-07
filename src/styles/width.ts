@@ -1,9 +1,9 @@
-import { dimensionStyle } from './dimension';
+import { dimensionStyle } from './dimension'
 
-const dimension = dimensionStyle('width');
+const dimension = dimensionStyle('width')
 
 export function widthStyle({ width }) {
-  return dimension(width);
+	return dimension(width)
 }
 
-widthStyle.__lookupStyles = ['width'];
+widthStyle.__lookupStyles = ['width']

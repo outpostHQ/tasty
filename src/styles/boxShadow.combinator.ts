@@ -1,22 +1,19 @@
-import { isNoValue } from '../utils/styles';
+import { isNoValue } from '../utils/styles'
 
 export function boxShadowCombinator(styles) {
-  const values = boxShadowCombinator.__lookupStyles.reduce(
-    (list: string[], style) => {
-      const value = styles[style];
+	const values = boxShadowCombinator.__lookupStyles.reduce((list: string[], style) => {
+		const value = styles[style]
 
-      if (!isNoValue(value)) {
-        list.push(`var(--local-${style}-box-shadow)`);
-      }
+		if (!isNoValue(value)) {
+			list.push(`var(--local-${style}-box-shadow)`)
+		}
 
-      return list;
-    },
-    [],
-  );
+		return list
+	}, [])
 
-  if (!values.length) return '';
+	if (!values.length) return ''
 
-  return { 'box-shadow': values.join(', ') };
+	return { 'box-shadow': values.join(', ') }
 }
 
-boxShadowCombinator.__lookupStyles = ['outline', 'shadow'];
+boxShadowCombinator.__lookupStyles = ['outline', 'shadow']

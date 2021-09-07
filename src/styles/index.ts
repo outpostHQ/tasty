@@ -1,97 +1,104 @@
-import { createStyle } from '../stringify/renderStyles';
-import { styleHandlerCacheWrapper } from '../utils/styles';
+import { NuRawStyleHandler, NuStyleHandler } from '../types/render'
+import {
+	getRgbValuesFromRgbaString,
+	parseColor,
+	parseStyle,
+	strToRgb,
+	styleHandlerCacheWrapper,
+} from '../utils/styles'
+import { toSnakeCase } from '../utils/toSnakeCase'
 
-import { gapStyle } from './gap';
-import { flowStyle } from './flow';
-import { resetStyle } from './reset';
-import { colorStyle } from './color';
-import { fillStyle } from './fill';
-import { widthStyle } from './width';
-import { heightStyle } from './height';
-import { radiusStyle } from './radius';
-import { borderStyle } from './border';
-import { shadowStyle } from './shadow';
-import { paddingStyle } from './padding';
-import { sizeStyle } from './size';
-import { fontStyleStyle } from './fontStyle';
-import { marginStyle } from './margin';
-import { fontStyle } from './font';
-import { outlineStyle } from './outline';
-import { transitionStyle } from './transition';
-import { groupRadiusAttr } from './groupRadius';
-import { boxShadowCombinator } from './boxShadow.combinator';
-import { displayStyle } from './display';
+const CACHE = {}
 
-const columnsConverter = (val) => {
-  if (typeof val === 'number') {
-    return 'minmax(1px, 1fr) '.repeat(val).trim();
-  }
+export function createStyle(styleName: string, cssStyle?: string, converter?: Function) {
+	if (!CACHE[styleName]) {
+		CACHE[styleName] = styleHandlerCacheWrapper((styleMap) => {
+			let styleValue = styleMap[styleName]
 
-  return null;
-};
-const rowsConverter = (val) => {
-  if (typeof val === 'number') {
-    return 'auto '.repeat(val).trim();
-  }
+			if (!styleValue) return
 
-  return null;
-};
+			const finalCssStyle = cssStyle || toSnakeCase(styleName).replace(/^@/, '--')
 
-export const STYLES = [
-  createStyle('gridAreas', 'grid-template-areas'),
-  createStyle('gridColumns', 'grid-template-columns', columnsConverter),
-  createStyle('gridRows', 'grid-template-rows', rowsConverter),
-  createStyle('gridTemplate', 'grid-template', (val) => {
-    if (typeof val !== 'string') return;
+			// convert non-string values
+			if (converter && typeof styleValue !== 'string') {
+				styleValue = converter(styleValue)
 
-    return val
-      .split('/')
-      .map((s, i) => (i ? columnsConverter : rowsConverter)(s))
-      .join('/');
-  }),
-].concat(
-  [
-    displayStyle,
-    transitionStyle,
-    resetStyle,
-    fillStyle,
-    widthStyle,
-    marginStyle,
-    gapStyle,
-    flowStyle,
-    colorStyle,
-    heightStyle,
-    radiusStyle,
-    borderStyle,
-    shadowStyle,
-    paddingStyle,
-    sizeStyle,
-    boxShadowCombinator,
-    outlineStyle,
-    fontStyle,
-    fontStyleStyle,
-    groupRadiusAttr,
-  ].map(styleHandlerCacheWrapper),
-);
+				if (!styleValue) return
+			}
 
-export const DEFAULT_STYLE_HANDLER_MAP = STYLES.reduce((map, handler) => {
-  const lookup = handler.__lookupStyles;
+			if (typeof styleValue === 'string' && finalCssStyle.startsWith('--') && finalCssStyle.endsWith('-color')) {
+				styleValue = styleValue.trim()
 
-  if (!lookup) {
-    console.warn('style lookup not found for the handler', handler);
+				const rgba = strToRgb(styleValue)
 
-    return map;
-  }
+				const { color, name } = parseColor(styleValue)
 
-  lookup.forEach((styleName) => {
-    if (!map[styleName]) {
-      map[styleName] = [];
-    }
+				if (name && rgba) {
+					return {
+						[finalCssStyle]: `var(--${name}-color, ${rgba})`,
+						[`${finalCssStyle}-rgb`]: `var(--${name}-color-rgb, ${getRgbValuesFromRgbaString(rgba).join(', ')})`,
+					}
+				} else if (name) {
+					return {
+						[finalCssStyle]: `var(--${name}-color)`,
+						[`${finalCssStyle}-rgb`]: `var(--${name}-color-rgb)`,
+					}
+				} else if (rgba) {
+					return {
+						[finalCssStyle]: rgba,
+						[`${finalCssStyle}-rgb`]: getRgbValuesFromRgbaString(rgba).join(', '),
+					}
+				}
 
-    if (!map[styleName].includes(handler)) {
-      map[styleName].push(handler);
-    }
-  });
+				return {
+					[finalCssStyle]: color,
+				}
+			}
 
-  return map;
-}, {});
+			const { value } = parseStyle(styleValue, 1)
+
+			return { [finalCssStyle]: value }
+		})
+
+		CACHE[styleName].__lookupStyles = [styleName]
+	}
+
+	return CACHE[styleName]
+}
+
+type StyleHandlerMap = Record<string, NuStyleHandler[]>;
+
+export const STYLE_HANDLER_MAP: StyleHandlerMap = {}
+
+export function defineCustomStyle(names: string[] | NuStyleHandler, handler?: NuRawStyleHandler) {
+	let handlerWithLookup: NuStyleHandler
+
+	if (typeof names === 'function') {
+		handlerWithLookup = names
+		names = handlerWithLookup.__lookupStyles
+	} else {
+		handlerWithLookup = Object.assign(handler, { __lookupStyles: names })
+	}
+
+	handlerWithLookup = styleHandlerCacheWrapper(handlerWithLookup)
+
+	names.forEach((name) => {
+		if (!STYLE_HANDLER_MAP[name]) {
+			STYLE_HANDLER_MAP[name] = []
+		}
+
+		STYLE_HANDLER_MAP[name].push(handlerWithLookup)
+	})
+}
+
+type ConverterHandler = (s: string | boolean | number | undefined) => string | undefined;
+
+export function defineStyleAlias(styleName: string, cssStyleName?: string, converter?: ConverterHandler) {
+	const styleHandler = createStyle(styleName, cssStyleName, converter)
+
+	if (!STYLE_HANDLER_MAP[styleName]) {
+		STYLE_HANDLER_MAP[styleName] = []
+	}
+
+	STYLE_HANDLER_MAP[styleName].push(styleHandler)
+}

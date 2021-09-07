@@ -1,37 +1,37 @@
-import { createContext, useContext } from 'react';
-import { NuStyles } from '../styles/types';
+import { createContext, ReactNode, useContext } from 'react'
+import { NuStyles } from '../styles/types'
 
-export const StyleContext = createContext<any>({});
+export const StyleContext = createContext<any>({})
 
-export function StyleProvider({ children, ...props }) {
-  const styles = Object.assign({}, useContext(StyleContext));
-
-  Object.keys(props).forEach((propName) => {
-    if (styles[propName]) {
-      styles[propName] = [...styles[propName], props[propName]];
-    } else {
-      styles[propName] = [props[propName]];
-    }
-  });
-
-  // @ts-ignore
-  return (
-    <StyleContext.Provider value={styles}>{children}</StyleContext.Provider>
-  );
+interface StyleProviderProps {
+	children?: ReactNode;
+	[key: string]: any;
 }
 
-export function useContextStyles(name, props?): NuStyles {
-  const contextStyles = useContext(StyleContext);
-  const styles = {};
+export function StyleProvider({ children, ...props }: StyleProviderProps) {
+	const styles = Object.assign({}, useContext(StyleContext))
 
-  if (contextStyles[name]) {
-    contextStyles[name].forEach((handler) => {
-      Object.assign(
-        styles,
-        typeof handler === 'function' ? handler(props) : handler,
-      );
-    });
-  }
+	Object.keys(props).forEach((propName) => {
+		if (styles[propName]) {
+			styles[propName] = [...styles[propName], props[propName]]
+		} else {
+			styles[propName] = [props[propName]]
+		}
+	})
 
-  return styles;
+	// @ts-ignore
+	return <StyleContext.Provider value={styles}>{children}</StyleContext.Provider>
+}
+
+export function useContextStyles(name: string, props?: Record<string, any>): NuStyles {
+	const contextStyles = useContext(StyleContext)
+	const styles = {}
+
+	if (contextStyles[name]) {
+		contextStyles[name].forEach((handler: Function | NuStyles) => {
+			Object.assign(styles, typeof handler === 'function' ? handler(props) : handler)
+		})
+	}
+
+	return styles
 }
