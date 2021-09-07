@@ -28,14 +28,16 @@ export interface StyledProps<T extends string> {
   styles?: NuStyles,
   /** Default css of the element. */
   css?: string,
+  /** Default attributes */
+  attrs?: Record<string,any>
   /** The list of available modifiers. Providing it will show a warning each time you set an incorrect modifier on the element */
   availableMods?: T[],
 }
 
-export type AllBasePropsWithMods<T extends string> = Omit<AllBaseProps, 'mods'> & { mods: Record<T, boolean | null | undefined> };
+export type AllBasePropsWithMods<T extends string> = Omit<AllBaseProps, 'mods'> & { mods?: Record<T, boolean | null | undefined> };
 
 export function styled<T extends string>(allProps: StyledProps<T>) {
-  let { name, tag, styles: defaultStyles, css: defaultCSS, availableMods } = allProps;
+  let { name, tag, styles: defaultStyles, css: defaultCSS, attrs, availableMods } = allProps;
   let Element = styledComponents[tag || 'div'](({ css }) => css);
 
   if (name) {
@@ -67,6 +69,7 @@ export function styled<T extends string>(allProps: StyledProps<T>) {
           as={as || tag}
           data-qa={qa}
           data-qaval={qaVal}
+          {...attrs}
           {...props}
           ref={ref}
           css={css}
@@ -102,6 +105,7 @@ export function styled<T extends string>(allProps: StyledProps<T>) {
           as={as || tag}
           data-qa={qa}
           data-qaval={qaVal}
+          {...attrs}
           {...props}
           ref={ref}
           css={css}
