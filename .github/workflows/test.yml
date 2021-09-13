@@ -13,6 +13,8 @@ jobs:
           node-version: '14'
       - name: Install modules
         run: yarn
+      - name: Run build
+        run: yarn build
       - name: Run tests
         run: yarn test
       - id: publish
