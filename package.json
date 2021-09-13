@@ -9,5 +9,8 @@
     "build": "yarn workspaces foreach run build",
     "test": "yarn workspace tastycss run test",
     "fix": "prettier --write \"packages/*/src/**/*.{js,jsx,ts,tsx}\" && eslint --fix --cache packages/*/src --ext .js,.ts,.jsx,.tsx"
+  },
+  "devDependencies": {
+    "lerna": "^4.0.0"
   }
 }
