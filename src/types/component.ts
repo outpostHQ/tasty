@@ -1,5 +1,5 @@
 import { AllHTMLAttributes, CSSProperties, ReactNode } from 'react'
-import { NuStyles } from './render'
+import { Styles } from './render'
 
 export interface BasePropsWithoutChildren extends Pick<AllHTMLAttributes<HTMLElement>, 'className' | 'role' | 'id'> {
 	/** QA ID for e2e testing **/
@@ -9,7 +9,7 @@ export interface BasePropsWithoutChildren extends Pick<AllHTMLAttributes<HTMLEle
 	/** The tag name of the element **/
 	// as?: string;
 	/** The style map **/
-	styles?: NuStyles;
+	styles?: Styles;
 	/** The list of responsive points in pixels **/
 	breakpoints?: number[];
 	/** Whether the element has the block layout outside **/

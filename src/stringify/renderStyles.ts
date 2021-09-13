@@ -1,10 +1,10 @@
 import { mediaWrapper, normalizeStyleZones } from '../utils/responsive'
-import { NuStyleHandler, NuStyleMap, NuStyles } from '../types/render'
+import { StyleHandler, StyleMap, Styles } from '../types/render'
 import { createStyle, STYLE_HANDLER_MAP } from '../styles'
 
 type HandlerQueueItem = {
-	handler: NuStyleHandler;
-	styleMap: NuStyleMap;
+	handler: StyleHandler;
+	styleMap: StyleMap;
 	isResponsive: boolean;
 };
 
@@ -23,7 +23,7 @@ const CACHE_LIMIT = 1000
  * @param responsive - A list of responsive zones
  * @return {string}
  */
-export function renderStyles(styles: NuStyles, responsive: number[]) {
+export function renderStyles(styles: Styles, responsive: number[]) {
 	const zones = responsive
 	const responsiveStyles = Array.from(Array(zones.length)).map(() => '')
 	const cacheKey = JSON.stringify({ s: styles, r: responsive })
@@ -42,7 +42,7 @@ export function renderStyles(styles: NuStyles, responsive: number[]) {
 		}
 
 		Object.keys(styles).forEach((styleName) => {
-			let handlers: NuStyleHandler[] = STYLE_HANDLER_MAP[styleName]
+			let handlers: StyleHandler[] = STYLE_HANDLER_MAP[styleName]
 
 			if (!handlers) {
 				handlers = [createStyle(styleName)]

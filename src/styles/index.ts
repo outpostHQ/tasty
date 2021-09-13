@@ -1,4 +1,4 @@
-import { NuRawStyleHandler, NuStyleHandler } from '../types/render'
+import { RawStyleHandler, StyleHandler } from '../types/render'
 import {
 	getRgbValuesFromRgbaString,
 	parseColor,
@@ -66,12 +66,12 @@ export function createStyle(styleName: string, cssStyle?: string, converter?: Fu
 	return CACHE[styleName]
 }
 
-type StyleHandlerMap = Record<string, NuStyleHandler[]>;
+type StyleHandlerMap = Record<string, StyleHandler[]>;
 
 export const STYLE_HANDLER_MAP: StyleHandlerMap = {}
 
-export function defineCustomStyle(names: string[] | NuStyleHandler, handler?: NuRawStyleHandler) {
-	let handlerWithLookup: NuStyleHandler
+export function defineCustomStyle(names: string[] | StyleHandler, handler?: RawStyleHandler) {
+	let handlerWithLookup: StyleHandler
 
 	if (typeof names === 'function') {
 		handlerWithLookup = names

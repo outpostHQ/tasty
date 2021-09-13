@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useContext } from 'react'
-import { NuStyles } from '../styles/types'
+import { Styles } from '../styles/types'
 
 export const StyleContext = createContext<any>({})
 
@@ -23,12 +23,12 @@ export function StyleProvider({ children, ...props }: StyleProviderProps) {
 	return <StyleContext.Provider value={styles}>{children}</StyleContext.Provider>
 }
 
-export function useContextStyles(name: string, props?: Record<string, any>): NuStyles {
+export function useContextStyles(name: string, props?: Record<string, any>): Styles {
 	const contextStyles = useContext(StyleContext)
 	const styles = {}
 
 	if (contextStyles[name]) {
-		contextStyles[name].forEach((handler: Function | NuStyles) => {
+		contextStyles[name].forEach((handler: Function | Styles) => {
 			Object.assign(styles, typeof handler === 'function' ? handler(props) : handler)
 		})
 	}

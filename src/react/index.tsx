@@ -5,9 +5,9 @@ import { pointsToZones } from '../utils/responsive'
 import { renderStyles } from '../stringify'
 import { modAttrs } from './utils/modAttrs'
 import { AllBaseProps } from '../types/component'
-import { NuStyles } from './styled'
+import { Styles } from './styled'
 
-const DEFAULT_STYLES: NuStyles = {
+const DEFAULT_STYLES: Styles = {
 	display: 'inline-block',
 } as const
 
@@ -16,7 +16,7 @@ const Element = styledComponents.div(({ theme }) => theme.css)
 const Base = (allProps: AllBaseProps, ref) => {
 	let { as, styles: originalStyles, breakpoints, mods, qa, qaVal, css, ...props } = allProps
 
-	const styles: NuStyles = { ...DEFAULT_STYLES, ...originalStyles }
+	const styles: Styles = { ...DEFAULT_STYLES, ...originalStyles }
 
 	const contextBreakpoints = useContext(BreakpointsContext)
 	const zones = pointsToZones(breakpoints || contextBreakpoints)

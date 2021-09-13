@@ -1,59 +1,59 @@
-export type NuStyles = Record<string, NuResponsiveStyleValue<string | number | boolean | undefined>>;
+export type Styles = Record<string, ResponsiveStyleValue<string | number | boolean | undefined>>;
 
-export type NuStyleValue<T = string> = number | null | boolean | undefined | T;
+export type StyleValue<T = string> = number | null | boolean | undefined | T;
 
-export type NuStyleValueStateMap<T = string> = {
-	[key: string]: NuStyleValue<T>;
+export type StyleValueStateMap<T = string> = {
+	[key: string]: StyleValue<T>;
 };
 
-export type NuResponsiveStyleValue<T = string> =
-	| NuStyleValue<T>
-	| NuStyleValue<T>[]
-	| NuStyleValueStateMap<T>
-	| NuStyleValueStateMap<T>[];
+export type ResponsiveStyleValue<T = string> =
+	| StyleValue<T>
+	| StyleValue<T>[]
+	| StyleValueStateMap<T>
+	| StyleValueStateMap<T>[];
 
-export type NuComputeModel = string | number;
+export type ComputeModel = string | number;
 
-export type NuCSSMap = { $?: string } & { [key: string]: string | string[] };
+export type CSSMap = { $?: string } & { [key: string]: string | string[] };
 
-export type NuRawStyleHandler = (value: NuStyleValueStateMap) => NuCSSMap | NuCSSMap[] | void;
+export type RawStyleHandler = (value: StyleValueStateMap) => CSSMap | CSSMap[] | void;
 
-export type NuStyleHandler = NuRawStyleHandler & {
+export type StyleHandler = RawStyleHandler & {
 	__lookupStyles: string[];
 };
 
-export interface NuStyleStateData {
-	model?: NuComputeModel;
+export interface StyleStateData {
+	model?: ComputeModel;
 	tokens?: string[];
-	value: NuResponsiveStyleValue;
+	value: ResponsiveStyleValue;
 	/** The list of mods to apply */
 	mods: string[];
 	/** The list of **not** mods to apply (e.g. `:not(:hover)`) */
 	notMods: string[];
 }
 
-export type NuStyleStateDataList = NuStyleStateData[];
+export type StyleStateDataList = StyleStateData[];
 
-export type NuStyleStateDataListMap = { [key: string]: NuStyleStateDataList };
+export type StyleStateDataListMap = { [key: string]: StyleStateDataList };
 
 /** An object that describes a relation between specific modifiers and style value. **/
-export interface NuStyleState {
+export interface StyleState {
 	/** The list of mods to apply */
 	mods: string[];
 	/** The list of **not** mods to apply (e.g. `:not(:hover)`) */
 	notMods: string[];
 	/** The value to apply */
-	value: NuStyleMap;
+	value: StyleMap;
 }
 
-export type NuComputeUnit = string | (string | string[])[];
+export type ComputeUnit = string | (string | string[])[];
 
-export type NuStyleStateList = NuStyleState[];
+export type StyleStateList = StyleState[];
 
-export type NuStyleMap = { [key: string]: NuResponsiveStyleValue } | { [key: string]: NuStyleValue };
+export type StyleMap = { [key: string]: ResponsiveStyleValue } | { [key: string]: StyleValue };
 
-export type NuStyleStateMap = { [key: string]: NuStyleState };
+export type StyleStateMap = { [key: string]: StyleState };
 
-export type NuStyleStateMapList = NuStyleStateMap[];
+export type StyleStateMapList = StyleStateMap[];
 
-export type NuStyleStateListMap = { [key: string]: NuStyleStateList };
+export type StyleStateListMap = { [key: string]: StyleStateList };

@@ -5,17 +5,17 @@ import { pointsToZones } from '../utils/responsive'
 import { renderStyles } from '../stringify'
 import { modAttrs } from './utils/modAttrs'
 import { AllBaseProps } from '../types/component'
-import { NuResponsiveStyleValue } from '../types/render'
+import { ResponsiveStyleValue } from '../types/render'
 import { useContextStyles } from '../providers/StylesProvider'
 
-export type NuStyles =
+export type Styles =
 	| ({
-			[key in keyof CSSProperties]?: NuResponsiveStyleValue<CSSProperties[key]>;
+			[key in keyof CSSProperties]?: ResponsiveStyleValue<CSSProperties[key]>;
 	  } & {
-			[key: string]: NuResponsiveStyleValue<string | number | boolean | undefined>;
+			[key: string]: ResponsiveStyleValue<string | number | boolean | undefined>;
 	  })
 	| {
-			[key: string]: NuResponsiveStyleValue<string | number | boolean | undefined>;
+			[key: string]: ResponsiveStyleValue<string | number | boolean | undefined>;
 	  };
 
 export * from '../types/component'
@@ -27,7 +27,7 @@ export interface StyledProps<T extends string> {
 	/** The tag name of the element. */
 	tag?: string;
 	/** Default styles of the element. */
-	styles?: NuStyles;
+	styles?: Styles;
 	/** Default css of the element. */
 	css?: string;
 	/** Default attributes */
@@ -50,7 +50,7 @@ export function styled<T extends string>(options: StyledProps<T>) {
 
 			// @ts-ignore
 			const contextStyles = useContextStyles(name, props)
-			const allStyles: NuStyles | undefined
+			const allStyles: Styles | undefined
 				= defaultStyles || contextStyles ? { ...defaultStyles, ...contextStyles, ...styles } : styles
 			const contextBreakpoints = useContext(BreakpointsContext)
 			const zones = pointsToZones(breakpoints || contextBreakpoints)
@@ -67,7 +67,7 @@ export function styled<T extends string>(options: StyledProps<T>) {
 		return forwardRef((allProps: AllBasePropsWithMods<T>, ref) => {
 			let { as, styles, breakpoints, mods, qa, qaVal, css, ...props } = allProps
 
-			const allStyles: NuStyles | undefined = defaultStyles ? { ...defaultStyles, ...styles } : styles
+			const allStyles: Styles | undefined = defaultStyles ? { ...defaultStyles, ...styles } : styles
 
 			const contextBreakpoints = useContext(BreakpointsContext)
 			const zones = pointsToZones(breakpoints || contextBreakpoints)

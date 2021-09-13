@@ -1,4 +1,4 @@
-import { NuResponsiveStyleValue } from '../types/render'
+import { ResponsiveStyleValue } from '../types/render'
 
 export function mediaWrapper(cssRules, points) {
 	return points
@@ -57,7 +57,7 @@ export function pointsToZones(points: number[]) {
 	return zonesCache[cacheKey]
 }
 
-export function normalizeStyleZones(value: NuResponsiveStyleValue, zoneNumber: number) {
+export function normalizeStyleZones(value: ResponsiveStyleValue, zoneNumber: number) {
 	if (value == null) return value
 
 	const arr = Array.from(Array(zoneNumber))
