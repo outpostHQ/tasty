@@ -78,8 +78,7 @@
     "variables"
   ],
   "scripts": {
-    "build": "rollup -c rollup.config.js && yarn size-limit",
-    "test": "web-test-runner test/*.test.js --node-resolve"
+    "build": "rollup -c rollup.config.js && yarn size-limit"
   },
   "devDependencies": {
     "@open-wc/testing": "2.5.33",
