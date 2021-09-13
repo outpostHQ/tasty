@@ -87,7 +87,6 @@
   "scripts": {
     "build": "rollup -c rollup.config.js && yarn size-limit",
     "test": "web-test-runner test/*.test.js --node-resolve",
-    "prepublishOnly": "npm run build",
     "fix": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\" && eslint --fix --cache src --ext .js,.ts,.jsx,.tsx"
   },
   "devDependencies": {
