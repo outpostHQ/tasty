@@ -1,0 +1,7 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "declarationDir": "dist/cjs"
+  },
+  "exclude": ["dist/**/*", "react", "styled-components"]
+}
