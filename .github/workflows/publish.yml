@@ -8,13 +8,14 @@ jobs:
     runs-on: ubuntu-latest
     env:
       NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      YARN_ENABLE_IMMUTABLE_INSTALLS: false
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
           node-version: '14'
       - name: Install modules
-        run: yarn install --immutable-cache
+        run: yarn
       - name: Run build
         run: yarn build
       - name: Run tests
