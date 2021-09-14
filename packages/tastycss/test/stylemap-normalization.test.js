@@ -1,4 +1,4 @@
-import { styleMapToStyleMapStateList } from '../../../dist/mjs';
+import { styleMapToStyleMapStateList } from '../dist/mjs';
 import { expect } from './utils';
 
 function checkStyleMapNormalization(list) {

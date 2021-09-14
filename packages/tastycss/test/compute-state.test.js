@@ -1,4 +1,4 @@
-import { computeState } from '../../../dist/mjs';
+import { computeState } from '../dist/mjs';
 import { expect } from './utils';
 
 function checkNormalization(list) {

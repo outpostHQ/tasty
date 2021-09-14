@@ -1,4 +1,4 @@
-import { applyStates } from '../../../dist/mjs';
+import { applyStates } from '../dist/mjs';
 import { expect } from './utils';
 
 function checkAppliance(list) {

@@ -1,4 +1,4 @@
-import { replaceStateValues } from '../../../dist/mjs';
+import { replaceStateValues } from '../dist/mjs';
 import { expect } from './utils';
 
 function checkReplacement(list) {
