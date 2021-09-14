@@ -20,5 +20,7 @@ jobs:
         run: yarn build
       - name: Run tests
         run: yarn test
+      - name: Reset git
+        run: git reset --hard
       - name: Publish
         run: lerna publish from-package --yes --no-push --no-git-reset
