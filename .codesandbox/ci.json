@@ -1,6 +1,5 @@
 {
   "node": "14",
-  "installCommand": "false",
-  "buildCommand": "build",
+  "packages": ["packages/tastycss", "packages/tastycss-react"],
   "sandboxes": ["new", "vanilla"]
 }

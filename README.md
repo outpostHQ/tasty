@@ -1,9 +1,9 @@
 # TastyCSS
 
+A set of modules is for CSS-in-JS solution that includes state-to-style bindings, SRR and next-level developer experience. It includes a framework-agnostic implementation
+
 [![NPM Version](https://img.shields.io/npm/v/tastycss.svg?style=flat)](https://www.npmjs.com/package/tastycss)
 [![Discord](https://img.shields.io/discord/793832892781690891?color=7389D8&label=chat%20on%20Discord&logo=Discord&logoColor=ffffff)](https://discord.gg/sHnHPnAPZj)
-
-A set of modules is for CSS-in-JS solution that includes state-to-style bindings, SRR and next-level developer experience. It includes a framework-agnostic implementation 
 
 
 ## Installation
@@ -22,10 +22,10 @@ React version:
 
 ```sh
 # with npm
-npm install tastycss styled-components
+npm install tastycss-react
 
 # with yarn
-yarn add tastycss styled-components
+yarn add tastycss-react
 ```
 
 ## Documentation
@@ -39,7 +39,7 @@ TastyCSS React is a styled version for React Apps that uses `styled-components` 
 Let's look at styled API:
 
 ```typescript jsx
-import styled from 'tastycss/dist/mjs/react';
+import styled from 'tastycss-react';
 
 const Element = styled({
   /** The name of the element. It can be used to override styles in context. */
@@ -92,7 +92,7 @@ Customize styles in-place using `styles` attribute:
 Customize styles in context:
 
 ```typescript jsx
-import { StylesProvider } from 'tastycss/dist/mjs/react';
+import { StylesProvider } from 'tastycss-react';
 
 export default function Component({ title, children }) {
   return <StylesProvider Article={{
@@ -110,7 +110,7 @@ export default function Component({ title, children }) {
 Customize responsive breakpoints:
 
 ```typescript jsx
-import { BreakpointsProvider } from 'tastycss/dist/mjs/react';
+import { BreakpointsProvider } from 'tastycss-react';
 
 export default function Component({ title, children }) {
   return <BreakpointsProvider value={[1200, 960]}>
