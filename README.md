@@ -30,7 +30,7 @@ yarn add tastycss styled-components
 
 ## Documentation
 
-TastyCCS utils allow generating performant CSS with responsiveness and style-to-state bindings.
+TastyCSS utils allow generating performant CSS with responsiveness and style-to-state bindings.
 
 TastyCSS React is a styled version for React Apps that uses `styled-components` under-the-hood.
 
