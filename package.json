@@ -13,6 +13,7 @@
     "prepare": "git update-index skip-worktree -- .yarn"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.17.0",
     "lerna": "^4.0.0"
   }
 }
