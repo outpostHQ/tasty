@@ -28,7 +28,7 @@ jobs:
 
         # Runs a single command using the runners shell
       - name: Installation of NPM Modules
-        run: yarn install --immutable-cache
+        run: yarn install --immutable
 
 #      - name: Bootstrap Package
 #        run: npx lerna bootstrap
