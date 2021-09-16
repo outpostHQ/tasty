@@ -22,6 +22,7 @@ jobs:
 #      - name: Reset git
 #        run: git reset --hard
       - name: Publish
+        run: lerna publish from-package --yes --no-push --no-git-reset --no-verify-access
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: lerna publish from-package --yes --no-push --no-verify-access
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
