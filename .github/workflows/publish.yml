@@ -14,7 +14,7 @@ jobs:
         with:
           node-version: '14'
       - name: Install modules
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable-cache
       - name: Run build
         run: yarn build
       - name: Run tests
