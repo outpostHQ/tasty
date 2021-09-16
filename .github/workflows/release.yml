@@ -7,7 +7,7 @@ on:
       - 'packages/**'
     branches:
       - main
-      
+
 jobs:
   release:
     name: Release
@@ -16,28 +16,28 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2.3.4
-      
+
       - name: Setup Node.js 14.x
         uses: actions/setup-node@master
         with:
           node-version: 14.x
-      
+
       # Runs a single command using the runners shell
       - name: Cleaning Yarn Cache
         run: yarn cache clean
-        
+
         # Runs a single command using the runners shell
       - name: Installation of NPM Modules
         run: yarn install
 
-      - name: Bootstrap Package
-        run: npx lerna bootstrap
+#      - name: Bootstrap Package
+#        run: npx lerna bootstrap
 
       - name: Setup CI Git User
         run: |
           git config --global user.email "tenphi@gmail.com"
           git config --global user.name "tenphi"
-          
+
       - name: Build packages
         run: yarn build
 
