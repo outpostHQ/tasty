@@ -24,88 +24,88 @@ const CACHE_LIMIT = 1000
  * @return {string}
  */
 export function renderStyles(styles: Styles, responsive: number[]) {
-	const zones = responsive
-	const responsiveStyles = Array.from(Array(zones.length)).map(() => '')
-	const cacheKey = JSON.stringify({ s: styles, r: responsive })
+  const zones = responsive
+  const responsiveStyles = Array.from(Array(zones.length)).map(() => '')
+  const cacheKey = JSON.stringify({ s: styles, r: responsive })
 
-	let rawStyles = ''
+  let rawStyles = ''
 
-	const handlerQueue: HandlerQueueItem[] = []
+  const handlerQueue: HandlerQueueItem[] = []
 
-	if (!STYLE_CACHE[cacheKey]) {
-		STYLE_CACHE_COUNT++
+  if (!STYLE_CACHE[cacheKey]) {
+    STYLE_CACHE_COUNT++
 
-		// clear cache if size is more that the limit
-		if (STYLE_CACHE_COUNT > CACHE_LIMIT) {
-			STYLE_CACHE_COUNT = 0
-			STYLE_CACHE = {}
-		}
+    // clear cache if size is more that the limit
+    if (STYLE_CACHE_COUNT > CACHE_LIMIT) {
+      STYLE_CACHE_COUNT = 0
+      STYLE_CACHE = {}
+    }
 
-		Object.keys(styles).forEach((styleName) => {
-			let handlers: StyleHandler[] = STYLE_HANDLER_MAP[styleName]
+    Object.keys(styles).forEach((styleName) => {
+      let handlers: StyleHandler[] = STYLE_HANDLER_MAP[styleName]
 
-			if (!handlers) {
-				handlers = [createStyle(styleName)]
-			}
+      if (!handlers) {
+        handlers = [createStyle(styleName)]
+      }
 
-			handlers.forEach((STYLE) => {
-				if (handlerQueue.find((queueItem) => queueItem.handler === STYLE)) return
+      handlers.forEach((STYLE) => {
+        if (handlerQueue.find((queueItem) => queueItem.handler === STYLE)) return
 
-				let isResponsive = false
-				const lookupStyles = STYLE.__lookupStyles
-				const filteredStyleMap = lookupStyles.reduce((map, name) => {
-					map[name] = styles[name]
+        let isResponsive = false
+        const lookupStyles = STYLE.__lookupStyles
+        const filteredStyleMap = lookupStyles.reduce((map, name) => {
+          map[name] = styles[name]
 
-					if (Array.isArray(styles[name])) {
-						isResponsive = true
-					}
+          if (Array.isArray(styles[name])) {
+            isResponsive = true
+          }
 
-					return map
-				}, {})
+          return map
+        }, {})
 
-				handlerQueue.push({
-					handler: STYLE,
-					styleMap: filteredStyleMap,
-					isResponsive,
-				})
-			})
-		})
+        handlerQueue.push({
+          handler: STYLE,
+          styleMap: filteredStyleMap,
+          isResponsive,
+        })
+      })
+    })
 
-		handlerQueue.forEach(({ handler, styleMap, isResponsive }) => {
-			const lookupStyles = handler.__lookupStyles
+    handlerQueue.forEach(({ handler, styleMap, isResponsive }) => {
+      const lookupStyles = handler.__lookupStyles
 
-			if (isResponsive) {
-				const valueMap = lookupStyles.reduce((map, style) => {
-					map[style] = normalizeStyleZones(styleMap[style], zones.length)
+      if (isResponsive) {
+        const valueMap = lookupStyles.reduce((map, style) => {
+          map[style] = normalizeStyleZones(styleMap[style], zones.length)
 
-					return map
-				}, {})
+          return map
+        }, {})
 
-				const propsByPoint = zones.map((zone, i) => {
-					const pointProps = {}
+        const propsByPoint = zones.map((zone, i) => {
+          const pointProps = {}
 
-					lookupStyles.forEach((style) => {
-						if (valueMap != null && valueMap[style] != null) {
-							pointProps[style] = valueMap[style][i]
-						}
-					})
+          lookupStyles.forEach((style) => {
+            if (valueMap != null && valueMap[style] != null) {
+              pointProps[style] = valueMap[style][i]
+            }
+          })
 
-					return pointProps
-				})
+          return pointProps
+        })
 
-				const rulesByPoint = propsByPoint.map((v) => handler(v))
+        const rulesByPoint = propsByPoint.map((v) => handler(v))
 
-				rulesByPoint.forEach((rules, i) => {
-					responsiveStyles[i] += rules || ''
-				})
-			} else {
-				// @ts-ignore
-				rawStyles += handler(styleMap) || ''
-			}
-		})
+        rulesByPoint.forEach((rules, i) => {
+          responsiveStyles[i] += rules || ''
+        })
+      } else {
+        // @ts-ignore
+        rawStyles += handler(styleMap) || ''
+      }
+    })
 
-		STYLE_CACHE[cacheKey] = `${rawStyles}${responsive ? mediaWrapper(responsiveStyles, zones) : ''}`
-	}
+    STYLE_CACHE[cacheKey] = `${rawStyles}${responsive ? mediaWrapper(responsiveStyles, zones) : ''}`
+  }
 
-	return `outline: none;\n${STYLE_CACHE[cacheKey]}`
+  return `outline: none;\n${STYLE_CACHE[cacheKey]}`
 }

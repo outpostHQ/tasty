@@ -9,29 +9,29 @@ interface StyleProviderProps {
 }
 
 export function StyleProvider({ children, ...props }: StyleProviderProps) {
-	const styles = Object.assign({}, useContext(StyleContext))
+  const styles = Object.assign({}, useContext(StyleContext))
 
-	Object.keys(props).forEach((propName) => {
-		if (styles[propName]) {
-			styles[propName] = [...styles[propName], props[propName]]
-		} else {
-			styles[propName] = [props[propName]]
-		}
-	})
+  Object.keys(props).forEach((propName) => {
+    if (styles[propName]) {
+      styles[propName] = [...styles[propName], props[propName]]
+    } else {
+      styles[propName] = [props[propName]]
+    }
+  })
 
-	// @ts-ignore
-	return <StyleContext.Provider value={styles}>{children}</StyleContext.Provider>
+  // @ts-ignore
+  return <StyleContext.Provider value={styles}>{children}</StyleContext.Provider>
 }
 
 export function useContextStyles(name: string, props?: Record<string, any>): Styles {
-	const contextStyles = useContext(StyleContext)
-	const styles = {}
+  const contextStyles = useContext(StyleContext)
+  const styles = {}
 
-	if (contextStyles[name]) {
-		contextStyles[name].forEach((handler: Function | Styles) => {
-			Object.assign(styles, typeof handler === 'function' ? handler(props) : handler)
-		})
-	}
+  if (contextStyles[name]) {
+    contextStyles[name].forEach((handler: Function | Styles) => {
+      Object.assign(styles, typeof handler === 'function' ? handler(props) : handler)
+    })
+  }
 
-	return styles
+  return styles
 }

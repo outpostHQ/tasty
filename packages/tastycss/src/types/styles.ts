@@ -1,14 +1,14 @@
 import { Styles } from './render'
 import {
-	BASE_STYLES,
-	BLOCK_STYLES,
-	COLOR_STYLES,
-	CONTAINER_STYLES,
-	DIMENSION_STYLES,
-	FLOW_STYLES,
-	OUTER_STYLES,
-	POSITION_STYLES,
-	TEXT_STYLES,
+  BASE_STYLES,
+  BLOCK_STYLES,
+  COLOR_STYLES,
+  CONTAINER_STYLES,
+  DIMENSION_STYLES,
+  FLOW_STYLES,
+  OUTER_STYLES,
+  POSITION_STYLES,
+  TEXT_STYLES,
 } from '../styles/list'
 
 export type BaseStyleProps = Pick<Styles, typeof BASE_STYLES[number]>;

@@ -1,14 +1,14 @@
 import { getModCombinations } from './getModCombinations'
 import {
-	ComputeModel,
-	CSSMap,
-	ResponsiveStyleValue,
-	StyleMap,
-	Styles,
-	StyleStateDataList,
-	StyleStateList,
-	StyleStateMap,
-	StyleStateMapList,
+  ComputeModel,
+  CSSMap,
+  ResponsiveStyleValue,
+  StyleMap,
+  Styles,
+  StyleStateDataList,
+  StyleStateList,
+  StyleStateMap,
+  StyleStateMapList,
 } from '../types/render'
 import { CUSTOM_UNITS } from '../units'
 
@@ -32,17 +32,17 @@ const ATTR_CACHE_MODE_MAP = [ATTR_CACHE_AUTOCALC, ATTR_CACHE, ATTR_CACHE_IGNORE_
 const PREPARE_REGEXP = /calc\((\d*)\)/gi
 
 export function createRule(prop, value, selector) {
-	if (value == null) return ''
+  if (value == null) return ''
 
-	if (selector) {
-		return `${selector} { ${prop}: ${value}; }\n`
-	}
+  if (selector) {
+    return `${selector} { ${prop}: ${value}; }\n`
+  }
 
-	return `${prop}: ${value};\n`
+  return `${prop}: ${value};\n`
 }
 
 function getModSelector(modName) {
-	return modName.match(/^[a-z]/) ? `[data-is-${modName}]` : modName
+  return modName.match(/^[a-z]/) ? `[data-is-${modName}]` : modName
 }
 
 /**
@@ -52,220 +52,220 @@ function getModSelector(modName) {
  * @returns {Object<String,String|Array>}
  */
 export function parseStyle(value, mode = 0) {
-	if (typeof value === 'number') {
-		value = String(value)
-	}
+  if (typeof value === 'number') {
+    value = String(value)
+  }
 
-	if (typeof value !== 'string') {
-		return {
-			values: [],
-			mods: [],
-			all: [],
-			value: '',
-		}
-	}
+  if (typeof value !== 'string') {
+    return {
+      values: [],
+      mods: [],
+      all: [],
+      value: '',
+    }
+  }
 
-	const CACHE = ATTR_CACHE_MODE_MAP[mode]
+  const CACHE = ATTR_CACHE_MODE_MAP[mode]
 
-	if (!CACHE.has(value)) {
-		if (CACHE.size > MAX_CACHE) {
-			CACHE.clear()
-		}
+  if (!CACHE.has(value)) {
+    if (CACHE.size > MAX_CACHE) {
+      CACHE.clear()
+    }
 
-		const mods: string[] = []
-		const all: string[] = []
-		const values: string[] = []
-		const autoCalc = mode !== 1
+    const mods: string[] = []
+    const all: string[] = []
+    const values: string[] = []
+    const autoCalc = mode !== 1
 
-		let currentValue = ''
-		let calc = -1
-		let counter = 0
-		let parsedValue = ''
-		let color = ''
-		let currentFunc = ''
-		let usedFunc = ''
-		let token
+    let currentValue = ''
+    let calc = -1
+    let counter = 0
+    let parsedValue = ''
+    let color = ''
+    let currentFunc = ''
+    let usedFunc = ''
+    let token
 
-		ATTR_REGEXP.lastIndex = 0
+    ATTR_REGEXP.lastIndex = 0
 
-		value = value.replace(/@\(/g, 'var(--')
+    value = value.replace(/@\(/g, 'var(--')
 
-		while ((token = ATTR_REGEXP.exec(value))) {
-			let [
-				,
-				quotedDouble,
-				quotedSingle,
-				func,
-				hashColor,
-				prop,
-				mod,
-				unit,
-				unitVal,
-				unitMetric,
-				operator,
-				bracket,
-				comma,
-			] = token
+    while ((token = ATTR_REGEXP.exec(value))) {
+      let [
+        ,
+        quotedDouble,
+        quotedSingle,
+        func,
+        hashColor,
+        prop,
+        mod,
+        unit,
+        unitVal,
+        unitMetric,
+        operator,
+        bracket,
+        comma,
+      ] = token
 
-			if (quotedSingle || quotedDouble) {
-				currentValue += `${quotedSingle || quotedDouble} `
-			} else if (func) {
-				currentFunc = func.slice(0, -1)
-				currentValue += func
-				counter++
-			} else if (hashColor) {
-				// currentValue += `${hashColor} `;
-				if (mode === 2) {
-					color = hashColor
-				} else {
-					color = parseColor(hashColor, false).color
-				}
-			} else if (mod) {
-				// ignore mods inside brackets
-				if (counter || IGNORE_MODS.includes(mod)) {
-					currentValue += `${mod} `
-				} else {
-					mods.push(mod)
-					all.push(mod)
-					parsedValue += `${mod} `
-				}
-			} else if (bracket) {
-				if (bracket === '(') {
-					if (!~calc) {
-						calc = counter
-						currentValue += 'calc'
-					}
+      if (quotedSingle || quotedDouble) {
+        currentValue += `${quotedSingle || quotedDouble} `
+      } else if (func) {
+        currentFunc = func.slice(0, -1)
+        currentValue += func
+        counter++
+      } else if (hashColor) {
+        // currentValue += `${hashColor} `;
+        if (mode === 2) {
+          color = hashColor
+        } else {
+          color = parseColor(hashColor, false).color
+        }
+      } else if (mod) {
+        // ignore mods inside brackets
+        if (counter || IGNORE_MODS.includes(mod)) {
+          currentValue += `${mod} `
+        } else {
+          mods.push(mod)
+          all.push(mod)
+          parsedValue += `${mod} `
+        }
+      } else if (bracket) {
+        if (bracket === '(') {
+          if (!~calc) {
+            calc = counter
+            currentValue += 'calc'
+          }
 
-					counter++
-				}
+          counter++
+        }
 
-				if (bracket === ')' && counter) {
-					currentValue = currentValue.trim()
+        if (bracket === ')' && counter) {
+          currentValue = currentValue.trim()
 
-					if (counter > 0) {
-						counter--
-					}
+          if (counter > 0) {
+            counter--
+          }
 
-					if (counter === calc) {
-						calc = -1
-					}
-				}
+          if (counter === calc) {
+            calc = -1
+          }
+        }
 
-				if (bracket === ')' && !counter) {
-					usedFunc = currentFunc
-					currentFunc = ''
-				}
+        if (bracket === ')' && !counter) {
+          usedFunc = currentFunc
+          currentFunc = ''
+        }
 
-				currentValue += `${bracket}${bracket === ')' ? ' ' : ''}`
-			} else if (operator) {
-				if (!~calc && autoCalc) {
-					if (currentValue) {
-						if (currentValue.includes('(')) {
-							const index = currentValue.lastIndexOf('(')
+        currentValue += `${bracket}${bracket === ')' ? ' ' : ''}`
+      } else if (operator) {
+        if (!~calc && autoCalc) {
+          if (currentValue) {
+            if (currentValue.includes('(')) {
+              const index = currentValue.lastIndexOf('(')
 
-							currentValue = `${currentValue.slice(0, index)}(calc(${currentValue.slice(index + 1)}`
+              currentValue = `${currentValue.slice(0, index)}(calc(${currentValue.slice(index + 1)}`
 
-							calc = counter
-							counter++
-						}
-					} else if (values.length) {
-						parsedValue = parsedValue.slice(0, parsedValue.length - values[values.length - 1].length - 1)
+              calc = counter
+              counter++
+            }
+          } else if (values.length) {
+            parsedValue = parsedValue.slice(0, parsedValue.length - values[values.length - 1].length - 1)
 
-						let tmp = values.splice(values.length - 1, 1)[0]
+            let tmp = values.splice(values.length - 1, 1)[0]
 
-						all.splice(values.length - 1, 1)
+            all.splice(values.length - 1, 1)
 
-						if (tmp) {
-							if (tmp.startsWith('calc(')) {
-								tmp = tmp.slice(4)
-							}
+            if (tmp) {
+              if (tmp.startsWith('calc(')) {
+                tmp = tmp.slice(4)
+              }
 
-							calc = counter
-							counter++
-							currentValue = `calc((${tmp}) `
-						}
-					}
-				}
+              calc = counter
+              counter++
+              currentValue = `calc((${tmp}) `
+            }
+          }
+        }
 
-				currentValue += `${operator} `
-			} else if (unit) {
-				if (unitMetric && CUSTOM_UNITS[unitMetric]) {
-					const add = customUnit(unitVal, unitMetric)
+        currentValue += `${operator} `
+      } else if (unit) {
+        if (unitMetric && CUSTOM_UNITS[unitMetric]) {
+          const add = customUnit(unitVal, unitMetric)
 
-					if (!~calc && add.startsWith('(')) {
-						currentValue += 'calc'
-					}
+          if (!~calc && add.startsWith('(')) {
+            currentValue += 'calc'
+          }
 
-					currentValue += `${add} `
-				} else {
-					currentValue += `${unit} `
-				}
-			} else if (prop) {
-				prop = prop.replace('@', '--')
-				if (currentFunc !== 'var') {
-					currentValue += `var(${prop}) `
-				} else {
-					currentValue += `${prop} `
-				}
-			} else if (comma) {
-				if (~calc) {
-					calc = -1
-					counter--
-					currentValue = `${currentValue.trim()}), `
-				} else {
-					currentValue = `${currentValue.trim()}, `
-				}
-			}
+          currentValue += `${add} `
+        } else {
+          currentValue += `${unit} `
+        }
+      } else if (prop) {
+        prop = prop.replace('@', '--')
+        if (currentFunc !== 'var') {
+          currentValue += `var(${prop}) `
+        } else {
+          currentValue += `${prop} `
+        }
+      } else if (comma) {
+        if (~calc) {
+          calc = -1
+          counter--
+          currentValue = `${currentValue.trim()}), `
+        } else {
+          currentValue = `${currentValue.trim()}, `
+        }
+      }
 
-			if (currentValue && !counter) {
-				let prepared = prepareParsedValue(currentValue)
+      if (currentValue && !counter) {
+        let prepared = prepareParsedValue(currentValue)
 
-				if (COLOR_FUNCS.includes(usedFunc)) {
-					color = prepared
-				} else if (prepared.startsWith('color(')) {
-					prepared = prepared.slice(6, -1)
+        if (COLOR_FUNCS.includes(usedFunc)) {
+          color = prepared
+        } else if (prepared.startsWith('color(')) {
+          prepared = prepared.slice(6, -1)
 
-					color = parseColor(prepared).color
-				} else {
-					if (prepared !== ',') {
-						values.push(prepared)
-						all.push(prepared)
-					}
+          color = parseColor(prepared).color
+        } else {
+          if (prepared !== ',') {
+            values.push(prepared)
+            all.push(prepared)
+          }
 
-					parsedValue += `${prepared} `
-				}
+          parsedValue += `${prepared} `
+        }
 
-				currentValue = ''
-			}
-		}
+        currentValue = ''
+      }
+    }
 
-		if (counter) {
-			let prepared = prepareParsedValue(`${currentValue.trim()}${')'.repeat(counter)}`)
+    if (counter) {
+      let prepared = prepareParsedValue(`${currentValue.trim()}${')'.repeat(counter)}`)
 
-			if (prepared.startsWith('color(')) {
-				prepared = prepared.slice(6, -1)
+      if (prepared.startsWith('color(')) {
+        prepared = prepared.slice(6, -1)
 
-				color = parseColor(prepared).color
-			} else {
-				if (prepared !== ',') {
-					values.push(prepared)
-					all.push(prepared)
-				}
+        color = parseColor(prepared).color
+      } else {
+        if (prepared !== ',') {
+          values.push(prepared)
+          all.push(prepared)
+        }
 
-				parsedValue += prepared
-			}
-		}
+        parsedValue += prepared
+      }
+    }
 
-		CACHE.set(value, {
-			values,
-			mods,
-			all,
-			value: `${parsedValue} ${color}`.trim(),
-			color,
-		})
-	}
+    CACHE.set(value, {
+      values,
+      mods,
+      all,
+      value: `${parsedValue} ${color}`.trim(),
+      color,
+    })
+  }
 
-	return CACHE.get(value)
+  return CACHE.get(value)
 }
 
 /**
@@ -275,192 +275,191 @@ export function parseStyle(value, mode = 0) {
  * @return {{color}|{color: string, name: *, opacity: *}|{}|{color: string, name: string, opacity: (number|number)}|{color: string, name: *}}
  */
 export function parseColor(val, ignoreError = false) {
-	val = val.trim()
+  val = val.trim()
 
-	if (!val) return {}
+  if (!val) return {}
 
-	if (val.startsWith('#')) {
-		val = val.slice(1)
+  if (val.startsWith('#')) {
+    val = val.slice(1)
 
-		const tmp = val.split('.')
+    const tmp = val.split('.')
 
-		let opacity = 100
+    let opacity = 100
 
-		if (tmp.length > 1) {
-			if (tmp[1].length === 1) {
-				opacity = Number(tmp[1]) * 10
-			} else {
-				opacity = Number(tmp[1])
-			}
+    if (tmp.length > 1) {
+      if (tmp[1].length === 1) {
+        opacity = Number(tmp[1]) * 10
+      } else {
+        opacity = Number(tmp[1])
+      }
 
-			if (Number.isNaN(opacity)) {
-				opacity = 100
-			}
-		}
+      if (Number.isNaN(opacity)) {
+        opacity = 100
+      }
+    }
 
-		const name = tmp[0]
+    const name = tmp[0]
 
-		let color
+    let color
 
-		if (name === 'current') {
-			color = 'currentColor'
-		} else {
-			if (opacity > 100) {
-				opacity = 100
-			} else if (opacity < 0) {
-				opacity = 0
-			}
-		}
+    if (name === 'current') {
+      color = 'currentColor'
+    } else {
+      if (opacity > 100) {
+        opacity = 100
+      } else if (opacity < 0) {
+        opacity = 0
+      }
+      color
+				= opacity !== 100 ? rgbColorProp(name, Math.round(opacity) / 100) : colorProp(name, null, strToRgb(`#${name}`))
+    }
 
-		color
-			= opacity !== 100 ? rgbColorProp(name, Math.round(opacity) / 100) : colorProp(name, null, strToRgb(`#${name}`))
+    return {
+      color,
+      name,
+      opacity: opacity != null ? opacity : 100,
+    }
+  }
 
-		return {
-			color,
-			name,
-			opacity: opacity != null ? opacity : 100,
-		}
-	}
+  let { values, mods, color } = parseStyle(val)
 
-	let { values, mods, color } = parseStyle(val)
+  let name, opacity
 
-	let name, opacity
+  if (color) {
+    return {
+      color: (!color.startsWith('var(') ? strToRgb(color) : color) || color,
+    }
+  }
 
-	if (color) {
-		return {
-			color: (!color.startsWith('var(') ? strToRgb(color) : color) || color,
-		}
-	}
+  values.forEach((token) => {
+    if (token.match(/^((var|rgb|rgba|hsl|hsla)\(|#[0-9a-f]{3,6})/)) {
+      color = !token.startsWith('var') ? strToRgb(token) : token
+    } else if (token.endsWith('%')) {
+      opacity = parseInt(token)
+    }
+  })
 
-	values.forEach((token) => {
-		if (token.match(/^((var|rgb|rgba|hsl|hsla)\(|#[0-9a-f]{3,6})/)) {
-			color = !token.startsWith('var') ? strToRgb(token) : token
-		} else if (token.endsWith('%')) {
-			opacity = parseInt(token)
-		}
-	})
+  if (color) {
+    return { color }
+  }
 
-	if (color) {
-		return { color }
-	}
+  name = name || mods[0]
 
-	name = name || mods[0]
+  if (!name) {
+    if (!ignoreError && devMode) {
+      console.warn('incorrect color value:', val)
+    }
 
-	if (!name) {
-		if (!ignoreError && devMode) {
-			console.warn('incorrect color value:', val)
-		}
+    return {}
+  }
 
-		return {}
-	}
+  if (!opacity) {
+    let color
 
-	if (!opacity) {
-		let color
+    if (name === 'current') {
+      color = 'currentColor'
+    } else if (name === 'inherit') {
+      color = 'inherit'
+    } else {
+      color = `var(--${name}-color)`
+    }
 
-		if (name === 'current') {
-			color = 'currentColor'
-		} else if (name === 'inherit') {
-			color = 'inherit'
-		} else {
-			color = `var(--${name}-color)`
-		}
+    return {
+      name,
+      color,
+    }
+  }
 
-		return {
-			name,
-			color,
-		}
-	}
-
-	return {
-		color: rgbColorProp(name, Math.round(opacity) / 100),
-		name,
-		opacity,
-	}
+  return {
+    color: rgbColorProp(name, Math.round(opacity) / 100),
+    name,
+    opacity,
+  }
 }
 
 export function rgbColorProp(
-	colorName: string,
-	opacity: number,
-	fallbackColorName?: Function,
-	fallbackValue?: Function,
+  colorName: string,
+  opacity: number,
+  fallbackColorName?: Function,
+  fallbackValue?: Function,
 ) {
-	const fallbackValuePart = fallbackValue ? `, ${fallbackValue}` : ''
+  const fallbackValuePart = fallbackValue ? `, ${fallbackValue}` : ''
 
-	return `rgba(var(--${colorName}-color-rgb${
-		fallbackColorName ? `, var(--${fallbackColorName}-color-rgb, ${fallbackValuePart})` : fallbackValuePart
-	}), ${opacity})`
+  return `rgba(var(--${colorName}-color-rgb${
+    fallbackColorName ? `, var(--${fallbackColorName}-color-rgb, ${fallbackValuePart})` : fallbackValuePart
+  }), ${opacity})`
 }
 
 export function colorProp(colorName, fallbackColorName, fallbackValue) {
-	const fallbackValuePart = fallbackValue ? `, ${fallbackValue}` : ''
+  const fallbackValuePart = fallbackValue ? `, ${fallbackValue}` : ''
 
-	return `var(--${colorName}-color${
-		fallbackColorName ? `, var(--${fallbackColorName}${fallbackValuePart})` : fallbackValuePart
-	})`
+  return `var(--${colorName}-color${
+    fallbackColorName ? `, var(--${fallbackColorName}${fallbackValuePart})` : fallbackValuePart
+  })`
 }
 
 export function strToRgb(color, ignoreAlpha = false) {
-	if (!color) return undefined
+  if (!color) return undefined
 
-	if (color.startsWith('rgb')) return color
+  if (color.startsWith('rgb')) return color
 
-	if (color.startsWith('#')) return hexToRgb(color)
+  if (color.startsWith('#')) return hexToRgb(color)
 
-	return null
+  return null
 }
 
 export function getRgbValuesFromRgbaString(str) {
-	return str
-		.match(/\d+/g)
-		.map((s) => parseInt(s))
-		.slice(0, 3)
+  return str
+    .match(/\d+/g)
+    .map((s) => parseInt(s))
+    .slice(0, 3)
 }
 
 export function hexToRgb(hex) {
-	const rgba = hex
-		.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i, (m, r, g, b) => '#' + r + r + g + g + b + b)
-		.substring(1)
-		.match(/.{2}/g)
-		.map((x, i) => parseInt(x, 16) * (i === 3 ? 1 / 255 : 1))
+  const rgba = hex
+    .replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i, (m, r, g, b) => '#' + r + r + g + g + b + b)
+    .substring(1)
+    .match(/.{2}/g)
+    .map((x, i) => parseInt(x, 16) * (i === 3 ? 1 / 255 : 1))
 
-	if (rgba.length === 3) {
-		return `rgb(${rgba.join(', ')})`
-	} else if (rgba.length === 4) {
-		return `rgba(${rgba.join(', ')})`
-	}
+  if (rgba.length === 3) {
+    return `rgb(${rgba.join(', ')})`
+  } else if (rgba.length === 4) {
+    return `rgba(${rgba.join(', ')})`
+  }
 
-	return null
+  return null
 }
 
 export function transferMods(mods, from, to) {
-	mods.forEach((mod) => {
-		if (from.includes(mod)) {
-			to.push(mod)
-			from.splice(from.indexOf(mod), 1)
-		}
-	})
+  mods.forEach((mod) => {
+    if (from.includes(mod)) {
+      to.push(mod)
+      from.splice(from.indexOf(mod), 1)
+    }
+  })
 }
 
 function prepareParsedValue(val) {
-	return val.trim().replace(PREPARE_REGEXP, (s, inner) => inner)
+  return val.trim().replace(PREPARE_REGEXP, (s, inner) => inner)
 }
 
 export function filterMods(mods, allowedMods) {
-	return mods.filter((mod) => allowedMods.includes(mod))
+  return mods.filter((mod) => allowedMods.includes(mod))
 }
 
 export function customUnit(value, unit) {
-	const converter = CUSTOM_UNITS[unit]
+  const converter = CUSTOM_UNITS[unit]
 
-	if (typeof converter === 'function') {
-		return converter(value)
-	}
+  if (typeof converter === 'function') {
+    return converter(value)
+  }
 
-	if (value === '1' || value === 1) {
-		return converter
-	}
+  if (value === '1' || value === 1) {
+    return converter
+  }
 
-	return `(${value} * ${converter})`
+  return `(${value} * ${converter})`
 }
 
 /**
@@ -469,7 +468,7 @@ export function customUnit(value, unit) {
  * @return {boolean}
  */
 export function isNoValue(value) {
-	return !value && value !== 0
+  return !value && value !== 0
 }
 
 /**
@@ -478,29 +477,29 @@ export function isNoValue(value) {
  * @return {boolean}
  */
 export function isYesValue(value) {
-	return YES_VALUES && YES_VALUES.includes(value)
+  return YES_VALUES && YES_VALUES.includes(value)
 }
 
 export function extendStyles(defaultStyles, newStyles) {
-	let styles = {}
+  let styles = {}
 
-	if (!defaultStyles) {
-		if (!newStyles) {
-			return styles
-		}
-	} else {
-		styles = Object.assign({}, defaultStyles)
-	}
+  if (!defaultStyles) {
+    if (!newStyles) {
+      return styles
+    }
+  } else {
+    styles = Object.assign({}, defaultStyles)
+  }
 
-	if (newStyles) {
-		Object.keys(newStyles).forEach((key) => {
-			if (newStyles[key] != null) {
-				styles[key] = newStyles[key]
-			}
-		})
-	}
+  if (newStyles) {
+    Object.keys(newStyles).forEach((key) => {
+      if (newStyles[key] != null) {
+        styles[key] = newStyles[key]
+      }
+    })
+  }
 
-	return styles
+  return styles
 }
 
 /**
@@ -512,35 +511,35 @@ export function extendStyles(defaultStyles, newStyles) {
  * @param [ignoreList] - A list of properties to ignore.
  */
 export function extractStyles(
-	props: { [key: string]: any },
-	styleList: readonly string[] = [],
-	defaultStyles?: Styles,
-	propMap?: { [key: string]: string },
-	ignoreList: readonly string[] = [],
+  props: { [key: string]: any },
+  styleList: readonly string[] = [],
+  defaultStyles?: Styles,
+  propMap?: { [key: string]: string },
+  ignoreList: readonly string[] = [],
 ) {
-	const styles: Styles = {
-		...defaultStyles,
-		...props.styles,
-	}
+  const styles: Styles = {
+    ...defaultStyles,
+    ...props.styles,
+  }
 
-	Object.keys(props).forEach((prop) => {
-		const propName = propMap ? propMap[prop] || prop : prop
-		const value = props[prop]
+  Object.keys(props).forEach((prop) => {
+    const propName = propMap ? propMap[prop] || prop : prop
+    const value = props[prop]
 
-		if (ignoreList && ignoreList.includes(prop)) {
-			// do nothing
-		} else if (styleList.includes(propName)) {
-			// If value is not nullish then map it to the styles
-			if (value != null && value !== false) {
-				styles[propName] = value
-				// If value is nullish then erase the default value of the style
-			} else if (propName in styles) {
-				delete styles[propName]
-			}
-		}
-	}, {})
+    if (ignoreList && ignoreList.includes(prop)) {
+      // do nothing
+    } else if (styleList.includes(propName)) {
+      // If value is not nullish then map it to the styles
+      if (value != null && value !== false) {
+        styles[propName] = value
+        // If value is nullish then erase the default value of the style
+      } else if (propName in styles) {
+        delete styles[propName]
+      }
+    }
+  }, {})
 
-	return styles
+  return styles
 }
 
 /**
@@ -549,55 +548,55 @@ export function extractStyles(
  * @param [selector]
  */
 export function renderStylesToSC(styles: CSSMap | CSSMap[], selector = '') {
-	if (!styles) return ''
+  if (!styles) return ''
 
-	if (Array.isArray(styles)) {
-		return styles.reduce((css, stls) => {
-			return css + renderStylesToSC(stls, selector)
-		}, '')
-	}
+  if (Array.isArray(styles)) {
+    return styles.reduce((css, stls) => {
+      return css + renderStylesToSC(stls, selector)
+    }, '')
+  }
 
-	const { $, css, ...styleProps } = styles
-	let renderedStyles = Object.keys(styleProps).reduce((styleList, styleName) => {
-		const value = styleProps[styleName]
+  const { $, css, ...styleProps } = styles
+  let renderedStyles = Object.keys(styleProps).reduce((styleList, styleName) => {
+    const value = styleProps[styleName]
 
-		if (Array.isArray(value)) {
-			return (
-				styleList
+    if (Array.isArray(value)) {
+      return (
+        styleList
 				+ value.reduce((css, val) => {
-					if (val) {
-						return css + `${styleName}:${val};\n`
-					}
+				  if (val) {
+				    return css + `${styleName}:${val};\n`
+				  }
 
-					return css
+				  return css
 				}, '')
-			)
-		}
+      )
+    }
 
-		if (value) {
-			return `${styleList}${styleName}:${value};\n`
-		}
+    if (value) {
+      return `${styleList}${styleName}:${value};\n`
+    }
 
-		return styleList
-	}, '')
+    return styleList
+  }, '')
 
-	if (css) {
-		renderedStyles = css + '\n' + renderedStyles
-	}
+  if (css) {
+    renderedStyles = css + '\n' + renderedStyles
+  }
 
-	if (!renderedStyles) {
-		return ''
-	}
+  if (!renderedStyles) {
+    return ''
+  }
 
-	if (Array.isArray($)) {
-		return `${selector ? `${selector}{\n` : ''}${$.reduce((rend, suffix) => {
-			return rend + `${suffix ? `&${suffix}{\n` : ''}${renderedStyles}${suffix ? '}\n' : ''}`
-		}, '')}${selector ? '}\n' : ''}`
-	}
+  if (Array.isArray($)) {
+    return `${selector ? `${selector}{\n` : ''}${$.reduce((rend, suffix) => {
+      return rend + `${suffix ? `&${suffix}{\n` : ''}${renderedStyles}${suffix ? '}\n' : ''}`
+    }, '')}${selector ? '}\n' : ''}`
+  }
 
-	return `${selector ? `${selector}{\n` : ''}${$ ? `&${$}{\n` : ''}${renderedStyles}${$ ? '}\n' : ''}${
-		selector ? '}\n' : ''
-	}`
+  return `${selector ? `${selector}{\n` : ''}${$ ? `&${$}{\n` : ''}${renderedStyles}${$ ? '}\n' : ''}${
+    selector ? '}\n' : ''
+  }`
 }
 
 /**
@@ -607,35 +606,35 @@ export function renderStylesToSC(styles: CSSMap | CSSMap[], selector = '') {
  * @param {StyleStateList|StyleStateMapList} states
  */
 export function applyStates(selector: string, states) {
-	return states.reduce((css, state) => {
-		if (!state.value) return ''
+  return states.reduce((css, state) => {
+    if (!state.value) return ''
 
-		const modifiers = `${(state.mods || []).map(getModSelector).join('')}${(state.notMods || [])
-			.map((mod) => `:not(${getModSelector(mod)})`)
-			.join('')}`
+    const modifiers = `${(state.mods || []).map(getModSelector).join('')}${(state.notMods || [])
+      .map((mod) => `:not(${getModSelector(mod)})`)
+      .join('')}`
 
-		return `${css}${selector}${modifiers}{\n${state.value}}\n`
-	}, '')
+    return `${css}${selector}${modifiers}{\n${state.value}}\n`
+  }, '')
 }
 
 export function styleHandlerCacheWrapper(styleHandler, limit = 1000) {
-	const wrappedStyleHandler = cacheWrapper((styleMap) => {
-		return renderStylesToSC(styleHandler(styleMap))
-	}, limit)
+  const wrappedStyleHandler = cacheWrapper((styleMap) => {
+    return renderStylesToSC(styleHandler(styleMap))
+  }, limit)
 
-	const wrappedMapHandler = cacheWrapper((styleMap) => {
-		if (styleMap == null || styleMap === false) return null
+  const wrappedMapHandler = cacheWrapper((styleMap) => {
+    if (styleMap == null || styleMap === false) return null
 
-		const stateMapList = styleMapToStyleMapStateList(styleMap)
+    const stateMapList = styleMapToStyleMapStateList(styleMap)
 
-		replaceStateValues(stateMapList, wrappedStyleHandler)
+    replaceStateValues(stateMapList, wrappedStyleHandler)
 
-		return applyStates('&&', stateMapList)
-	}, limit)
+    return applyStates('&&', stateMapList)
+  }, limit)
 
-	return Object.assign(wrappedMapHandler, {
-		__lookupStyles: styleHandler.__lookupStyles,
-	})
+  return Object.assign(wrappedMapHandler, {
+    __lookupStyles: styleHandler.__lookupStyles,
+  })
 }
 
 /**
@@ -643,46 +642,46 @@ export function styleHandlerCacheWrapper(styleHandler, limit = 1000) {
  * For example, if you want to replace initial values with finite CSS code.
  */
 export function replaceStateValues(states: StyleStateList | StyleStateMapList, replaceFn: Function) {
-	const cache = new Map()
+  const cache = new Map()
 
-	states.forEach((state) => {
-		if (!cache.get(state.value)) {
-			cache.set(state.value, replaceFn(state.value))
-		}
+  states.forEach((state) => {
+    if (!cache.get(state.value)) {
+      cache.set(state.value, replaceFn(state.value))
+    }
 
-		state.value = cache.get(state.value)
-	})
+    state.value = cache.get(state.value)
+  })
 
-	return states
+  return states
 }
 
 export function getModesFromStyleStateList(stateList: StyleStateList) {
-	return stateList.reduce((list: string[], state) => {
-		state.mods.forEach((mod) => {
-			if (!list.includes(mod)) {
-				list.push(mod)
-			}
-		})
+  return stateList.reduce((list: string[], state) => {
+    state.mods.forEach((mod) => {
+      if (!list.includes(mod)) {
+        list.push(mod)
+      }
+    })
 
-		return list
-	}, [])
+    return list
+  }, [])
 }
 
 /**
  * Get all presented modes from style state list map.
  */
 export function getModesFromStyleStateListMap(stateListMap: StyleStateMapList): string[] {
-	return Object.keys(stateListMap).reduce((list: string[], style) => {
-		const stateList = stateListMap[style]
+  return Object.keys(stateListMap).reduce((list: string[], style) => {
+    const stateList = stateListMap[style]
 
-		getModesFromStyleStateList(stateList).forEach((mod) => {
-			if (!list.includes(mod)) {
-				list.push(mod)
-			}
-		})
+    getModesFromStyleStateList(stateList).forEach((mod) => {
+      if (!list.includes(mod)) {
+        list.push(mod)
+      }
+    })
 
-		return list
-	}, [])
+    return list
+  }, [])
 }
 
 /**
@@ -691,145 +690,145 @@ export function getModesFromStyleStateListMap(stateListMap: StyleStateMapList): 
  * @param filterKeys
  */
 export function styleMapToStyleMapStateList(styleMap: StyleMap, filterKeys?: string[]) {
-	const keys = filterKeys || Object.keys(styleMap)
+  const keys = filterKeys || Object.keys(styleMap)
 
-	if (!keys.length) return []
+  if (!keys.length) return []
 
-	/**
+  /**
 	 * //@type {StyleStateListMap}
 	 */
-	const stateDataListMap = {}
+  const stateDataListMap = {}
 
-	const allModsSet: Set<string> = new Set()
+  const allModsSet: Set<string> = new Set()
 
-	keys.forEach((style) => {
-		stateDataListMap[style] = styleStateMapToStyleStateDataList(styleMap[style])
-		stateDataListMap[style].mods.forEach(allModsSet.add, allModsSet)
-	})
+  keys.forEach((style) => {
+    stateDataListMap[style] = styleStateMapToStyleStateDataList(styleMap[style])
+    stateDataListMap[style].mods.forEach(allModsSet.add, allModsSet)
+  })
 
-	const allModsArr: string[] = Array.from(allModsSet)
+  const allModsArr: string[] = Array.from(allModsSet)
 
-	const styleStateMapList: StyleStateList = []
+  const styleStateMapList: StyleStateList = []
 
-	getModCombinations(allModsArr, true).forEach((combination) => {
-		styleStateMapList.push({
-			mods: combination,
-			notMods: allModsArr.filter((mod) => !combination.includes(mod)),
-			value: keys.reduce((map, key) => {
-				map[key] = stateDataListMap[key].states.find((state) => {
-					return computeState(state.model, (mod) => combination.includes(mod))
-				}).value
+  getModCombinations(allModsArr, true).forEach((combination) => {
+    styleStateMapList.push({
+      mods: combination,
+      notMods: allModsArr.filter((mod) => !combination.includes(mod)),
+      value: keys.reduce((map, key) => {
+        map[key] = stateDataListMap[key].states.find((state) => {
+          return computeState(state.model, (mod) => combination.includes(mod))
+        }).value
 
-				return map
-			}, {}),
-		})
-	})
+        return map
+      }, {}),
+    })
+  })
 
-	return styleStateMapList
+  return styleStateMapList
 }
 
 const STATES_REGEXP = /([&|!^])|([()])|([a-z0-6-]+)|(:[a-z0-6-]+)|(\.[a-z0-6-]+)|(\[[^\]]+])/gi
 export const STATE_OPERATORS = {
-	NOT: '!',
-	AND: '&',
-	OR: '|',
-	XOR: '^',
+  NOT: '!',
+  AND: '&',
+  OR: '|',
+  XOR: '^',
 }
 
 export const STATE_OPERATOR_LIST = ['!', '&', '|', '^']
 
 function convertTokensToComputeUnits(tokens: any[]) {
-	if (tokens.length === 1) {
-		return tokens[0]
-	}
+  if (tokens.length === 1) {
+    return tokens[0]
+  }
 
-	STATE_OPERATOR_LIST.forEach((operator) => {
-		let i
+  STATE_OPERATOR_LIST.forEach((operator) => {
+    let i
 
-		while ((i = tokens.indexOf(operator)) !== -1) {
-			const token = tokens[i]
+    while ((i = tokens.indexOf(operator)) !== -1) {
+      const token = tokens[i]
 
-			if (token === '!') {
-				if (tokens[i + 1] && tokens[i + 1].length !== 1) {
-					tokens.splice(i, 2, ['!', tokens[i + 1]])
-				} else {
-					tokens.splice(i, 1)
-				}
-			} else {
-				if (tokens[i - 1] && tokens[i + 1] && tokens[i - 1].length !== 1 && tokens[i + 1].length !== 1) {
-					tokens.splice(i - 1, 3, [token, tokens[i - 1], tokens[i + 1]])
-				} else {
-					tokens.splice(i, 1)
-				}
-			}
-		}
-	})
+      if (token === '!') {
+        if (tokens[i + 1] && tokens[i + 1].length !== 1) {
+          tokens.splice(i, 2, ['!', tokens[i + 1]])
+        } else {
+          tokens.splice(i, 1)
+        }
+      } else {
+        if (tokens[i - 1] && tokens[i + 1] && tokens[i - 1].length !== 1 && tokens[i + 1].length !== 1) {
+          tokens.splice(i - 1, 3, [token, tokens[i - 1], tokens[i + 1]])
+        } else {
+          tokens.splice(i, 1)
+        }
+      }
+    }
+  })
 
-	return tokens.length === 1 ? tokens[0] : tokens
+  return tokens.length === 1 ? tokens[0] : tokens
 }
 
 /**
  * Parse state notation and return tokens, modifiers and compute model.
  */
 function parseStateNotationInner<T>(notation: string, value: T) {
-	const tokens = notation.replace(/,/g, '|').match(STATES_REGEXP)
+  const tokens = notation.replace(/,/g, '|').match(STATES_REGEXP)
 
-	if (!tokens || !tokens.length) {
-		return {
-			model: null,
-			mods: [],
-			tokens,
-			value,
-		}
-	} else if (tokens.length === 1) {
-		return {
-			model: tokens[0],
-			mods: tokens.slice(0),
-			tokens,
-			value,
-		}
-	}
+  if (!tokens || !tokens.length) {
+    return {
+      model: null,
+      mods: [],
+      tokens,
+      value,
+    }
+  } else if (tokens.length === 1) {
+    return {
+      model: tokens[0],
+      mods: tokens.slice(0),
+      tokens,
+      value,
+    }
+  }
 
-	const mods: string[] = []
+  const mods: string[] = []
 
-	const operations: any[][] = [[]]
-	let list = operations[0]
-	let position = 0
+  const operations: any[][] = [[]]
+  let list = operations[0]
+  let position = 0
 
-	tokens.forEach((token) => {
-		switch (token) {
-			case '(':
-				const operation = []
-				position++
-				list = operations[position] = operation
-				break
-			case ')':
-				position--
-				operations[position].push(convertTokensToComputeUnits(list))
-				list = operations[position]
-				break
-			default:
-				if (token.length > 1) {
-					if (!mods.includes(token)) {
-						mods.push(token)
-					}
-				}
-				list.push(token)
-		}
-	})
+  tokens.forEach((token) => {
+    switch (token) {
+    case '(':
+      const operation = []
+      position++
+      list = operations[position] = operation
+      break
+    case ')':
+      position--
+      operations[position].push(convertTokensToComputeUnits(list))
+      list = operations[position]
+      break
+    default:
+      if (token.length > 1) {
+        if (!mods.includes(token)) {
+          mods.push(token)
+        }
+      }
+      list.push(token)
+    }
+  })
 
-	while (position) {
-		position--
-		operations[position].push(convertTokensToComputeUnits(list))
-		list = operations[position]
-	}
+  while (position) {
+    position--
+    operations[position].push(convertTokensToComputeUnits(list))
+    list = operations[position]
+  }
 
-	return {
-		tokens,
-		mods,
-		model: convertTokensToComputeUnits(operations[0]),
-		value,
-	}
+  return {
+    tokens,
+    mods,
+    model: convertTokensToComputeUnits(operations[0]),
+    value,
+  }
 }
 
 export const parseStateNotation = cacheWrapper(parseStateNotationInner)
@@ -840,136 +839,136 @@ export const parseStateNotation = cacheWrapper(parseStateNotationInner)
  * @return {{ states: StyleStateDataList, mods: string[] }}
  */
 export function styleStateMapToStyleStateDataList(styleStateMap: StyleStateMap | ResponsiveStyleValue) {
-	if (typeof styleStateMap !== 'object' || !styleStateMap) {
-		return {
-			states: [
-				{
-					model: null,
-					mods: [],
-					value: styleStateMap,
-				},
-			],
-			mods: [],
-		}
-	}
+  if (typeof styleStateMap !== 'object' || !styleStateMap) {
+    return {
+      states: [
+        {
+          model: null,
+          mods: [],
+          value: styleStateMap,
+        },
+      ],
+      mods: [],
+    }
+  }
 
-	const stateDataList: StyleStateDataList = []
+  const stateDataList: StyleStateDataList = []
 
-	Object.keys(styleStateMap).forEach((stateNotation) => {
-		const state = parseStateNotation(stateNotation)
+  Object.keys(styleStateMap).forEach((stateNotation) => {
+    const state = parseStateNotation(stateNotation)
 
-		state.value = styleStateMap[stateNotation]
+    state.value = styleStateMap[stateNotation]
 
-		stateDataList.push(state)
-	})
+    stateDataList.push(state)
+  })
 
-	stateDataList.reverse()
+  stateDataList.reverse()
 
-	let initialState
+  let initialState
 
-	const allMods: string[] = stateDataList.reduce((all: string[], state) => {
-		if (!state.mods.length) {
-			initialState = state
-		} else {
-			state.mods.forEach((mod) => {
-				if (!all.includes(mod)) {
-					all.push(mod)
-				}
-			})
-		}
+  const allMods: string[] = stateDataList.reduce((all: string[], state) => {
+    if (!state.mods.length) {
+      initialState = state
+    } else {
+      state.mods.forEach((mod) => {
+        if (!all.includes(mod)) {
+          all.push(mod)
+        }
+      })
+    }
 
-		return all
-	}, [])
+    return all
+  }, [])
 
-	if (!initialState) {
-		stateDataList.push({
-			mods: [],
-			notMods: allMods,
-			value: true,
-		})
-	}
+  if (!initialState) {
+    stateDataList.push({
+      mods: [],
+      notMods: allMods,
+      value: true,
+    })
+  }
 
-	return { states: stateDataList, mods: allMods }
+  return { states: stateDataList, mods: allMods }
 }
 
 export const COMPUTE_FUNC_MAP = {
-	'!': (a) => !a,
-	'^': (a, b) => a ^ b,
-	'|': (a, b) => a | b,
-	'&': (a, b) => a & b,
+  '!': (a) => !a,
+  '^': (a, b) => a ^ b,
+  '|': (a, b) => a | b,
+  '&': (a, b) => a & b,
 } as const
 
 /**
  * Compute a result based on model and incoming map.
  */
 export function computeState(
-	computeModel: ComputeModel,
-	valueMap: (number | boolean)[] | { [key: string]: boolean } | Function,
+  computeModel: ComputeModel,
+  valueMap: (number | boolean)[] | { [key: string]: boolean } | Function,
 ): boolean {
-	if (!computeModel) return true
+  if (!computeModel) return true
 
-	if (!Array.isArray(computeModel)) {
-		if (typeof valueMap === 'function') {
-			return !!valueMap(computeModel)
-		} else {
-			return !!valueMap[computeModel]
-		}
-	}
+  if (!Array.isArray(computeModel)) {
+    if (typeof valueMap === 'function') {
+      return !!valueMap(computeModel)
+    } else {
+      return !!valueMap[computeModel]
+    }
+  }
 
-	const func = COMPUTE_FUNC_MAP[computeModel[0]]
+  const func = COMPUTE_FUNC_MAP[computeModel[0]]
 
-	if (!func) {
-		console.warn('tastycss: unexpected compute method in the model', computeModel)
-		// return false;
-	}
+  if (!func) {
+    console.warn('tastycss: unexpected compute method in the model', computeModel)
+    // return false;
+  }
 
-	let a = computeModel[1]
+  let a = computeModel[1]
 
-	if (typeof a === 'object') {
-		a = !!computeState(a, valueMap)
-	} else if (typeof valueMap === 'function') {
-		a = !!valueMap(a)
-	} else {
-		a = !!valueMap[a]
-	}
+  if (typeof a === 'object') {
+    a = !!computeState(a, valueMap)
+  } else if (typeof valueMap === 'function') {
+    a = !!valueMap(a)
+  } else {
+    a = !!valueMap[a]
+  }
 
-	if (computeModel.length === 2) {
-		return !!func(a)
-	}
+  if (computeModel.length === 2) {
+    return !!func(a)
+  }
 
-	let b = computeModel[2]
+  let b = computeModel[2]
 
-	if (typeof b === 'object') {
-		b = !!computeState(b, valueMap)
-	} else if (typeof valueMap === 'function') {
-		b = !!valueMap(b)
-	} else {
-		b = !!valueMap[b]
-	}
+  if (typeof b === 'object') {
+    b = !!computeState(b, valueMap)
+  } else if (typeof valueMap === 'function') {
+    b = !!valueMap(b)
+  } else {
+    b = !!valueMap[b]
+  }
 
-	return !!func(a, b)
+  return !!func(a, b)
 }
 
 export function cacheWrapper(handler: Function, limit = 1000) {
-	let cache: Record<string, any> = {}
-	let count = 0
+  let cache: Record<string, any> = {}
+  let count = 0
 
-	return (arg: any) => {
-		const key = typeof arg === 'string' ? arg : JSON.stringify(arg)
+  return (arg: any) => {
+    const key = typeof arg === 'string' ? arg : JSON.stringify(arg)
 
-		if (!cache[key]) {
-			if (count > limit) {
-				cache = {}
-				count = 0
-			}
+    if (!cache[key]) {
+      if (count > limit) {
+        cache = {}
+        count = 0
+      }
 
-			count++
+      count++
 
-			cache[key] = handler(arg)
-		}
+      cache[key] = handler(arg)
+    }
 
-		return cache[key]
-	}
+    return cache[key]
+  }
 }
 
 /**
@@ -978,5 +977,5 @@ export function cacheWrapper(handler: Function, limit = 1000) {
  * @return {boolean}
  */
 export function hasNegativeMod(mods: (boolean | string)[]) {
-	return mods != null && !!NO_VALUES.find((val) => mods.includes(val))
+  return mods != null && !!NO_VALUES.find((val) => mods.includes(val))
 }

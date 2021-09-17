@@ -6,30 +6,30 @@ import { modAttrs } from './utils/modAttrs'
 import { Styles } from './styled'
 
 const DEFAULT_STYLES: Styles = {
-	display: 'inline-block',
+  display: 'inline-block',
 } as const
 
 interface CSSElementProps {
-  css?: string
+	css?: string;
 }
 
 const CSSElement = styledComponents.div(({ css }: CSSElementProps) => css || '')
 
 const Element = (allProps: AllBaseProps, ref) => {
-	let { as, styles: originalStyles, breakpoints, mods, qa, qaVal, css, ...props } = allProps
+  let { as, styles: originalStyles, breakpoints, mods, qa, qaVal, css, ...props } = allProps
 
-	const styles: Styles = { ...DEFAULT_STYLES, ...originalStyles }
+  const styles: Styles = { ...DEFAULT_STYLES, ...originalStyles }
 
-	const contextBreakpoints = useContext(BreakpointsContext)
-	const zones = pointsToZones(breakpoints || contextBreakpoints)
+  const contextBreakpoints = useContext(BreakpointsContext)
+  const zones = pointsToZones(breakpoints || contextBreakpoints)
 
-	css = `${css || ''}${renderStyles(styles, zones)}`
+  css = `${css || ''}${renderStyles(styles, zones)}`
 
-	if (mods) {
-		Object.assign(props, modAttrs(mods))
-	}
+  if (mods) {
+    Object.assign(props, modAttrs(mods))
+  }
 
-	return <CSSElement as={as} data-qa={qa} data-qaval={qaVal} {...props} ref={ref} css={ css } />
+  return <CSSElement as={as} data-qa={qa} data-qaval={qaVal} {...props} ref={ref} css={css} />
 }
 
 /**

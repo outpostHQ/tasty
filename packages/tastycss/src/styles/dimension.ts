@@ -4,7 +4,7 @@ const DEFAULT_MIN_SIZE = 'var(--gap)'
 const DEFAULT_MAX_SIZE = '100%'
 
 function isSizingSupport(val) {
-	return typeof CSS !== 'undefined' && typeof CSS.supports !== 'undefined' ? CSS.supports('height', val) : false
+  return typeof CSS !== 'undefined' && typeof CSS.supports !== 'undefined' ? CSS.supports('height', val) : false
 }
 
 const STRETCH = 'stretch'
@@ -12,75 +12,75 @@ const FILL_AVAILABLE = 'fill-available'
 const WEBKIT_FILL_AVAILABLE = '-webkit-fill-available'
 const MOZ_FILL_AVAILABLE = '-moz-fill-available'
 const STRETCH_SIZE = isSizingSupport(STRETCH)
-	? STRETCH
-	: isSizingSupport(FILL_AVAILABLE)
-	? FILL_AVAILABLE
-	: isSizingSupport(WEBKIT_FILL_AVAILABLE)
-	? WEBKIT_FILL_AVAILABLE
-	: isSizingSupport(MOZ_FILL_AVAILABLE)
-	? MOZ_FILL_AVAILABLE
-	: null
+  ? STRETCH
+  : isSizingSupport(FILL_AVAILABLE)
+    ? FILL_AVAILABLE
+    : isSizingSupport(WEBKIT_FILL_AVAILABLE)
+      ? WEBKIT_FILL_AVAILABLE
+      : isSizingSupport(MOZ_FILL_AVAILABLE)
+        ? MOZ_FILL_AVAILABLE
+        : null
 const INTRINSIC_MODS = ['max-content', 'min-content', 'fit-content', 'stretch']
 
 export function dimensionStyle(name) {
-	const minStyle = `min-${name}`
-	const maxStyle = `max-${name}`
+  const minStyle = `min-${name}`
+  const maxStyle = `max-${name}`
 
-	return (val) => {
-		if (!val) return ''
+  return (val) => {
+    if (!val) return ''
 
-		if (typeof val === 'number') {
-			val = `${val}px`
-		}
+    if (typeof val === 'number') {
+      val = `${val}px`
+    }
 
-		val = String(val)
+    val = String(val)
 
-		const styles = {
-			[name]: 'auto',
-			[minStyle]: 'auto',
-			[maxStyle]: 'initial',
-		}
+    const styles = {
+      [name]: 'auto',
+      [minStyle]: 'auto',
+      [maxStyle]: 'initial',
+    }
 
-		const { mods, values } = parseStyle(val)
+    const { mods, values } = parseStyle(val)
 
-		transferMods(INTRINSIC_MODS, mods, values)
+    transferMods(INTRINSIC_MODS, mods, values)
 
-		values.forEach((v, i) => {
-			if (v === 'stretch') {
-				values[i] = STRETCH_SIZE || (name === 'height' ? '100vh' : '100vw')
-			}
-		})
+    values.forEach((v, i) => {
+      if (v === 'stretch') {
+        values[i] = STRETCH_SIZE || (name === 'height' ? '100vh' : '100vw')
+      }
+    })
 
-		let flag = false
+    let flag = false
 
-		for (const mod of mods) {
-			switch (mod) {
-				case 'min':
-					styles[minStyle] = values[0] || DEFAULT_MIN_SIZE
-					flag = true
-					break
-				case 'max':
-					styles[maxStyle] = values[0] || DEFAULT_MAX_SIZE
-					flag = true
-					break
-				default:
-					break
-			}
-		}
+    for (const mod of mods) {
+      switch (mod) {
+      case 'min':
+        styles[minStyle] = values[0] || DEFAULT_MIN_SIZE
+        flag = true
+        break
+      case 'max':
+        styles[maxStyle] = values[0] || DEFAULT_MAX_SIZE
+        flag = true
+        break
+      default:
+        break
+      }
+    }
 
-		if (!flag || !mods.length) {
-			if (values.length === 2) {
-				styles[minStyle] = values[0]
-				styles[maxStyle] = values[1]
-			} else if (values.length === 3) {
-				styles[minStyle] = values[0]
-				styles[name] = values[1]
-				styles[maxStyle] = values[2]
-			} else {
-				styles[name] = values[0] || 'auto'
-			}
-		}
+    if (!flag || !mods.length) {
+      if (values.length === 2) {
+        styles[minStyle] = values[0]
+        styles[maxStyle] = values[1]
+      } else if (values.length === 3) {
+        styles[minStyle] = values[0]
+        styles[name] = values[1]
+        styles[maxStyle] = values[2]
+      } else {
+        styles[name] = values[0] || 'auto'
+      }
+    }
 
-		return styles
-	}
+    return styles
+  }
 }

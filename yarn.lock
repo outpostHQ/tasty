@@ -1318,9 +1318,9 @@ __metadata:
   linkType: hard
 
 "@mdn/browser-compat-data@npm:^4.0.0":
-  version: 4.0.3
-  resolution: "@mdn/browser-compat-data@npm:4.0.3"
-  checksum: afcf49dd403fef9b0967f407a61579a08e2bfa7e4b4a881bc8c8b00ec91802a5dfece418299328cabc489ea0fe95ba50d4983248cbbf41a06713d4ccbcec5f60
+  version: 4.0.4
+  resolution: "@mdn/browser-compat-data@npm:4.0.4"
+  checksum: 9bf185491243b0503246320b8a2663ef2e2379fbc0dde8babf77d74c03fbaa3379995f2c88e7c5fa91d0f8ad977b3129dc80b19d293184e332db70ab99ea0051
   languageName: node
   linkType: hard
 
@@ -1435,11 +1435,11 @@ __metadata:
   linkType: hard
 
 "@octokit/auth-token@npm:^2.4.4":
-  version: 2.4.5
-  resolution: "@octokit/auth-token@npm:2.4.5"
+  version: 2.5.0
+  resolution: "@octokit/auth-token@npm:2.5.0"
   dependencies:
     "@octokit/types": ^6.0.3
-  checksum: 49620119949870e63d5758be4f9065167a617b4ff343d2bf17f89497dffe17dad2a158e8a3311afc25157a83757a19835f01d66ae53a3583ccf425b60a20968b
+  checksum: 45949296c09abcd6beb4c3f69d45b0c1f265f9581d2a9683cf4d1800c4cf8259c2f58d58e44c16c20bffb85a0282a176c0d51f4af300e428b863f27b910e6297
   languageName: node
   linkType: hard
 
@@ -2120,9 +2120,9 @@ __metadata:
   linkType: hard
 
 "@types/node@npm:*":
-  version: 16.9.1
-  resolution: "@types/node@npm:16.9.1"
-  checksum: 41afcf183a22d59323a0199dd7e0f46591247f45fc08a4434edb26d56dc279ae4fdb80f37989ddd7a0f45e3857c4933e6e82057ede09c5a829f77e373e680375
+  version: 16.9.2
+  resolution: "@types/node@npm:16.9.2"
+  checksum: 204aa883bc93a267f43804af8872e538935369ab905d5ca702d2c17a213339f8df974bb95d21e2e714e8f83f669b185d8526f7c4b5d16adbdb5d96d4f2e75fa9
   languageName: node
   linkType: hard
 
@@ -3187,7 +3187,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"array-includes@npm:^3.1.1, array-includes@npm:^3.1.2, array-includes@npm:^3.1.3":
+"array-includes@npm:^3.1.1, array-includes@npm:^3.1.3":
   version: 3.1.3
   resolution: "array-includes@npm:3.1.3"
   dependencies:
@@ -3950,9 +3950,9 @@ __metadata:
   linkType: hard
 
 "caniuse-lite@npm:^1.0.0, caniuse-lite@npm:^1.0.30001254":
-  version: 1.0.30001257
-  resolution: "caniuse-lite@npm:1.0.30001257"
-  checksum: d336d5bfaacc5be9d6ab1de3687e6cd88b124f9c3a2013ff40ab9f324cca249de5f93cc4589076c4414d65066ccaa35fc9894346735c3088ce5452c42baaf7db
+  version: 1.0.30001258
+  resolution: "caniuse-lite@npm:1.0.30001258"
+  checksum: 2e87875a7792444f18060f836dbe1a3fcf58dcdd4608c63725dac503aadd617c2bb771c766963fb31528c10fd55201a7cf3ece555a3e754f94ee4a991626c302
   languageName: node
   linkType: hard
 
@@ -5484,9 +5484,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.3.830":
-  version: 1.3.840
-  resolution: "electron-to-chromium@npm:1.3.840"
-  checksum: 3b4d872b5a862d6a176121a0b7d803a428e156bff0a55de6026e355f025f1c17cccfd6407f7c1755d024663af577e8ea41e93b271830df4477bffb01253dbf18
+  version: 1.3.842
+  resolution: "electron-to-chromium@npm:1.3.842"
+  checksum: 46da2ed1d9df8cc666a0b5dff3a04edccf938f69f8094303009fb4831207bd384e55ddc82dd89cf5480803f33467ac72fa0d962beb450a0f7ff3d57ac0e97387
   languageName: node
   linkType: hard
 
@@ -8145,12 +8145,12 @@ fsevents@~2.3.2:
   linkType: hard
 
 "jsx-ast-utils@npm:^2.4.1 || ^3.0.0, jsx-ast-utils@npm:^3.1.0":
-  version: 3.2.0
-  resolution: "jsx-ast-utils@npm:3.2.0"
+  version: 3.2.1
+  resolution: "jsx-ast-utils@npm:3.2.1"
   dependencies:
-    array-includes: ^3.1.2
+    array-includes: ^3.1.3
     object.assign: ^4.1.2
-  checksum: 9f695c480212868557c5e3cd01082857e101768dc75cb904335d1a805e972d6203baa58ae0b786e7afeab1e8fdb98242fccf22dbc1734595a65845172743877c
+  checksum: dcee22e6382ee5a6bd4187333a44b6420d9d079838119a07055d6e88d137dd0afadc97a2246152b0b65006bd5fc393112dc0cef01956a01a66c1713913953c66
   languageName: node
   linkType: hard
 
@@ -9141,9 +9141,9 @@ fsevents@~2.3.2:
   linkType: hard
 
 "mixme@npm:^0.5.1":
-  version: 0.5.1
-  resolution: "mixme@npm:0.5.1"
-  checksum: b26e7953945469b5813a455259032d47f6401608855886155d82fe07ab519365ecb2b4eac57e6bb6455015600045194396ce74dbb2a37c8650519fef2a64abde
+  version: 0.5.2
+  resolution: "mixme@npm:0.5.2"
+  checksum: 642b25752fb9ab1198fa48dab20a732646df4f863df2871a9619f6bb4257b1ea8d67ece9a660da65a0672a6d2e10d33c74a9435efddce857768e69293e79b314
   languageName: node
   linkType: hard
 
@@ -9682,11 +9682,11 @@ fsevents@~2.3.2:
   linkType: hard
 
 "nth-check@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "nth-check@npm:2.0.0"
+  version: 2.0.1
+  resolution: "nth-check@npm:2.0.1"
   dependencies:
     boolbase: ^1.0.0
-  checksum: a22eb19616719d46a5b517f76c32e67e4a2b6a229d67ba2f3efb296e24d79687d52b904c2298cd16510215d5d2a419f8ba671f5957a3b4b73905f62ba7aafa3b
+  checksum: 5386d035c48438ff304fe687704d93886397349d1bed136de97aeae464caba10e8ffac55a04b215b86b3bc8897f33e0a5aa1045a9d8b2f251ae61b2a3ad3e450
   languageName: node
   linkType: hard
 
@@ -10872,6 +10872,15 @@ fsevents@~2.3.2:
   bin:
     prettier: ./bin-prettier.js
   checksum: bc78219e0f8173a808f4c6c8e0a137dd8ebd4fbe013e63fe1a37a82b48612f17b8ae8e18a992adf802ee2cf7428f14f084e7c2846ca5759cf4013c6e54810e1f
+  languageName: node
+  linkType: hard
+
+"prettier@npm:^2.4.1":
+  version: 2.4.1
+  resolution: "prettier@npm:2.4.1"
+  bin:
+    prettier: bin-prettier.js
+  checksum: cc6830588b401b0d742862fe9c46bc9118204fb307c3abe0e49e95b35ed23629573807ffdf9cdd65289c252a0bb51fc0171437f6626ee36378dea80f0ee80b91
   languageName: node
   linkType: hard
 
@@ -12850,6 +12859,7 @@ resolve@^2.0.0-next.3:
     "@changesets/changelog-github": ^0.4.1
     "@changesets/cli": ^2.17.0
     lerna: ^4.0.0
+    prettier: ^2.4.1
   languageName: unknown
   linkType: soft
 

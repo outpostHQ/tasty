@@ -35,44 +35,44 @@ export type AllBasePropsWithMods<T extends string> = Omit<AllBaseProps, 'mods'> 
 };
 
 export function styled<T extends string>(options: StyledProps<T>) {
-	let { name, tag, styles: defaultStyles, css: defaultCSS, attrs } = options
-	let Element = styledComponents[tag || 'div'](({ theme }) => theme.css)
+  let { name, tag, styles: defaultStyles, css: defaultCSS, attrs } = options
+  let Element = styledComponents[tag || 'div'](({ theme }) => theme.css)
 
-	if (name) {
-		return forwardRef((allProps: AllBasePropsWithMods<T>, ref) => {
-			let { as, styles, breakpoints, mods, qa, qaVal, css, ...props } = allProps
+  if (name) {
+    return forwardRef((allProps: AllBasePropsWithMods<T>, ref) => {
+      let { as, styles, breakpoints, mods, qa, qaVal, css, ...props } = allProps
 
-			// @ts-ignore
-			const contextStyles = useContextStyles(name, props)
-			const allStyles: Styles | undefined
+      // @ts-ignore
+      const contextStyles = useContextStyles(name, props)
+      const allStyles: Styles | undefined
 				= defaultStyles || contextStyles ? { ...defaultStyles, ...contextStyles, ...styles } : styles
-			const contextBreakpoints = useContext(BreakpointsContext)
-			const zones = pointsToZones(breakpoints || contextBreakpoints)
+      const contextBreakpoints = useContext(BreakpointsContext)
+      const zones = pointsToZones(breakpoints || contextBreakpoints)
 
-			css = `${defaultCSS || ''}${css || ''}${allStyles ? renderStyles(allStyles, zones) : ''}`
+      css = `${defaultCSS || ''}${css || ''}${allStyles ? renderStyles(allStyles, zones) : ''}`
 
-			if (mods) {
-				Object.assign(props, modAttrs(mods))
-			}
+      if (mods) {
+        Object.assign(props, modAttrs(mods))
+      }
 
-			return <Element as={as || tag} data-qa={qa} data-qaval={qaVal} {...attrs} {...props} ref={ref} theme={{ css }} />
-		})
-	} else {
-		return forwardRef((allProps: AllBasePropsWithMods<T>, ref) => {
-			let { as, styles, breakpoints, mods, qa, qaVal, css, ...props } = allProps
+      return <Element as={as || tag} data-qa={qa} data-qaval={qaVal} {...attrs} {...props} ref={ref} theme={{ css }} />
+    })
+  } else {
+    return forwardRef((allProps: AllBasePropsWithMods<T>, ref) => {
+      let { as, styles, breakpoints, mods, qa, qaVal, css, ...props } = allProps
 
-			const allStyles: Styles | undefined = defaultStyles ? { ...defaultStyles, ...styles } : styles
+      const allStyles: Styles | undefined = defaultStyles ? { ...defaultStyles, ...styles } : styles
 
-			const contextBreakpoints = useContext(BreakpointsContext)
-			const zones = pointsToZones(breakpoints || contextBreakpoints)
+      const contextBreakpoints = useContext(BreakpointsContext)
+      const zones = pointsToZones(breakpoints || contextBreakpoints)
 
-			css = `${defaultCSS || ''}${css || ''}${allStyles ? renderStyles(allStyles, zones) : ''}`
+      css = `${defaultCSS || ''}${css || ''}${allStyles ? renderStyles(allStyles, zones) : ''}`
 
-			if (mods) {
-				Object.assign(props, modAttrs(mods))
-			}
+      if (mods) {
+        Object.assign(props, modAttrs(mods))
+      }
 
-			return <Element as={as || tag} data-qa={qa} data-qaval={qaVal} {...attrs} {...props} ref={ref} theme={{ css }} />
-		})
-	}
+      return <Element as={as || tag} data-qa={qa} data-qaval={qaVal} {...attrs} {...props} ref={ref} theme={{ css }} />
+    })
+  }
 }
