@@ -1,4 +1,4 @@
-import { parseStyle } from '../utils/styles'
+import { parseStyle } from '../utils/styles';
 
 const RESET_MAP = {
   input: [
@@ -74,20 +74,20 @@ text-decoration: none;
 `,
     },
   ],
-}
+};
 
 export function resetStyle({ reset }) {
-  if (!reset) return
+  if (!reset) return;
 
-  const { mods } = parseStyle(reset, 1)
+  const { mods } = parseStyle(reset, 1);
 
   return mods.reduce((sum, mod) => {
     if (RESET_MAP[mod]) {
-      sum.push(...RESET_MAP[mod])
+      sum.push(...RESET_MAP[mod]);
     }
 
-    return sum
-  }, [])
+    return sum;
+  }, []);
 }
 
-resetStyle.__lookupStyles = ['reset']
+resetStyle.__lookupStyles = ['reset'];

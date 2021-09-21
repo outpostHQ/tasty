@@ -1,4 +1,4 @@
-import { getModCombinations } from './getModCombinations'
+import { getModCombinations } from './getModCombinations';
 import {
   ComputeModel,
   CSSMap,
@@ -9,40 +9,40 @@ import {
   StyleStateList,
   StyleStateMap,
   StyleStateMapList,
-} from '../types/render'
-import { CUSTOM_UNITS } from '../units'
+} from '../types/render';
+import { CUSTOM_UNITS } from '../units';
 
-export const NO_VALUES = [false, 'n', 'no', 'false']
-export const YES_VALUES = [true, 'y', 'yes', 'true']
+export const NO_VALUES = [false, 'n', 'no', 'false'];
+export const YES_VALUES = [true, 'y', 'yes', 'true'];
 
-const devMode = process.env.NODE_ENV !== 'production'
+const devMode = process.env.NODE_ENV !== 'production';
 
-export const DIRECTIONS = ['top', 'right', 'bottom', 'left']
+export const DIRECTIONS = ['top', 'right', 'bottom', 'left'];
 
-const COLOR_FUNCS = ['rgb', 'rgba']
-const IGNORE_MODS = ['auto', 'max-content', 'min-content', 'none', 'subgrid', 'initial']
+const COLOR_FUNCS = ['rgb', 'rgba'];
+const IGNORE_MODS = ['auto', 'max-content', 'min-content', 'none', 'subgrid', 'initial'];
 
 const ATTR_REGEXP
-	= /("[^"]*")|('[^']*')|([a-z]+\()|(#[a-z0-9.-]{2,}(?![a-f0-9[-]))|(--[a-z0-9-]+|@[a-z0-9-]+)|([a-z][a-z0-9-]*)|(([0-9]+(?![0-9.])|[0-9-.]{2,}|[0-9-]{2,}|[0-9.-]{3,})([a-z%]{0,3}))|([*/+-])|([()])|(,)/gi
-const ATTR_CACHE = new Map()
-const ATTR_CACHE_AUTOCALC = new Map()
-const ATTR_CACHE_IGNORE_COLOR = new Map()
-const MAX_CACHE = 10000
-const ATTR_CACHE_MODE_MAP = [ATTR_CACHE_AUTOCALC, ATTR_CACHE, ATTR_CACHE_IGNORE_COLOR]
-const PREPARE_REGEXP = /calc\((\d*)\)/gi
+	= /("[^"]*")|('[^']*')|([a-z]+\()|(#[a-z0-9.-]{2,}(?![a-f0-9[-]))|(--[a-z0-9-]+|@[a-z0-9-]+)|([a-z][a-z0-9-]*)|(([0-9]+(?![0-9.])|[0-9-.]{2,}|[0-9-]{2,}|[0-9.-]{3,})([a-z%]{0,3}))|([*/+-])|([()])|(,)/gi;
+const ATTR_CACHE = new Map();
+const ATTR_CACHE_AUTOCALC = new Map();
+const ATTR_CACHE_IGNORE_COLOR = new Map();
+const MAX_CACHE = 10000;
+const ATTR_CACHE_MODE_MAP = [ATTR_CACHE_AUTOCALC, ATTR_CACHE, ATTR_CACHE_IGNORE_COLOR];
+const PREPARE_REGEXP = /calc\((\d*)\)/gi;
 
 export function createRule(prop, value, selector) {
-  if (value == null) return ''
+  if (value == null) return '';
 
   if (selector) {
-    return `${selector} { ${prop}: ${value}; }\n`
+    return `${selector} { ${prop}: ${value}; }\n`;
   }
 
-  return `${prop}: ${value};\n`
+  return `${prop}: ${value};\n`;
 }
 
 function getModSelector(modName) {
-  return modName.match(/^[a-z]/) ? `[data-is-${modName}]` : modName
+  return modName.match(/^[a-z]/) ? `[data-is-${modName}]` : modName;
 }
 
 /**
@@ -53,7 +53,7 @@ function getModSelector(modName) {
  */
 export function parseStyle(value, mode = 0) {
   if (typeof value === 'number') {
-    value = String(value)
+    value = String(value);
   }
 
   if (typeof value !== 'string') {
@@ -62,33 +62,33 @@ export function parseStyle(value, mode = 0) {
       mods: [],
       all: [],
       value: '',
-    }
+    };
   }
 
-  const CACHE = ATTR_CACHE_MODE_MAP[mode]
+  const CACHE = ATTR_CACHE_MODE_MAP[mode];
 
   if (!CACHE.has(value)) {
     if (CACHE.size > MAX_CACHE) {
-      CACHE.clear()
+      CACHE.clear();
     }
 
-    const mods: string[] = []
-    const all: string[] = []
-    const values: string[] = []
-    const autoCalc = mode !== 1
+    const mods: string[] = [];
+    const all: string[] = [];
+    const values: string[] = [];
+    const autoCalc = mode !== 1;
 
-    let currentValue = ''
-    let calc = -1
-    let counter = 0
-    let parsedValue = ''
-    let color = ''
-    let currentFunc = ''
-    let usedFunc = ''
-    let token
+    let currentValue = '';
+    let calc = -1;
+    let counter = 0;
+    let parsedValue = '';
+    let color = '';
+    let currentFunc = '';
+    let usedFunc = '';
+    let token;
 
-    ATTR_REGEXP.lastIndex = 0
+    ATTR_REGEXP.lastIndex = 0;
 
-    value = value.replace(/@\(/g, 'var(--')
+    value = value.replace(/@\(/g, 'var(--');
 
     while ((token = ATTR_REGEXP.exec(value))) {
       let [
@@ -105,154 +105,154 @@ export function parseStyle(value, mode = 0) {
         operator,
         bracket,
         comma,
-      ] = token
+      ] = token;
 
       if (quotedSingle || quotedDouble) {
-        currentValue += `${quotedSingle || quotedDouble} `
+        currentValue += `${quotedSingle || quotedDouble} `;
       } else if (func) {
-        currentFunc = func.slice(0, -1)
-        currentValue += func
-        counter++
+        currentFunc = func.slice(0, -1);
+        currentValue += func;
+        counter++;
       } else if (hashColor) {
         // currentValue += `${hashColor} `;
         if (mode === 2) {
-          color = hashColor
+          color = hashColor;
         } else {
-          color = parseColor(hashColor, false).color
+          color = parseColor(hashColor, false).color;
         }
       } else if (mod) {
         // ignore mods inside brackets
         if (counter || IGNORE_MODS.includes(mod)) {
-          currentValue += `${mod} `
+          currentValue += `${mod} `;
         } else {
-          mods.push(mod)
-          all.push(mod)
-          parsedValue += `${mod} `
+          mods.push(mod);
+          all.push(mod);
+          parsedValue += `${mod} `;
         }
       } else if (bracket) {
         if (bracket === '(') {
           if (!~calc) {
-            calc = counter
-            currentValue += 'calc'
+            calc = counter;
+            currentValue += 'calc';
           }
 
-          counter++
+          counter++;
         }
 
         if (bracket === ')' && counter) {
-          currentValue = currentValue.trim()
+          currentValue = currentValue.trim();
 
           if (counter > 0) {
-            counter--
+            counter--;
           }
 
           if (counter === calc) {
-            calc = -1
+            calc = -1;
           }
         }
 
         if (bracket === ')' && !counter) {
-          usedFunc = currentFunc
-          currentFunc = ''
+          usedFunc = currentFunc;
+          currentFunc = '';
         }
 
-        currentValue += `${bracket}${bracket === ')' ? ' ' : ''}`
+        currentValue += `${bracket}${bracket === ')' ? ' ' : ''}`;
       } else if (operator) {
         if (!~calc && autoCalc) {
           if (currentValue) {
             if (currentValue.includes('(')) {
-              const index = currentValue.lastIndexOf('(')
+              const index = currentValue.lastIndexOf('(');
 
-              currentValue = `${currentValue.slice(0, index)}(calc(${currentValue.slice(index + 1)}`
+              currentValue = `${currentValue.slice(0, index)}(calc(${currentValue.slice(index + 1)}`;
 
-              calc = counter
-              counter++
+              calc = counter;
+              counter++;
             }
           } else if (values.length) {
-            parsedValue = parsedValue.slice(0, parsedValue.length - values[values.length - 1].length - 1)
+            parsedValue = parsedValue.slice(0, parsedValue.length - values[values.length - 1].length - 1);
 
-            let tmp = values.splice(values.length - 1, 1)[0]
+            let tmp = values.splice(values.length - 1, 1)[0];
 
-            all.splice(values.length - 1, 1)
+            all.splice(values.length - 1, 1);
 
             if (tmp) {
               if (tmp.startsWith('calc(')) {
-                tmp = tmp.slice(4)
+                tmp = tmp.slice(4);
               }
 
-              calc = counter
-              counter++
-              currentValue = `calc((${tmp}) `
+              calc = counter;
+              counter++;
+              currentValue = `calc((${tmp}) `;
             }
           }
         }
 
-        currentValue += `${operator} `
+        currentValue += `${operator} `;
       } else if (unit) {
         if (unitMetric && CUSTOM_UNITS[unitMetric]) {
-          const add = customUnit(unitVal, unitMetric)
+          const add = customUnit(unitVal, unitMetric);
 
           if (!~calc && add.startsWith('(')) {
-            currentValue += 'calc'
+            currentValue += 'calc';
           }
 
-          currentValue += `${add} `
+          currentValue += `${add} `;
         } else {
-          currentValue += `${unit} `
+          currentValue += `${unit} `;
         }
       } else if (prop) {
-        prop = prop.replace('@', '--')
+        prop = prop.replace('@', '--');
         if (currentFunc !== 'var') {
-          currentValue += `var(${prop}) `
+          currentValue += `var(${prop}) `;
         } else {
-          currentValue += `${prop} `
+          currentValue += `${prop} `;
         }
       } else if (comma) {
         if (~calc) {
-          calc = -1
-          counter--
-          currentValue = `${currentValue.trim()}), `
+          calc = -1;
+          counter--;
+          currentValue = `${currentValue.trim()}), `;
         } else {
-          currentValue = `${currentValue.trim()}, `
+          currentValue = `${currentValue.trim()}, `;
         }
       }
 
       if (currentValue && !counter) {
-        let prepared = prepareParsedValue(currentValue)
+        let prepared = prepareParsedValue(currentValue);
 
         if (COLOR_FUNCS.includes(usedFunc)) {
-          color = prepared
+          color = prepared;
         } else if (prepared.startsWith('color(')) {
-          prepared = prepared.slice(6, -1)
+          prepared = prepared.slice(6, -1);
 
-          color = parseColor(prepared).color
+          color = parseColor(prepared).color;
         } else {
           if (prepared !== ',') {
-            values.push(prepared)
-            all.push(prepared)
+            values.push(prepared);
+            all.push(prepared);
           }
 
-          parsedValue += `${prepared} `
+          parsedValue += `${prepared} `;
         }
 
-        currentValue = ''
+        currentValue = '';
       }
     }
 
     if (counter) {
-      let prepared = prepareParsedValue(`${currentValue.trim()}${')'.repeat(counter)}`)
+      let prepared = prepareParsedValue(`${currentValue.trim()}${')'.repeat(counter)}`);
 
       if (prepared.startsWith('color(')) {
-        prepared = prepared.slice(6, -1)
+        prepared = prepared.slice(6, -1);
 
-        color = parseColor(prepared).color
+        color = parseColor(prepared).color;
       } else {
         if (prepared !== ',') {
-          values.push(prepared)
-          all.push(prepared)
+          values.push(prepared);
+          all.push(prepared);
         }
 
-        parsedValue += prepared
+        parsedValue += prepared;
       }
     }
 
@@ -262,10 +262,10 @@ export function parseStyle(value, mode = 0) {
       all,
       value: `${parsedValue} ${color}`.trim(),
       color,
-    })
+    });
   }
 
-  return CACHE.get(value)
+  return CACHE.get(value);
 }
 
 /**
@@ -275,106 +275,106 @@ export function parseStyle(value, mode = 0) {
  * @return {{color}|{color: string, name: *, opacity: *}|{}|{color: string, name: string, opacity: (number|number)}|{color: string, name: *}}
  */
 export function parseColor(val, ignoreError = false) {
-  val = val.trim()
+  val = val.trim();
 
-  if (!val) return {}
+  if (!val) return {};
 
   if (val.startsWith('#')) {
-    val = val.slice(1)
+    val = val.slice(1);
 
-    const tmp = val.split('.')
+    const tmp = val.split('.');
 
-    let opacity = 100
+    let opacity = 100;
 
     if (tmp.length > 1) {
       if (tmp[1].length === 1) {
-        opacity = Number(tmp[1]) * 10
+        opacity = Number(tmp[1]) * 10;
       } else {
-        opacity = Number(tmp[1])
+        opacity = Number(tmp[1]);
       }
 
       if (Number.isNaN(opacity)) {
-        opacity = 100
+        opacity = 100;
       }
     }
 
-    const name = tmp[0]
+    const name = tmp[0];
 
-    let color
+    let color;
 
     if (name === 'current') {
-      color = 'currentColor'
+      color = 'currentColor';
     } else {
       if (opacity > 100) {
-        opacity = 100
+        opacity = 100;
       } else if (opacity < 0) {
-        opacity = 0
+        opacity = 0;
       }
       color
-				= opacity !== 100 ? rgbColorProp(name, Math.round(opacity) / 100) : colorProp(name, null, strToRgb(`#${name}`))
+				= opacity !== 100 ? rgbColorProp(name, Math.round(opacity) / 100) : colorProp(name, null, strToRgb(`#${name}`));
     }
 
     return {
       color,
       name,
       opacity: opacity != null ? opacity : 100,
-    }
+    };
   }
 
-  let { values, mods, color } = parseStyle(val)
+  let { values, mods, color } = parseStyle(val);
 
-  let name, opacity
+  let name, opacity;
 
   if (color) {
     return {
       color: (!color.startsWith('var(') ? strToRgb(color) : color) || color,
-    }
+    };
   }
 
   values.forEach((token) => {
     if (token.match(/^((var|rgb|rgba|hsl|hsla)\(|#[0-9a-f]{3,6})/)) {
-      color = !token.startsWith('var') ? strToRgb(token) : token
+      color = !token.startsWith('var') ? strToRgb(token) : token;
     } else if (token.endsWith('%')) {
-      opacity = parseInt(token)
+      opacity = parseInt(token);
     }
-  })
+  });
 
   if (color) {
-    return { color }
+    return { color };
   }
 
-  name = name || mods[0]
+  name = name || mods[0];
 
   if (!name) {
     if (!ignoreError && devMode) {
-      console.warn('incorrect color value:', val)
+      console.warn('incorrect color value:', val);
     }
 
-    return {}
+    return {};
   }
 
   if (!opacity) {
-    let color
+    let color;
 
     if (name === 'current') {
-      color = 'currentColor'
+      color = 'currentColor';
     } else if (name === 'inherit') {
-      color = 'inherit'
+      color = 'inherit';
     } else {
-      color = `var(--${name}-color)`
+      color = `var(--${name}-color)`;
     }
 
     return {
       name,
       color,
-    }
+    };
   }
 
   return {
     color: rgbColorProp(name, Math.round(opacity) / 100),
     name,
     opacity,
-  }
+  };
 }
 
 export function rgbColorProp(
@@ -383,36 +383,36 @@ export function rgbColorProp(
   fallbackColorName?: Function,
   fallbackValue?: Function,
 ) {
-  const fallbackValuePart = fallbackValue ? `, ${fallbackValue}` : ''
+  const fallbackValuePart = fallbackValue ? `, ${fallbackValue}` : '';
 
   return `rgba(var(--${colorName}-color-rgb${
     fallbackColorName ? `, var(--${fallbackColorName}-color-rgb, ${fallbackValuePart})` : fallbackValuePart
-  }), ${opacity})`
+  }), ${opacity})`;
 }
 
 export function colorProp(colorName, fallbackColorName, fallbackValue) {
-  const fallbackValuePart = fallbackValue ? `, ${fallbackValue}` : ''
+  const fallbackValuePart = fallbackValue ? `, ${fallbackValue}` : '';
 
   return `var(--${colorName}-color${
     fallbackColorName ? `, var(--${fallbackColorName}${fallbackValuePart})` : fallbackValuePart
-  })`
+  })`;
 }
 
 export function strToRgb(color, ignoreAlpha = false) {
-  if (!color) return undefined
+  if (!color) return undefined;
 
-  if (color.startsWith('rgb')) return color
+  if (color.startsWith('rgb')) return color;
 
-  if (color.startsWith('#')) return hexToRgb(color)
+  if (color.startsWith('#')) return hexToRgb(color);
 
-  return null
+  return null;
 }
 
 export function getRgbValuesFromRgbaString(str) {
   return str
     .match(/\d+/g)
     .map((s) => parseInt(s))
-    .slice(0, 3)
+    .slice(0, 3);
 }
 
 export function hexToRgb(hex) {
@@ -420,46 +420,46 @@ export function hexToRgb(hex) {
     .replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i, (m, r, g, b) => '#' + r + r + g + g + b + b)
     .substring(1)
     .match(/.{2}/g)
-    .map((x, i) => parseInt(x, 16) * (i === 3 ? 1 / 255 : 1))
+    .map((x, i) => parseInt(x, 16) * (i === 3 ? 1 / 255 : 1));
 
   if (rgba.length === 3) {
-    return `rgb(${rgba.join(', ')})`
+    return `rgb(${rgba.join(', ')})`;
   } else if (rgba.length === 4) {
-    return `rgba(${rgba.join(', ')})`
+    return `rgba(${rgba.join(', ')})`;
   }
 
-  return null
+  return null;
 }
 
 export function transferMods(mods, from, to) {
   mods.forEach((mod) => {
     if (from.includes(mod)) {
-      to.push(mod)
-      from.splice(from.indexOf(mod), 1)
+      to.push(mod);
+      from.splice(from.indexOf(mod), 1);
     }
-  })
+  });
 }
 
 function prepareParsedValue(val) {
-  return val.trim().replace(PREPARE_REGEXP, (s, inner) => inner)
+  return val.trim().replace(PREPARE_REGEXP, (s, inner) => inner);
 }
 
 export function filterMods(mods, allowedMods) {
-  return mods.filter((mod) => allowedMods.includes(mod))
+  return mods.filter((mod) => allowedMods.includes(mod));
 }
 
 export function customUnit(value, unit) {
-  const converter = CUSTOM_UNITS[unit]
+  const converter = CUSTOM_UNITS[unit];
 
   if (typeof converter === 'function') {
-    return converter(value)
+    return converter(value);
   }
 
   if (value === '1' || value === 1) {
-    return converter
+    return converter;
   }
 
-  return `(${value} * ${converter})`
+  return `(${value} * ${converter})`;
 }
 
 /**
@@ -468,7 +468,7 @@ export function customUnit(value, unit) {
  * @return {boolean}
  */
 export function isNoValue(value) {
-  return !value && value !== 0
+  return !value && value !== 0;
 }
 
 /**
@@ -477,29 +477,29 @@ export function isNoValue(value) {
  * @return {boolean}
  */
 export function isYesValue(value) {
-  return YES_VALUES && YES_VALUES.includes(value)
+  return YES_VALUES && YES_VALUES.includes(value);
 }
 
 export function extendStyles(defaultStyles, newStyles) {
-  let styles = {}
+  let styles = {};
 
   if (!defaultStyles) {
     if (!newStyles) {
-      return styles
+      return styles;
     }
   } else {
-    styles = Object.assign({}, defaultStyles)
+    styles = Object.assign({}, defaultStyles);
   }
 
   if (newStyles) {
     Object.keys(newStyles).forEach((key) => {
       if (newStyles[key] != null) {
-        styles[key] = newStyles[key]
+        styles[key] = newStyles[key];
       }
-    })
+    });
   }
 
-  return styles
+  return styles;
 }
 
 /**
@@ -520,26 +520,26 @@ export function extractStyles(
   const styles: Styles = {
     ...defaultStyles,
     ...props.styles,
-  }
+  };
 
   Object.keys(props).forEach((prop) => {
-    const propName = propMap ? propMap[prop] || prop : prop
-    const value = props[prop]
+    const propName = propMap ? propMap[prop] || prop : prop;
+    const value = props[prop];
 
     if (ignoreList && ignoreList.includes(prop)) {
       // do nothing
     } else if (styleList.includes(propName)) {
       // If value is not nullish then map it to the styles
       if (value != null && value !== false) {
-        styles[propName] = value
+        styles[propName] = value;
         // If value is nullish then erase the default value of the style
       } else if (propName in styles) {
-        delete styles[propName]
+        delete styles[propName];
       }
     }
-  }, {})
+  }, {});
 
-  return styles
+  return styles;
 }
 
 /**
@@ -548,55 +548,55 @@ export function extractStyles(
  * @param [selector]
  */
 export function renderStylesToSC(styles: CSSMap | CSSMap[], selector = '') {
-  if (!styles) return ''
+  if (!styles) return '';
 
   if (Array.isArray(styles)) {
     return styles.reduce((css, stls) => {
-      return css + renderStylesToSC(stls, selector)
-    }, '')
+      return css + renderStylesToSC(stls, selector);
+    }, '');
   }
 
-  const { $, css, ...styleProps } = styles
+  const { $, css, ...styleProps } = styles;
   let renderedStyles = Object.keys(styleProps).reduce((styleList, styleName) => {
-    const value = styleProps[styleName]
+    const value = styleProps[styleName];
 
     if (Array.isArray(value)) {
       return (
         styleList
 				+ value.reduce((css, val) => {
 				  if (val) {
-				    return css + `${styleName}:${val};\n`
+				    return css + `${styleName}:${val};\n`;
 				  }
 
-				  return css
+				  return css;
 				}, '')
-      )
+      );
     }
 
     if (value) {
-      return `${styleList}${styleName}:${value};\n`
+      return `${styleList}${styleName}:${value};\n`;
     }
 
-    return styleList
-  }, '')
+    return styleList;
+  }, '');
 
   if (css) {
-    renderedStyles = css + '\n' + renderedStyles
+    renderedStyles = css + '\n' + renderedStyles;
   }
 
   if (!renderedStyles) {
-    return ''
+    return '';
   }
 
   if (Array.isArray($)) {
     return `${selector ? `${selector}{\n` : ''}${$.reduce((rend, suffix) => {
-      return rend + `${suffix ? `&${suffix}{\n` : ''}${renderedStyles}${suffix ? '}\n' : ''}`
-    }, '')}${selector ? '}\n' : ''}`
+      return rend + `${suffix ? `&${suffix}{\n` : ''}${renderedStyles}${suffix ? '}\n' : ''}`;
+    }, '')}${selector ? '}\n' : ''}`;
   }
 
   return `${selector ? `${selector}{\n` : ''}${$ ? `&${$}{\n` : ''}${renderedStyles}${$ ? '}\n' : ''}${
     selector ? '}\n' : ''
-  }`
+  }`;
 }
 
 /**
@@ -607,34 +607,34 @@ export function renderStylesToSC(styles: CSSMap | CSSMap[], selector = '') {
  */
 export function applyStates(selector: string, states) {
   return states.reduce((css, state) => {
-    if (!state.value) return ''
+    if (!state.value) return '';
 
     const modifiers = `${(state.mods || []).map(getModSelector).join('')}${(state.notMods || [])
       .map((mod) => `:not(${getModSelector(mod)})`)
-      .join('')}`
+      .join('')}`;
 
-    return `${css}${selector}${modifiers}{\n${state.value}}\n`
-  }, '')
+    return `${css}${selector}${modifiers}{\n${state.value}}\n`;
+  }, '');
 }
 
 export function styleHandlerCacheWrapper(styleHandler, limit = 1000) {
   const wrappedStyleHandler = cacheWrapper((styleMap) => {
-    return renderStylesToSC(styleHandler(styleMap))
-  }, limit)
+    return renderStylesToSC(styleHandler(styleMap));
+  }, limit);
 
   const wrappedMapHandler = cacheWrapper((styleMap) => {
-    if (styleMap == null || styleMap === false) return null
+    if (styleMap == null || styleMap === false) return null;
 
-    const stateMapList = styleMapToStyleMapStateList(styleMap)
+    const stateMapList = styleMapToStyleMapStateList(styleMap);
 
-    replaceStateValues(stateMapList, wrappedStyleHandler)
+    replaceStateValues(stateMapList, wrappedStyleHandler);
 
-    return applyStates('&&', stateMapList)
-  }, limit)
+    return applyStates('&&', stateMapList);
+  }, limit);
 
   return Object.assign(wrappedMapHandler, {
     __lookupStyles: styleHandler.__lookupStyles,
-  })
+  });
 }
 
 /**
@@ -642,29 +642,29 @@ export function styleHandlerCacheWrapper(styleHandler, limit = 1000) {
  * For example, if you want to replace initial values with finite CSS code.
  */
 export function replaceStateValues(states: StyleStateList | StyleStateMapList, replaceFn: Function) {
-  const cache = new Map()
+  const cache = new Map();
 
   states.forEach((state) => {
     if (!cache.get(state.value)) {
-      cache.set(state.value, replaceFn(state.value))
+      cache.set(state.value, replaceFn(state.value));
     }
 
-    state.value = cache.get(state.value)
-  })
+    state.value = cache.get(state.value);
+  });
 
-  return states
+  return states;
 }
 
 export function getModesFromStyleStateList(stateList: StyleStateList) {
   return stateList.reduce((list: string[], state) => {
     state.mods.forEach((mod) => {
       if (!list.includes(mod)) {
-        list.push(mod)
+        list.push(mod);
       }
-    })
+    });
 
-    return list
-  }, [])
+    return list;
+  }, []);
 }
 
 /**
@@ -672,16 +672,16 @@ export function getModesFromStyleStateList(stateList: StyleStateList) {
  */
 export function getModesFromStyleStateListMap(stateListMap: StyleStateMapList): string[] {
   return Object.keys(stateListMap).reduce((list: string[], style) => {
-    const stateList = stateListMap[style]
+    const stateList = stateListMap[style];
 
     getModesFromStyleStateList(stateList).forEach((mod) => {
       if (!list.includes(mod)) {
-        list.push(mod)
+        list.push(mod);
       }
-    })
+    });
 
-    return list
-  }, [])
+    return list;
+  }, []);
 }
 
 /**
@@ -690,25 +690,25 @@ export function getModesFromStyleStateListMap(stateListMap: StyleStateMapList): 
  * @param filterKeys
  */
 export function styleMapToStyleMapStateList(styleMap: StyleMap, filterKeys?: string[]) {
-  const keys = filterKeys || Object.keys(styleMap)
+  const keys = filterKeys || Object.keys(styleMap);
 
-  if (!keys.length) return []
+  if (!keys.length) return [];
 
   /**
 	 * //@type {StyleStateListMap}
 	 */
-  const stateDataListMap = {}
+  const stateDataListMap = {};
 
-  const allModsSet: Set<string> = new Set()
+  const allModsSet: Set<string> = new Set();
 
   keys.forEach((style) => {
-    stateDataListMap[style] = styleStateMapToStyleStateDataList(styleMap[style])
-    stateDataListMap[style].mods.forEach(allModsSet.add, allModsSet)
-  })
+    stateDataListMap[style] = styleStateMapToStyleStateDataList(styleMap[style]);
+    stateDataListMap[style].mods.forEach(allModsSet.add, allModsSet);
+  });
 
-  const allModsArr: string[] = Array.from(allModsSet)
+  const allModsArr: string[] = Array.from(allModsSet);
 
-  const styleStateMapList: StyleStateList = []
+  const styleStateMapList: StyleStateList = [];
 
   getModCombinations(allModsArr, true).forEach((combination) => {
     styleStateMapList.push({
@@ -716,62 +716,62 @@ export function styleMapToStyleMapStateList(styleMap: StyleMap, filterKeys?: str
       notMods: allModsArr.filter((mod) => !combination.includes(mod)),
       value: keys.reduce((map, key) => {
         map[key] = stateDataListMap[key].states.find((state) => {
-          return computeState(state.model, (mod) => combination.includes(mod))
-        }).value
+          return computeState(state.model, (mod) => combination.includes(mod));
+        }).value;
 
-        return map
+        return map;
       }, {}),
-    })
-  })
+    });
+  });
 
-  return styleStateMapList
+  return styleStateMapList;
 }
 
-const STATES_REGEXP = /([&|!^])|([()])|([a-z0-6-]+)|(:[a-z0-6-]+)|(\.[a-z0-6-]+)|(\[[^\]]+])/gi
+const STATES_REGEXP = /([&|!^])|([()])|([a-z0-6-]+)|(:[a-z0-6-]+)|(\.[a-z0-6-]+)|(\[[^\]]+])/gi;
 export const STATE_OPERATORS = {
   NOT: '!',
   AND: '&',
   OR: '|',
   XOR: '^',
-}
+};
 
-export const STATE_OPERATOR_LIST = ['!', '&', '|', '^']
+export const STATE_OPERATOR_LIST = ['!', '&', '|', '^'];
 
 function convertTokensToComputeUnits(tokens: any[]) {
   if (tokens.length === 1) {
-    return tokens[0]
+    return tokens[0];
   }
 
   STATE_OPERATOR_LIST.forEach((operator) => {
-    let i
+    let i;
 
     while ((i = tokens.indexOf(operator)) !== -1) {
-      const token = tokens[i]
+      const token = tokens[i];
 
       if (token === '!') {
         if (tokens[i + 1] && tokens[i + 1].length !== 1) {
-          tokens.splice(i, 2, ['!', tokens[i + 1]])
+          tokens.splice(i, 2, ['!', tokens[i + 1]]);
         } else {
-          tokens.splice(i, 1)
+          tokens.splice(i, 1);
         }
       } else {
         if (tokens[i - 1] && tokens[i + 1] && tokens[i - 1].length !== 1 && tokens[i + 1].length !== 1) {
-          tokens.splice(i - 1, 3, [token, tokens[i - 1], tokens[i + 1]])
+          tokens.splice(i - 1, 3, [token, tokens[i - 1], tokens[i + 1]]);
         } else {
-          tokens.splice(i, 1)
+          tokens.splice(i, 1);
         }
       }
     }
-  })
+  });
 
-  return tokens.length === 1 ? tokens[0] : tokens
+  return tokens.length === 1 ? tokens[0] : tokens;
 }
 
 /**
  * Parse state notation and return tokens, modifiers and compute model.
  */
 function parseStateNotationInner<T>(notation: string, value: T) {
-  const tokens = notation.replace(/,/g, '|').match(STATES_REGEXP)
+  const tokens = notation.replace(/,/g, '|').match(STATES_REGEXP);
 
   if (!tokens || !tokens.length) {
     return {
@@ -779,48 +779,48 @@ function parseStateNotationInner<T>(notation: string, value: T) {
       mods: [],
       tokens,
       value,
-    }
+    };
   } else if (tokens.length === 1) {
     return {
       model: tokens[0],
       mods: tokens.slice(0),
       tokens,
       value,
-    }
+    };
   }
 
-  const mods: string[] = []
+  const mods: string[] = [];
 
-  const operations: any[][] = [[]]
-  let list = operations[0]
-  let position = 0
+  const operations: any[][] = [[]];
+  let list = operations[0];
+  let position = 0;
 
   tokens.forEach((token) => {
     switch (token) {
     case '(':
-      const operation = []
-      position++
-      list = operations[position] = operation
-      break
+      const operation = [];
+      position++;
+      list = operations[position] = operation;
+      break;
     case ')':
-      position--
-      operations[position].push(convertTokensToComputeUnits(list))
-      list = operations[position]
-      break
+      position--;
+      operations[position].push(convertTokensToComputeUnits(list));
+      list = operations[position];
+      break;
     default:
       if (token.length > 1) {
         if (!mods.includes(token)) {
-          mods.push(token)
+          mods.push(token);
         }
       }
-      list.push(token)
+      list.push(token);
     }
-  })
+  });
 
   while (position) {
-    position--
-    operations[position].push(convertTokensToComputeUnits(list))
-    list = operations[position]
+    position--;
+    operations[position].push(convertTokensToComputeUnits(list));
+    list = operations[position];
   }
 
   return {
@@ -828,10 +828,10 @@ function parseStateNotationInner<T>(notation: string, value: T) {
     mods,
     model: convertTokensToComputeUnits(operations[0]),
     value,
-  }
+  };
 }
 
-export const parseStateNotation = cacheWrapper(parseStateNotationInner)
+export const parseStateNotation = cacheWrapper(parseStateNotationInner);
 
 /**
  *
@@ -849,46 +849,46 @@ export function styleStateMapToStyleStateDataList(styleStateMap: StyleStateMap |
         },
       ],
       mods: [],
-    }
+    };
   }
 
-  const stateDataList: StyleStateDataList = []
+  const stateDataList: StyleStateDataList = [];
 
   Object.keys(styleStateMap).forEach((stateNotation) => {
-    const state = parseStateNotation(stateNotation)
+    const state = parseStateNotation(stateNotation);
 
-    state.value = styleStateMap[stateNotation]
+    state.value = styleStateMap[stateNotation];
 
-    stateDataList.push(state)
-  })
+    stateDataList.push(state);
+  });
 
-  stateDataList.reverse()
+  stateDataList.reverse();
 
-  let initialState
+  let initialState;
 
   const allMods: string[] = stateDataList.reduce((all: string[], state) => {
     if (!state.mods.length) {
-      initialState = state
+      initialState = state;
     } else {
       state.mods.forEach((mod) => {
         if (!all.includes(mod)) {
-          all.push(mod)
+          all.push(mod);
         }
-      })
+      });
     }
 
-    return all
-  }, [])
+    return all;
+  }, []);
 
   if (!initialState) {
     stateDataList.push({
       mods: [],
       notMods: allMods,
       value: true,
-    })
+    });
   }
 
-  return { states: stateDataList, mods: allMods }
+  return { states: stateDataList, mods: allMods };
 }
 
 export const COMPUTE_FUNC_MAP = {
@@ -896,7 +896,7 @@ export const COMPUTE_FUNC_MAP = {
   '^': (a, b) => a ^ b,
   '|': (a, b) => a | b,
   '&': (a, b) => a & b,
-} as const
+} as const;
 
 /**
  * Compute a result based on model and incoming map.
@@ -905,70 +905,70 @@ export function computeState(
   computeModel: ComputeModel,
   valueMap: (number | boolean)[] | { [key: string]: boolean } | Function,
 ): boolean {
-  if (!computeModel) return true
+  if (!computeModel) return true;
 
   if (!Array.isArray(computeModel)) {
     if (typeof valueMap === 'function') {
-      return !!valueMap(computeModel)
+      return !!valueMap(computeModel);
     } else {
-      return !!valueMap[computeModel]
+      return !!valueMap[computeModel];
     }
   }
 
-  const func = COMPUTE_FUNC_MAP[computeModel[0]]
+  const func = COMPUTE_FUNC_MAP[computeModel[0]];
 
   if (!func) {
-    console.warn('tastycss: unexpected compute method in the model', computeModel)
+    console.warn('tastycss: unexpected compute method in the model', computeModel);
     // return false;
   }
 
-  let a = computeModel[1]
+  let a = computeModel[1];
 
   if (typeof a === 'object') {
-    a = !!computeState(a, valueMap)
+    a = !!computeState(a, valueMap);
   } else if (typeof valueMap === 'function') {
-    a = !!valueMap(a)
+    a = !!valueMap(a);
   } else {
-    a = !!valueMap[a]
+    a = !!valueMap[a];
   }
 
   if (computeModel.length === 2) {
-    return !!func(a)
+    return !!func(a);
   }
 
-  let b = computeModel[2]
+  let b = computeModel[2];
 
   if (typeof b === 'object') {
-    b = !!computeState(b, valueMap)
+    b = !!computeState(b, valueMap);
   } else if (typeof valueMap === 'function') {
-    b = !!valueMap(b)
+    b = !!valueMap(b);
   } else {
-    b = !!valueMap[b]
+    b = !!valueMap[b];
   }
 
-  return !!func(a, b)
+  return !!func(a, b);
 }
 
 export function cacheWrapper(handler: Function, limit = 1000) {
-  let cache: Record<string, any> = {}
-  let count = 0
+  let cache: Record<string, any> = {};
+  let count = 0;
 
   return (arg: any) => {
-    const key = typeof arg === 'string' ? arg : JSON.stringify(arg)
+    const key = typeof arg === 'string' ? arg : JSON.stringify(arg);
 
     if (!cache[key]) {
       if (count > limit) {
-        cache = {}
-        count = 0
+        cache = {};
+        count = 0;
       }
 
-      count++
+      count++;
 
-      cache[key] = handler(arg)
+      cache[key] = handler(arg);
     }
 
-    return cache[key]
-  }
+    return cache[key];
+  };
 }
 
 /**
@@ -977,5 +977,5 @@ export function cacheWrapper(handler: Function, limit = 1000) {
  * @return {boolean}
  */
 export function hasNegativeMod(mods: (boolean | string)[]) {
-  return mods != null && !!NO_VALUES.find((val) => mods.includes(val))
+  return mods != null && !!NO_VALUES.find((val) => mods.includes(val));
 }

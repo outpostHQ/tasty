@@ -1,4 +1,4 @@
-import { Styles } from './render'
+import { Styles } from './render';
 import {
   BASE_STYLES,
   BLOCK_STYLES,
@@ -9,7 +9,7 @@ import {
   OUTER_STYLES,
   POSITION_STYLES,
   TEXT_STYLES,
-} from '../styles/list'
+} from '../styles/list';
 
 export type BaseStyleProps = Pick<Styles, typeof BASE_STYLES[number]>;
 export type PositionStyleProps = Pick<Styles, typeof POSITION_STYLES[number]>;

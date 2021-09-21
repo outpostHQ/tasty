@@ -1,4 +1,4 @@
-import { isNoValue } from '../utils/styles'
+import { isNoValue } from '../utils/styles';
 
 const MAP = {
   move: ['transform'],
@@ -21,40 +21,40 @@ const MAP = {
   gap: ['gap', 'margin'],
   zIndex: ['z-index'],
   image: ['background-image', 'background-position', 'background-size'],
-}
+};
 
-export const DEFAULT_TIMING = 'var(--transition)'
-const DEFAULT_EASING = 'linear'
+export const DEFAULT_TIMING = 'var(--transition)';
+const DEFAULT_EASING = 'linear';
 
 function getTiming(name) {
-  return `var(--${name}-transition, var(--transition))`
+  return `var(--${name}-transition, var(--transition))`;
 }
 
-const TRANSITION_REGEXP = /([.0-9ms]+)|([a-z0-9-]+\(.+?\))|([a-z0-9-]+)|(,)/gi
+const TRANSITION_REGEXP = /([.0-9ms]+)|([a-z0-9-]+\(.+?\))|([a-z0-9-]+)|(,)/gi;
 
 export function transitionStyle({ transition }) {
-  if (transition == null || isNoValue(transition)) return
+  if (transition == null || isNoValue(transition)) return;
 
-  const tokens = transition.match(TRANSITION_REGEXP)
+  const tokens = transition.match(TRANSITION_REGEXP);
 
-  if (!tokens) return
+  if (!tokens) return;
 
-  let tempTransition = ''
-  const transitions: string[] = []
+  let tempTransition = '';
+  const transitions: string[] = [];
 
   tokens.forEach((token) => {
     if (token === ',') {
       if (tempTransition) {
-        transitions.push(tempTransition)
-        tempTransition = ''
+        transitions.push(tempTransition);
+        tempTransition = '';
       }
     } else {
-      tempTransition += ` ${token}`
+      tempTransition += ` ${token}`;
     }
-  })
+  });
 
   if (tempTransition) {
-    transitions.push(tempTransition)
+    transitions.push(tempTransition);
   }
 
   const map: {
@@ -62,32 +62,32 @@ export function transitionStyle({ transition }) {
 		easing?: string;
 		timing?: string;
 		delay?: string;
-	} = {}
+	} = {};
 
   transitions.forEach((transition) => {
-    const temp = transition.match(TRANSITION_REGEXP)
+    const temp = transition.match(TRANSITION_REGEXP);
 
-    if (!temp) return
+    if (!temp) return;
 
-    const name = temp[0]
-    const timing = temp[1]
-    const easing = temp[2]
-    const delay = temp[3]
+    const name = temp[0];
+    const timing = temp[1];
+    const easing = temp[2];
+    const delay = temp[3];
 
-    const styles = MAP[name] || [name]
+    const styles = MAP[name] || [name];
 
     styles.forEach((style) => {
-      map[style] = [name, easing, timing, delay]
-    })
-  })
+      map[style] = [name, easing, timing, delay];
+    });
+  });
 
   const result = Object.entries(map)
     .map(([style, [name, easing, timing, delay]]) => {
-      return `${style}  ${timing || getTiming(name)} ${easing || DEFAULT_EASING} ${delay || '0s'}`
+      return `${style}  ${timing || getTiming(name)} ${easing || DEFAULT_EASING} ${delay || '0s'}`;
     })
-    .join(', ')
+    .join(', ');
 
-  return { transition: result }
+  return { transition: result };
 }
 
-transitionStyle.__lookupStyles = ['transition']
+transitionStyle.__lookupStyles = ['transition'];

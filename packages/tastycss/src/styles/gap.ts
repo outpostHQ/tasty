@@ -1,33 +1,33 @@
-import { parseStyle } from '../utils/styles'
+import { parseStyle } from '../utils/styles';
 
 export function gapStyle({ display, flow, gap }) {
-  if (!gap) return ''
+  if (!gap) return '';
 
-  const isGrid = display.includes('grid')
-  const isFlex = display.includes('flex')
-  const isWrap = flow ? flow.includes('wrap') && !flow.includes('nowrap') : false
+  const isGrid = display.includes('grid');
+  const isFlex = display.includes('flex');
+  const isWrap = flow ? flow.includes('wrap') && !flow.includes('nowrap') : false;
 
   if (!isGrid && flow == null) {
-    flow = isFlex ? 'row' : 'column'
+    flow = isFlex ? 'row' : 'column';
   }
 
   if (typeof gap === 'number') {
-    gap = `${gap}px`
+    gap = `${gap}px`;
   }
 
   if (!gap) {
-    return
+    return;
   }
 
   if (gap === true) {
-    gap = '1.5x'
+    gap = '1.5x';
   }
 
-  const { values } = parseStyle(gap)
+  const { values } = parseStyle(gap);
 
-  gap = values.join(' ')
+  gap = values.join(' ');
 
-  const gapDir = gap && !isGrid ? (flow.includes('row') ? 'right' : 'bottom') : ''
+  const gapDir = gap && !isGrid ? (flow.includes('row') ? 'right' : 'bottom') : '';
 
   return gap
     ? isGrid
@@ -48,7 +48,7 @@ export function gapStyle({ display, flow, gap }) {
           $: '& > *:not(:last-child)',
           [`margin-${gapDir}`]: gap,
 			  }
-    : ''
+    : '';
 }
 
-gapStyle.__lookupStyles = ['display', 'flow', 'gap']
+gapStyle.__lookupStyles = ['display', 'flow', 'gap'];

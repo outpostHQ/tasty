@@ -1,4 +1,4 @@
-export const BASE_STYLES = ['display', 'size', 'font'] as const
+export const BASE_STYLES = ['display', 'size', 'font'] as const;
 
 export const POSITION_STYLES = [
   'gridArea',
@@ -10,7 +10,7 @@ export const POSITION_STYLES = [
   'placeSelf',
   'zIndex',
   'margin',
-] as const
+] as const;
 
 export const BLOCK_STYLES = [
   'reset',
@@ -23,13 +23,13 @@ export const BLOCK_STYLES = [
   'styledScrollbar',
   'hide',
   'outline',
-] as const
+] as const;
 
-export const COLOR_STYLES = ['color', 'fill'] as const
+export const COLOR_STYLES = ['color', 'fill'] as const;
 
-export const TEXT_STYLES = ['textAlign', 'textTransform', 'fontWeight', 'fontStyle'] as const
+export const TEXT_STYLES = ['textAlign', 'textTransform', 'fontWeight', 'fontStyle'] as const;
 
-export const DIMENSION_STYLES = ['width', 'height', 'flexBasis'] as const
+export const DIMENSION_STYLES = ['width', 'height', 'flexBasis'] as const;
 
 export const FLOW_STYLES = [
   'flow',
@@ -44,7 +44,7 @@ export const FLOW_STYLES = [
   'gridRows',
   'gridTemplate',
   'gridAreas',
-] as const
+] as const;
 
 export const CONTAINER_STYLES = [
   ...BASE_STYLES,
@@ -53,6 +53,6 @@ export const CONTAINER_STYLES = [
   ...POSITION_STYLES,
   ...BLOCK_STYLES,
   ...FLOW_STYLES,
-] as const
+] as const;
 
-export const OUTER_STYLES = [...POSITION_STYLES, ...DIMENSION_STYLES] as const
+export const OUTER_STYLES = [...POSITION_STYLES, ...DIMENSION_STYLES] as const;

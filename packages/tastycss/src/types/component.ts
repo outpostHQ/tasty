@@ -1,5 +1,5 @@
-import { AllHTMLAttributes, CSSProperties, ReactNode } from 'react'
-import { Styles } from './render'
+import { AllHTMLAttributes, CSSProperties, ReactNode } from 'react';
+import { Styles } from './render';
 
 export interface BasePropsWithoutChildren extends Pick<AllHTMLAttributes<HTMLElement>, 'className' | 'role' | 'id'> {
 	/** QA ID for e2e testing **/

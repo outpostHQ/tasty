@@ -7,10 +7,7 @@
     "indent": ["error", 2],
 	"semi": [
 	  2,
-	  "never",
-	  {
-		"beforeStatementContinuationChars": "always"
-	  }
+	  "always"
 	],
 	"import/no-unresolved": 0,
 	"comma-dangle": 0,

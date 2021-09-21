@@ -1,5 +1,5 @@
-import { CSSProperties } from 'react'
-import { ResponsiveStyleValue } from '../types/render'
+import { CSSProperties } from 'react';
+import { ResponsiveStyleValue } from '../types/render';
 
 type NamedColor =
 	| 'purple'

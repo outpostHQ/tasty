@@ -1,18 +1,18 @@
-import { parseStyle } from '../utils/styles'
+import { parseStyle } from '../utils/styles';
 
 export function fillStyle({ fill }) {
-  if (!fill) return ''
+  if (!fill) return '';
 
   if (fill.startsWith('#')) {
-    fill = parseStyle(fill).color || fill
+    fill = parseStyle(fill).color || fill;
   }
 
   // lgtm [js/polynomial-redos]
-  const match = fill.match(/var\(--(.+?)-color/)
-  let name = ''
+  const match = fill.match(/var\(--(.+?)-color/);
+  let name = '';
 
   if (match) {
-    name = match[1]
+    name = match[1];
   }
 
   const styles: any[] = [
@@ -20,7 +20,7 @@ export function fillStyle({ fill }) {
       'background-color': fill,
       fill,
     },
-  ]
+  ];
 
   if (name) {
     styles.push([
@@ -29,10 +29,10 @@ export function fillStyle({ fill }) {
         '--context-fill-color': `var(--${name}-color)`,
         '--context-fill-color-rgb': `var(--${name}-color-rgb)`,
       },
-    ])
+    ]);
   }
 
-  return styles
+  return styles;
 }
 
-fillStyle.__lookupStyles = ['fill']
+fillStyle.__lookupStyles = ['fill'];

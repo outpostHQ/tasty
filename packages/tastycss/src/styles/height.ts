@@ -1,9 +1,9 @@
-import { dimensionStyle } from './dimension'
+import { dimensionStyle } from './dimension';
 
-const dimension = dimensionStyle('height')
+const dimension = dimensionStyle('height');
 
 export function heightStyle({ height }) {
-  return dimension(height)
+  return dimension(height);
 }
 
-heightStyle.__lookupStyles = ['height']
+heightStyle.__lookupStyles = ['height'];

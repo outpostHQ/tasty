@@ -1,29 +1,29 @@
-import { parseStyle, DIRECTIONS, filterMods } from '../utils/styles'
+import { parseStyle, DIRECTIONS, filterMods } from '../utils/styles';
 
 export function marginStyle({ margin }) {
   if (typeof margin === 'number') {
-    margin = `${margin}px`
+    margin = `${margin}px`;
   }
 
-  if (!margin) return ''
+  if (!margin) return '';
 
-  if (margin === true) margin = '1x'
+  if (margin === true) margin = '1x';
 
-  const { values, mods } = parseStyle(margin)
+  const { values, mods } = parseStyle(margin);
 
-  const directions = filterMods(mods, DIRECTIONS)
+  const directions = filterMods(mods, DIRECTIONS);
 
   if (!directions.length) {
-    return { margin: values.join(' ') }
+    return { margin: values.join(' ') };
   }
 
   return directions.reduce((styles, dir) => {
-    const index = DIRECTIONS.indexOf(dir)
+    const index = DIRECTIONS.indexOf(dir);
 
-    styles[`margin-${dir}`] = values[index] || values[index % 2] || values[0]
+    styles[`margin-${dir}`] = values[index] || values[index % 2] || values[0];
 
-    return styles
-  }, {})
+    return styles;
+  }, {});
 }
 
-marginStyle.__lookupStyles = ['margin']
+marginStyle.__lookupStyles = ['margin'];

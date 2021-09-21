@@ -1,4 +1,4 @@
-import '../styles/predefined'
+import '../styles/predefined';
 
-export { renderStyles } from './renderStyles'
-export { defineCustomStyle, defineStyleAlias, createStyle } from '../styles'
+export { renderStyles } from './renderStyles';
+export { defineCustomStyle, defineStyleAlias, createStyle } from '../styles';

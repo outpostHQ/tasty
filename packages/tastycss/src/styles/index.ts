@@ -1,104 +1,104 @@
-import { RawStyleHandler, StyleHandler } from '../types/render'
+import { RawStyleHandler, StyleHandler } from '../types/render';
 import {
   getRgbValuesFromRgbaString,
   parseColor,
   parseStyle,
   strToRgb,
   styleHandlerCacheWrapper,
-} from '../utils/styles'
-import { toSnakeCase } from '../utils/toSnakeCase'
+} from '../utils/styles';
+import { toSnakeCase } from '../utils/toSnakeCase';
 
-const CACHE = {}
+const CACHE = {};
 
 export function createStyle(styleName: string, cssStyle?: string, converter?: Function) {
   if (!CACHE[styleName]) {
     CACHE[styleName] = styleHandlerCacheWrapper((styleMap) => {
-      let styleValue = styleMap[styleName]
+      let styleValue = styleMap[styleName];
 
-      if (!styleValue) return
+      if (styleValue == null || styleValue === false) return;
 
-      const finalCssStyle = cssStyle || toSnakeCase(styleName).replace(/^@/, '--')
+      const finalCssStyle = cssStyle || toSnakeCase(styleName).replace(/^@/, '--');
 
       // convert non-string values
       if (converter && typeof styleValue !== 'string') {
-        styleValue = converter(styleValue)
+        styleValue = converter(styleValue);
 
-        if (!styleValue) return
+        if (!styleValue) return;
       }
 
       if (typeof styleValue === 'string' && finalCssStyle.startsWith('--') && finalCssStyle.endsWith('-color')) {
-        styleValue = styleValue.trim()
+        styleValue = styleValue.trim();
 
-        const rgba = strToRgb(styleValue)
+        const rgba = strToRgb(styleValue);
 
-        const { color, name } = parseColor(styleValue)
+        const { color, name } = parseColor(styleValue);
 
         if (name && rgba) {
           return {
             [finalCssStyle]: `var(--${name}-color, ${rgba})`,
             [`${finalCssStyle}-rgb`]: `var(--${name}-color-rgb, ${getRgbValuesFromRgbaString(rgba).join(', ')})`,
-          }
+          };
         } else if (name) {
           return {
             [finalCssStyle]: `var(--${name}-color)`,
             [`${finalCssStyle}-rgb`]: `var(--${name}-color-rgb)`,
-          }
+          };
         } else if (rgba) {
           return {
             [finalCssStyle]: rgba,
             [`${finalCssStyle}-rgb`]: getRgbValuesFromRgbaString(rgba).join(', '),
-          }
+          };
         }
 
         return {
           [finalCssStyle]: color,
-        }
+        };
       }
 
-      const { value } = parseStyle(styleValue, 1)
+      const { value } = parseStyle(styleValue, 1);
 
-      return { [finalCssStyle]: value }
-    })
+      return { [finalCssStyle]: value };
+    });
 
-    CACHE[styleName].__lookupStyles = [styleName]
+    CACHE[styleName].__lookupStyles = [styleName];
   }
 
-  return CACHE[styleName]
+  return CACHE[styleName];
 }
 
 type StyleHandlerMap = Record<string, StyleHandler[]>;
 
-export const STYLE_HANDLER_MAP: StyleHandlerMap = {}
+export const STYLE_HANDLER_MAP: StyleHandlerMap = {};
 
 export function defineCustomStyle(names: string[] | StyleHandler, handler?: RawStyleHandler) {
-  let handlerWithLookup: StyleHandler
+  let handlerWithLookup: StyleHandler;
 
   if (typeof names === 'function') {
-    handlerWithLookup = names
-    names = handlerWithLookup.__lookupStyles
+    handlerWithLookup = names;
+    names = handlerWithLookup.__lookupStyles;
   } else {
-    handlerWithLookup = Object.assign(handler, { __lookupStyles: names })
+    handlerWithLookup = Object.assign(handler, { __lookupStyles: names });
   }
 
-  handlerWithLookup = styleHandlerCacheWrapper(handlerWithLookup)
+  handlerWithLookup = styleHandlerCacheWrapper(handlerWithLookup);
 
   names.forEach((name) => {
     if (!STYLE_HANDLER_MAP[name]) {
-      STYLE_HANDLER_MAP[name] = []
+      STYLE_HANDLER_MAP[name] = [];
     }
 
-    STYLE_HANDLER_MAP[name].push(handlerWithLookup)
-  })
+    STYLE_HANDLER_MAP[name].push(handlerWithLookup);
+  });
 }
 
 type ConverterHandler = (s: string | boolean | number | undefined) => string | undefined;
 
 export function defineStyleAlias(styleName: string, cssStyleName?: string, converter?: ConverterHandler) {
-  const styleHandler = createStyle(styleName, cssStyleName, converter)
+  const styleHandler = createStyle(styleName, cssStyleName, converter);
 
   if (!STYLE_HANDLER_MAP[styleName]) {
-    STYLE_HANDLER_MAP[styleName] = []
+    STYLE_HANDLER_MAP[styleName] = [];
   }
 
-  STYLE_HANDLER_MAP[styleName].push(styleHandler)
+  STYLE_HANDLER_MAP[styleName].push(styleHandler);
 }

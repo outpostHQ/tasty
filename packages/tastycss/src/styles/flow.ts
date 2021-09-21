@@ -1,13 +1,13 @@
 export function flowStyle({ display, flow }) {
-  let style
+  let style;
 
   if (display.includes('grid')) {
-    style = 'grid-auto-flow'
+    style = 'grid-auto-flow';
   } else if (display.includes('flex')) {
-    style = 'flex-flow'
+    style = 'flex-flow';
   }
 
-  return style ? { [style]: flow } : null
+  return style ? { [style]: flow } : null;
 }
 
-flowStyle.__lookupStyles = ['display', 'flow']
+flowStyle.__lookupStyles = ['display', 'flow'];
