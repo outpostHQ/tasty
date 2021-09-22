@@ -1,7 +1,7 @@
-import { createContext, ReactNode, useContext } from 'react'
-import { Styles } from 'tastycss'
+import { createContext, ReactNode, useContext } from 'react';
+import { Styles } from 'tastycss';
 
-export const StyleContext = createContext<any>({})
+export const StyleContext = createContext<any>({});
 
 interface StyleProviderProps {
 	children?: ReactNode;
@@ -9,29 +9,29 @@ interface StyleProviderProps {
 }
 
 export function StyleProvider({ children, ...props }: StyleProviderProps) {
-  const styles = Object.assign({}, useContext(StyleContext))
+  const styles = Object.assign({}, useContext(StyleContext));
 
   Object.keys(props).forEach((propName) => {
     if (styles[propName]) {
-      styles[propName] = [...styles[propName], props[propName]]
+      styles[propName] = [...styles[propName], props[propName]];
     } else {
-      styles[propName] = [props[propName]]
+      styles[propName] = [props[propName]];
     }
-  })
+  });
 
   // @ts-ignore
-  return <StyleContext.Provider value={styles}>{children}</StyleContext.Provider>
+  return <StyleContext.Provider value={styles}>{children}</StyleContext.Provider>;
 }
 
 export function useContextStyles(name: string, props?: Record<string, any>): Styles {
-  const contextStyles = useContext(StyleContext)
-  const styles = {}
+  const contextStyles = useContext(StyleContext);
+  const styles = {};
 
   if (contextStyles[name]) {
     contextStyles[name].forEach((handler: Function | Styles) => {
-      Object.assign(styles, typeof handler === 'function' ? handler(props) : handler)
-    })
+      Object.assign(styles, typeof handler === 'function' ? handler(props) : handler);
+    });
   }
 
-  return styles
+  return styles;
 }

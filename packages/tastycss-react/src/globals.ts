@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle } from 'styled-components';
 
 export interface ThemeProps {
 	tokens?: Record<string, string>;
@@ -14,7 +14,7 @@ export const DEFAULT_TOKENS = {
   'border-width': '1px',
   'radius': '4px',
   'transition': '120ms',
-}
+};
 
 export const GlobalStyles = createGlobalStyle<ThemeProps>`
   html {
@@ -26,9 +26,9 @@ export const GlobalStyles = createGlobalStyle<ThemeProps>`
     ${({ tokens }) => {
     return Object.entries({ ...DEFAULT_TOKENS, ...tokens })
       .map(([key, value]) => {
-        return `--${key}: ${value};`
+        return `--${key}: ${value};`;
       })
-      .join('\n    ')
+      .join('\n    ');
   }}
   }
 
@@ -43,10 +43,10 @@ export const GlobalStyles = createGlobalStyle<ThemeProps>`
     ${({ styles }) => {
     return Object.entries(styles || {})
       .map(([key, value]) => {
-        return `${key}: ${value};`
+        return `${key}: ${value};`;
       })
-      .join('\n    ')
+      .join('\n    ');
   }}
     ${({ css }) => css || ''}
   }
-`
+`;

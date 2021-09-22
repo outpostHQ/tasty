@@ -1,7 +1,7 @@
-import { createContext, ReactNode } from 'react'
+import { createContext, ReactNode } from 'react';
 
 // Default breakpoints mirror Bootstrap defaults without md and xxl breakpoints.
-export const BreakpointsContext = createContext([1200, 992, 576])
+export const BreakpointsContext = createContext([1200, 992, 576]);
 
 interface BreakpointsProviderProps {
 	value: number[];
@@ -9,5 +9,5 @@ interface BreakpointsProviderProps {
 }
 
 export function BreakpointsProvider({ value, children }: BreakpointsProviderProps) {
-  return <BreakpointsContext.Provider value={value}>{children}</BreakpointsContext.Provider>
+  return <BreakpointsContext.Provider value={value}>{children}</BreakpointsContext.Provider>;
 }
