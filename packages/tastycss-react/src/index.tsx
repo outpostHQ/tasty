@@ -29,7 +29,17 @@ const Element = (allProps: AllBaseProps, ref) => {
     Object.assign(props, modAttrs(mods));
   }
 
-  return <CSSElement as={as} data-qa={qa} data-qaval={qaVal} {...props} ref={ref} css={css} />;
+  return (
+    <CSSElement
+      // @ts-ignore
+      as={as}
+      data-qa={qa}
+      data-qaval={qaVal}
+      {...props}
+      ref={ref}
+      css={css}
+    />
+  );
 };
 
 /**

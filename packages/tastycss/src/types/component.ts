@@ -35,7 +35,7 @@ export interface BaseProps extends BasePropsWithoutChildren {
 export interface AllBaseProps<K extends keyof HTMLElementTagNameMap = 'div'>
 	extends BaseProps,
 		Omit<AllHTMLAttributes<HTMLElementTagNameMap[K]>, 'style'> {
-	as?: string | undefined;
+	as?: string;
 }
 
 export interface Props {
