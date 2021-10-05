@@ -1,4 +1,4 @@
-export const BASE_STYLES = ['display', 'size', 'font'] as const;
+export const BASE_STYLES = ['display', 'size', 'font', 'preset'] as const;
 
 export const POSITION_STYLES = [
   'gridArea',
@@ -23,6 +23,7 @@ export const BLOCK_STYLES = [
   'styledScrollbar',
   'hide',
   'outline',
+  'textAlign',
 ] as const;
 
 export const COLOR_STYLES = ['color', 'fill'] as const;
