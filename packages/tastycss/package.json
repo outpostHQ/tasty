@@ -1,7 +1,7 @@
 {
   "$schema": "../../.vscode/package.schema.json",
   "name": "tastycss",
-  "version": "0.2.4",
+  "version": "0.3.0",
   "type": "module",
   "main": "dist/cjs/index.js",
   "module": "dist/mjs/index.js",
