@@ -13,8 +13,6 @@
     "prepare": "git update-index skip-worktree -- .yarn"
   },
   "devDependencies": {
-    "@changesets/changelog-github": "^0.4.1",
-    "@changesets/cli": "^2.17.0",
     "lerna": "^4.0.0",
     "prettier": "^2.4.1"
   }
