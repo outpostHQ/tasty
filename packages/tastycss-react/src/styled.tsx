@@ -55,8 +55,7 @@ export function styled<T extends string>(options: StyledProps<T>) {
 
   if (name) {
     return forwardRef((allProps: AllBasePropsWithMods<T>, ref) => {
-      let { as, styles, breakpoints, mods, qa, qaVal, css, ...props }
-        = allProps;
+      let { as, styles, breakpoints, mods, qa, qaVal, css, ...props } = allProps;
 
       // @ts-ignore
       const contextStyles = useContextStyles(name, props);
@@ -65,54 +64,29 @@ export function styled<T extends string>(options: StyledProps<T>) {
       const contextBreakpoints = useContext(BreakpointsContext);
       const zones = pointsToZones(breakpoints || contextBreakpoints);
 
-      css = `${defaultCSS || ''}${css || ''}${
-        allStyles ? renderStyles(allStyles, zones) : ''
-      }`;
+      css = `${defaultCSS || ''}${css || ''}${allStyles ? renderStyles(allStyles, zones) : ''}`;
 
       if (mods) {
         Object.assign(props, modAttrs(mods));
       }
 
-      return (
-        <Element
-          as={as || tag}
-          data-qa={qa}
-          data-qaval={qaVal}
-          {...attrs}
-          {...props}
-          ref={ref}
-          theme={{ css }}
-        />
-      );
+      return <Element as={as || tag} data-qa={qa} data-qaval={qaVal} {...attrs} {...props} ref={ref} theme={{ css }} />;
     });
   } else {
     return forwardRef((allProps: AllBasePropsWithMods<T>, ref) => {
-      let { as, styles, breakpoints, mods, qa, qaVal, css, ...props }
-        = allProps;
+      let { as, styles, breakpoints, mods, qa, qaVal, css, ...props } = allProps;
 
       const allStyles: Styles | undefined = combineStyles(defaultStyles, null, styles);
       const contextBreakpoints = useContext(BreakpointsContext);
       const zones = pointsToZones(breakpoints || contextBreakpoints);
 
-      css = `${defaultCSS || ''}${css || ''}${
-        allStyles ? renderStyles(allStyles, zones) : ''
-      }`;
+      css = `${defaultCSS || ''}${css || ''}${allStyles ? renderStyles(allStyles, zones) : ''}`;
 
       if (mods) {
         Object.assign(props, modAttrs(mods));
       }
 
-      return (
-        <Element
-          as={as || tag}
-          data-qa={qa}
-          data-qaval={qaVal}
-          {...attrs}
-          {...props}
-          ref={ref}
-          theme={{ css }}
-        />
-      );
+      return <Element as={as || tag} data-qa={qa} data-qaval={qaVal} {...attrs} {...props} ref={ref} theme={{ css }} />;
     });
   }
 }
