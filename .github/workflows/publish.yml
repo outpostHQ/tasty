@@ -32,8 +32,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn
             
-      - name: Install Dependencies
-        run: yarn install --frozen-lockfile && yarn bootstrap
+      - name: Installation of NPM Modules
+        run: yarn install --immutable
 
       - name: Setup CI Git User
         run: |
