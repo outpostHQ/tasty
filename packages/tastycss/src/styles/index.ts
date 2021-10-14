@@ -11,8 +11,10 @@ import { toSnakeCase } from '../utils/toSnakeCase';
 const CACHE = {};
 
 export function createStyle(styleName: string, cssStyle?: string, converter?: Function) {
-  if (!CACHE[styleName]) {
-    CACHE[styleName] = styleHandlerCacheWrapper((styleMap) => {
+   const key = `${styleName}.${cssStyle || ''}`;
+
+  if (!CACHE[key]) {
+    CACHE[key] = styleHandlerCacheWrapper((styleMap) => {
       let styleValue = styleMap[styleName];
 
       if (styleValue == null || styleValue === false) return;
@@ -60,10 +62,10 @@ export function createStyle(styleName: string, cssStyle?: string, converter?: Fu
       return { [finalCssStyle]: value };
     });
 
-    CACHE[styleName].__lookupStyles = [styleName];
+    CACHE[key].__lookupStyles = [styleName];
   }
 
-  return CACHE[styleName];
+  return CACHE[key];
 }
 
 type StyleHandlerMap = Record<string, StyleHandler[]>;

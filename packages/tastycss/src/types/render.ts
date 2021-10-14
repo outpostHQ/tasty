@@ -16,7 +16,7 @@ export type ComputeModel = string | number;
 
 export type CSSMap = { $?: string } & { [key: string]: string | string[] };
 
-export type RawStyleHandler = (value: StyleValueStateMap) => CSSMap | CSSMap[] | void;
+export type RawStyleHandler = (value: StyleValueStateMap, suffix?: string) => CSSMap | CSSMap[] | void;
 
 export type StyleHandler = RawStyleHandler & {
 	__lookupStyles: string[];

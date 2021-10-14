@@ -134,8 +134,14 @@ export interface StylesInterface extends Omit<CSSProperties, 'color' | 'fill' | 
 	outline?: CSSProperties['fontFamily'] | boolean;
 }
 
-export type Styles = {
-	[key in keyof StylesInterface]?: ResponsiveStyleValue<StylesInterface[key]>;
-} & {
-	[key: string]: ResponsiveStyleValue<string | number | boolean | undefined>;
-};
+export type SuffixSelector = `&${string}`;
+export type NotSuffixSelector = Exclude<string, SuffixSelector>;
+
+export type StylesWithoutSelectors = {
+  [key in keyof StylesInterface]?: ResponsiveStyleValue<StylesInterface[key]>;
+} & Record<
+  NotSuffixSelector,
+  ResponsiveStyleValue<string | number | boolean | undefined>
+>;
+export type Styles = StylesWithoutSelectors
+  & Record<SuffixSelector, StylesWithoutSelectors>;
