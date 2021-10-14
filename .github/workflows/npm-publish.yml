@@ -17,8 +17,6 @@ jobs:
         run: yarn install
       - name: Build
         run: yarn build
-      - name: Link
-        run: yarn link:yarn
       - name: Test
         run: yarn test
   publish:
