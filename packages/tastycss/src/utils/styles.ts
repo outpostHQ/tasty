@@ -12,9 +12,6 @@ import {
 } from '../types/render';
 import { CUSTOM_UNITS } from '../units';
 
-export const NO_VALUES = [false, 'n', 'no', 'false'];
-export const YES_VALUES = [true, 'y', 'yes', 'true'];
-
 const devMode = process.env.NODE_ENV !== 'production';
 
 export const DIRECTIONS = ['top', 'right', 'bottom', 'left'];
@@ -347,7 +344,7 @@ export function parseColor(val, ignoreError = false) {
 
   if (!name) {
     if (!ignoreError && devMode) {
-      console.warn('incorrect color value:', val);
+      console.warn('TastyCSS: incorrect color value:', val);
     }
 
     return {};
@@ -469,15 +466,6 @@ export function customUnit(value, unit) {
  */
 export function isNoValue(value) {
   return !value && value !== 0;
-}
-
-/**
- * Check for "yes" value.
- * @param {string} value - original attribute value.
- * @return {boolean}
- */
-export function isYesValue(value) {
-  return YES_VALUES && YES_VALUES.includes(value);
 }
 
 export function extendStyles(defaultStyles, newStyles) {
@@ -607,7 +595,7 @@ export function renderStylesToSC(styles: CSSMap | CSSMap[], selector = '') {
  */
 export function applyStates(selector: string, states) {
   return states.reduce((css, state) => {
-    if (!state.value) return '';
+    if (!state.value) return css;
 
     const modifiers = `${(state.mods || []).map(getModSelector).join('')}${(state.notMods || [])
       .map((mod) => `:not(${getModSelector(mod)})`)
@@ -622,14 +610,14 @@ export function styleHandlerCacheWrapper(styleHandler, limit = 1000) {
     return renderStylesToSC(styleHandler(styleMap));
   }, limit);
 
-  const wrappedMapHandler = cacheWrapper((styleMap) => {
+  const wrappedMapHandler = cacheWrapper((styleMap, selector) => {
     if (styleMap == null || styleMap === false) return null;
 
     const stateMapList = styleMapToStyleMapStateList(styleMap);
 
     replaceStateValues(stateMapList, wrappedStyleHandler);
 
-    return applyStates('&&', stateMapList);
+    return applyStates(selector ? `&&${selector}` : '&&', stateMapList);
   }, limit);
 
   return Object.assign(wrappedMapHandler, {
@@ -969,13 +957,4 @@ export function cacheWrapper(handler: Function, limit = 1000) {
 
     return cache[key];
   };
-}
-
-/**
- * Check for "no" value in modifiers.
- * @param mods {Array<String>} - original attribute value.
- * @return {boolean}
- */
-export function hasNegativeMod(mods: (boolean | string)[]) {
-  return mods != null && !!NO_VALUES.find((val) => mods.includes(val));
 }

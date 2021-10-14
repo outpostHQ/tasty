@@ -1,5 +1,5 @@
 import { mediaWrapper, normalizeStyleZones } from '../utils/responsive';
-import { StyleHandler, StyleMap, Styles } from '../types/render';
+import { StyleHandler, StyleMap, Styles, StyleValueStateMap } from '../types/render';
 import { createStyle, STYLE_HANDLER_MAP } from '../styles';
 
 type HandlerQueueItem = {
@@ -23,7 +23,7 @@ const CACHE_LIMIT = 1000;
  * @param responsive - A list of responsive zones
  * @return {string}
  */
-export function renderStyles(styles: Styles, responsive: number[]) {
+export function renderStyles<K extends Styles>(styles: K, responsive: number[]) {
   const zones = responsive;
   const responsiveStyles = Array.from(Array(zones.length)).map(() => '');
   const cacheKey = JSON.stringify({ s: styles, r: responsive });
@@ -99,8 +99,7 @@ export function renderStyles(styles: Styles, responsive: number[]) {
           responsiveStyles[i] += rules || '';
         });
       } else {
-        // @ts-ignore
-        rawStyles += handler(styleMap) || '';
+        rawStyles += handler(styleMap as StyleValueStateMap<string>) || '';
       }
     });
 

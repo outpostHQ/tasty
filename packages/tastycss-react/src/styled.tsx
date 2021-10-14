@@ -34,45 +34,85 @@ export type AllBasePropsWithMods<T extends string> = Omit<AllBaseProps, 'mods'> 
 	mods?: Record<T, boolean | null | undefined>;
 };
 
+function combineStyles(defaultStyles, contextStyles, styles) {
+  if (!defaultStyles && !contextStyles && !styles) return;
+
+  // if only a single object provided
+  if ((defaultStyles || contextStyles || styles) === (styles || contextStyles || defaultStyles)) {
+    return defaultStyles || contextStyles || styles;
+  }
+
+  return {
+    ...defaultStyles,
+    ...contextStyles,
+    ...styles,
+  };
+}
+
 export function styled<T extends string>(options: StyledProps<T>) {
   let { name, tag, styles: defaultStyles, css: defaultCSS, attrs } = options;
   let Element = styledComponents[tag || 'div'](({ theme }) => theme.css);
 
   if (name) {
     return forwardRef((allProps: AllBasePropsWithMods<T>, ref) => {
-      let { as, styles, breakpoints, mods, qa, qaVal, css, ...props } = allProps;
+      let { as, styles, breakpoints, mods, qa, qaVal, css, ...props }
+        = allProps;
 
       // @ts-ignore
       const contextStyles = useContextStyles(name, props);
-      const allStyles: Styles | undefined
-				= defaultStyles || contextStyles ? { ...defaultStyles, ...contextStyles, ...styles } : styles;
+      const allStyles: Styles | undefined = combineStyles(defaultStyles, contextStyles, styles);
+
       const contextBreakpoints = useContext(BreakpointsContext);
       const zones = pointsToZones(breakpoints || contextBreakpoints);
 
-      css = `${defaultCSS || ''}${css || ''}${allStyles ? renderStyles(allStyles, zones) : ''}`;
+      css = `${defaultCSS || ''}${css || ''}${
+        allStyles ? renderStyles(allStyles, zones) : ''
+      }`;
 
       if (mods) {
         Object.assign(props, modAttrs(mods));
       }
 
-      return <Element as={as || tag} data-qa={qa} data-qaval={qaVal} {...attrs} {...props} ref={ref} theme={{ css }} />;
+      return (
+        <Element
+          as={as || tag}
+          data-qa={qa}
+          data-qaval={qaVal}
+          {...attrs}
+          {...props}
+          ref={ref}
+          theme={{ css }}
+        />
+      );
     });
   } else {
     return forwardRef((allProps: AllBasePropsWithMods<T>, ref) => {
-      let { as, styles, breakpoints, mods, qa, qaVal, css, ...props } = allProps;
+      let { as, styles, breakpoints, mods, qa, qaVal, css, ...props }
+        = allProps;
 
-      const allStyles: Styles | undefined = defaultStyles ? { ...defaultStyles, ...styles } : styles;
-
+      const allStyles: Styles | undefined = combineStyles(defaultStyles, null, styles);
       const contextBreakpoints = useContext(BreakpointsContext);
       const zones = pointsToZones(breakpoints || contextBreakpoints);
 
-      css = `${defaultCSS || ''}${css || ''}${allStyles ? renderStyles(allStyles, zones) : ''}`;
+      css = `${defaultCSS || ''}${css || ''}${
+        allStyles ? renderStyles(allStyles, zones) : ''
+      }`;
 
       if (mods) {
         Object.assign(props, modAttrs(mods));
       }
 
-      return <Element as={as || tag} data-qa={qa} data-qaval={qaVal} {...attrs} {...props} ref={ref} theme={{ css }} />;
+      return (
+        <Element
+          as={as || tag}
+          data-qa={qa}
+          data-qaval={qaVal}
+          {...attrs}
+          {...props}
+          ref={ref}
+          theme={{ css }}
+        />
+      );
     });
   }
 }
