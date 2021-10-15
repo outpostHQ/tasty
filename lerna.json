@@ -1,6 +1,13 @@
 {
-  "packages": [
-    "packages/*"
-  ],
-  "version": "0.4.1"
+  "lerna": "4.0.0",
+  "version": "0.4.1",
+  "packages": "packages/*",
+  "npmClient": "yarn",
+  "useWorkspaces": true,
+  "command": {
+    "publish": {
+      "conventionalCommits": true,
+      "yes": true
+    }
+  }
 }
