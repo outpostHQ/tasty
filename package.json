@@ -11,7 +11,7 @@
     "fix": "prettier --write \"packages/*/src/**/*.{js,jsx,ts,tsx}\" && eslint --fix --cache packages/*/src --ext .js,.ts,.jsx,.tsx",
     "release": "lerna publish from-git",
     "prepare": "git update-index skip-worktree -- .yarn",
-    "publish:all": "lerna publish",
+    "publish:all": "lerna publish --no-verify-access",
     "publish:beta": "lerna publish --ignore-prepublish --ignore-scripts --canary --preid beta --dist-tag beta",
     "publish:dev": "run-s build:dev publish:beta"
   },
