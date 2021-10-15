@@ -12171,14 +12171,7 @@ resolve@^2.0.0-next.3:
   languageName: unknown
   linkType: soft
 
-"tastycss@npm:^0.4.0":
-  version: 0.4.0
-  resolution: "tastycss@npm:0.4.0"
-  checksum: 3049f490b2e1b3ddeaa8bb2875a1132f24073ca1fe5a51cb571c2a675651585f9dd60fba8eebcb2b5c54feed25368acae6ca1a2eab13fe665eeaec90810f0dcc
-  languageName: node
-  linkType: hard
-
-"tastycss@workspace:packages/tastycss":
+"tastycss@^0.4.0, tastycss@workspace:packages/tastycss":
   version: 0.0.0-use.local
   resolution: "tastycss@workspace:packages/tastycss"
   dependencies:
