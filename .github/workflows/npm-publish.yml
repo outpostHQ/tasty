@@ -13,6 +13,8 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+          cache: 'yarn'
+          cache-dependency-path: .yarn/cache
       - name: Install
         run: yarn install
       - name: Build
