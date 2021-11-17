@@ -1,5 +1,5 @@
 export function fontStyle({ font }) {
-  if (font == null || font === false) return null;
+  if (font === null || font === false) return null;
 
   return {
     'font-family':

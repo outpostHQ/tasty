@@ -33,7 +33,7 @@ function getTiming(name) {
 const TRANSITION_REGEXP = /([.0-9ms]+)|([a-z0-9-]+\(.+?\))|([a-z0-9-]+)|(,)/gi;
 
 export function transitionStyle({ transition }) {
-  if (transition == null || isNoValue(transition)) return;
+  if (transition === null || isNoValue(transition)) return;
 
   const tokens = transition.match(TRANSITION_REGEXP);
 

@@ -29,7 +29,7 @@ const ATTR_CACHE_MODE_MAP = [ATTR_CACHE_AUTOCALC, ATTR_CACHE, ATTR_CACHE_IGNORE_
 const PREPARE_REGEXP = /calc\((\d*)\)/gi;
 
 export function createRule(prop, value, selector) {
-  if (value == null) return '';
+  if (value === null) return '';
 
   if (selector) {
     return `${selector} { ${prop}: ${value}; }\n`;
@@ -314,7 +314,7 @@ export function parseColor(val, ignoreError = false) {
     return {
       color,
       name,
-      opacity: opacity != null ? opacity : 100,
+      opacity: opacity !== null ? opacity : 100,
     };
   }
 
@@ -485,7 +485,7 @@ export function extendStyles(defaultStyles, newStyles) {
 
   if (newStyles) {
     Object.keys(newStyles).forEach((key) => {
-      if (newStyles[key] != null) {
+      if (newStyles[key] !== null) {
         styles[key] = newStyles[key];
       }
     });
@@ -522,7 +522,7 @@ export function extractStyles(
       // do nothing
     } else if (styleList.includes(propName)) {
       // If value is not nullish then map it to the styles
-      if (value != null && value !== false) {
+      if (value !== null && value !== false) {
         styles[propName] = value;
         // If value is nullish then erase the default value of the style
       } else if (propName in styles) {
@@ -616,7 +616,7 @@ export function styleHandlerCacheWrapper(styleHandler, limit = 1000) {
   }, limit);
 
   const wrappedMapHandler = cacheWrapper((styleMap, suffix) => {
-    if (styleMap == null || styleMap === false) return null;
+    if (styleMap === null || styleMap === false) return null;
 
     const stateMapList = styleMapToStyleMapStateList(styleMap);
 

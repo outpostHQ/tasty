@@ -7,7 +7,7 @@ export function gapStyle({ display, flow, gap }) {
   const isFlex = display.includes('flex');
   const isWrap = flow ? flow.includes('wrap') && !flow.includes('nowrap') : false;
 
-  if (!isGrid && flow == null) {
+  if (!isGrid && flow === null) {
     flow = isFlex ? 'row' : 'column';
   }
 

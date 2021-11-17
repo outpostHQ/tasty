@@ -58,7 +58,7 @@ export function pointsToZones(points: number[]) {
 }
 
 export function normalizeStyleZones(value: ResponsiveStyleValue, zoneNumber: number) {
-  if (value == null) return value;
+  if (value === null) return value;
 
   const arr = Array.from(Array(zoneNumber));
 
@@ -68,7 +68,7 @@ export function normalizeStyleZones(value: ResponsiveStyleValue, zoneNumber: num
     let prevValue = null;
 
     for (let i = 0; i < arr.length; i++) {
-      arr[i] = value[i] == null ? prevValue : value[i];
+      arr[i] = value[i] === null ? prevValue : value[i];
 
       prevValue = arr[i];
     }

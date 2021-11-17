@@ -17,7 +17,7 @@ export function createStyle(styleName: string, cssStyle?: string, converter?: Fu
     CACHE[key] = styleHandlerCacheWrapper((styleMap) => {
       let styleValue = styleMap[styleName];
 
-      if (styleValue == null || styleValue === false) return;
+      if (styleValue === null || styleValue === false) return;
 
       const finalCssStyle = cssStyle || toSnakeCase(styleName).replace(/^@/, '--');
 

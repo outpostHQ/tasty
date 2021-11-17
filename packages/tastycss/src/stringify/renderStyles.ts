@@ -105,7 +105,7 @@ export function renderStyles<K extends Styles>(styles: K, responsive: number[], 
           const pointProps = {};
 
           lookupStyles.forEach((style) => {
-            if (valueMap != null && valueMap[style] != null) {
+            if (valueMap !== null && valueMap[style] !== null) {
               pointProps[style] = valueMap[style][i];
             }
           });
