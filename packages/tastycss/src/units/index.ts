@@ -7,6 +7,6 @@ export const CUSTOM_UNITS = {
 
 type UnitHandler = (units: number) => string;
 
-export function defineCustomUnit(name: string, value: string | UnitHandler) {
+export function defineCustomUnit(name: string, value: string | UnitHandler): void  {
   CUSTOM_UNITS[name] = value;
 }

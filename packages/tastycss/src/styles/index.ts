@@ -72,7 +72,7 @@ type StyleHandlerMap = Record<string, StyleHandler[]>;
 
 export const STYLE_HANDLER_MAP: StyleHandlerMap = {};
 
-export function defineCustomStyle(names: string[] | StyleHandler, handler?: RawStyleHandler) {
+export function defineCustomStyle(names: string[] | StyleHandler, handler?: RawStyleHandler): void  {
   let handlerWithLookup: StyleHandler;
 
   if (typeof names === 'function') {
@@ -95,7 +95,7 @@ export function defineCustomStyle(names: string[] | StyleHandler, handler?: RawS
 
 type ConverterHandler = (s: string | boolean | number | undefined) => string | undefined;
 
-export function defineStyleAlias(styleName: string, cssStyleName?: string, converter?: ConverterHandler) {
+export function defineStyleAlias(styleName: string, cssStyleName?: string, converter?: ConverterHandler): void  {
   const styleHandler = createStyle(styleName, cssStyleName, converter);
 
   if (!STYLE_HANDLER_MAP[styleName]) {

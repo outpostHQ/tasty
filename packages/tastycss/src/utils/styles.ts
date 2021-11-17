@@ -28,7 +28,7 @@ const MAX_CACHE = 10000;
 const ATTR_CACHE_MODE_MAP = [ATTR_CACHE_AUTOCALC, ATTR_CACHE, ATTR_CACHE_IGNORE_COLOR];
 const PREPARE_REGEXP = /calc\((\d*)\)/gi;
 
-export function createRule(prop, value, selector) {
+export function createRule(prop, value, selector): string  {
   if (value == null) return '';
 
   if (selector) {
@@ -379,7 +379,7 @@ export function rgbColorProp(
   opacity: number,
   fallbackColorName?: Function,
   fallbackValue?: Function,
-) {
+): string  {
   const fallbackValuePart = fallbackValue ? `, ${fallbackValue}` : '';
 
   return `rgba(var(--${colorName}-color-rgb${
@@ -387,7 +387,7 @@ export function rgbColorProp(
   }), ${opacity})`;
 }
 
-export function colorProp(colorName, fallbackColorName, fallbackValue) {
+export function colorProp(colorName, fallbackColorName, fallbackValue): string  {
   const fallbackValuePart = fallbackValue ? `, ${fallbackValue}` : '';
 
   return `var(--${colorName}-color${
@@ -412,7 +412,7 @@ export function getRgbValuesFromRgbaString(str) {
     .slice(0, 3);
 }
 
-export function hexToRgb(hex) {
+export function hexToRgb(hex): string  {
   const rgba = hex
     .replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i, (m, r, g, b) => '#' + r + r + g + g + b + b)
     .substring(1)
@@ -432,7 +432,7 @@ export function hexToRgb(hex) {
   return null;
 }
 
-export function transferMods(mods, from, to) {
+export function transferMods(mods, from, to): void  {
   mods.forEach((mod) => {
     if (from.includes(mod)) {
       to.push(mod);
@@ -468,7 +468,7 @@ export function customUnit(value, unit) {
  * @param {string} value - original attribute value.
  * @return {boolean}
  */
-export function isNoValue(value) {
+export function isNoValue(value): boolean  {
   return !value && value !== 0;
 }
 
@@ -508,7 +508,7 @@ export function extractStyles(
   defaultStyles?: Styles,
   propMap?: { [key: string]: string },
   ignoreList: readonly string[] = [],
-) {
+): Styles  {
   const styles: Styles = {
     ...defaultStyles,
     ...props.styles,
@@ -682,7 +682,7 @@ export function getModesFromStyleStateListMap(stateListMap: StyleStateMapList): 
  * @param styleMap
  * @param filterKeys
  */
-export function styleMapToStyleMapStateList(styleMap: StyleMap, filterKeys?: string[]) {
+export function styleMapToStyleMapStateList(styleMap: StyleMap, filterKeys?: string[]): StyleStateList  {
   const keys = filterKeys || Object.keys(styleMap);
 
   if (!keys.length) return [];

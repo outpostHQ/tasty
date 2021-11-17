@@ -1,4 +1,5 @@
-export function displayStyle({ display, hide }) {
+export function displayStyle({ display, hide }): {display: any;
+}  {
   return { display: !hide ? display : 'none' };
 }
 

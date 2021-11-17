@@ -25,7 +25,7 @@ const CACHE_LIMIT = 1000;
  * @param {string} [suffix]
  * @return {string}
  */
-export function renderStyles<K extends Styles>(styles: K, responsive: number[], suffix?: string) {
+export function renderStyles<K extends Styles>(styles: K, responsive: number[], suffix?: string): string  {
   const zones = responsive;
   const responsiveStyles = Array.from(Array(zones.length)).map(() => '');
   const cacheKey = JSON.stringify({ s: styles, r: responsive, suffix });

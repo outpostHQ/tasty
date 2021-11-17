@@ -1,4 +1,5 @@
-export function fontStyleStyle({ fontStyle }) {
+export function fontStyleStyle({ fontStyle }): {font-style: any;
+}  {
   if (fontStyle === true) {
     fontStyle = 'italic';
   }
