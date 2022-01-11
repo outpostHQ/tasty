@@ -37,5 +37,55 @@ color:var(--blue-color);
 }
 `,
     },
+    // Element style definition
+    {
+      input: {
+        color: '#purple',
+
+        Element: {
+          color: {
+            '': '#red',
+            hovered: '#blue',
+          },
+        }
+      },
+      output: `outline: none;
+&&{
+color:var(--purple-color, rgba(0, 0, 0, 1));
+}
+outline: none;
+&&:not([data-is-hovered]) [data-element="Element"]{
+color:var(--red-color, rgba(0, 0, 0, 1));
+}
+&&[data-is-hovered] [data-element="Element"]{
+color:var(--blue-color);
+}
+`,
+    },
+    // Class style definition
+    {
+      input: {
+        color: '#purple',
+
+        '.someclass': {
+          color: {
+            '': '#red',
+            hovered: '#blue',
+          },
+        }
+      },
+      output: `outline: none;
+&&{
+color:var(--purple-color, rgba(0, 0, 0, 1));
+}
+outline: none;
+&&:not([data-is-hovered]) .someclass{
+color:var(--red-color, rgba(0, 0, 0, 1));
+}
+&&[data-is-hovered] .someclass{
+color:var(--blue-color);
+}
+`,
+    },
   ]);
 });

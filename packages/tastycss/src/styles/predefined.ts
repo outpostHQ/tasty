@@ -9,7 +9,9 @@ import { radiusStyle } from './radius';
 import { borderStyle } from './border';
 import { shadowStyle } from './shadow';
 import { paddingStyle } from './padding';
-import { sizeStyle } from './size';
+import { paddingBlockStyle } from './paddingBlock';
+import { paddingInlineStyle } from './paddingInline';
+import { presetStyle } from './preset';
 import { fontStyleStyle } from './fontStyle';
 import { marginStyle } from './margin';
 import { fontStyle } from './font';
@@ -20,6 +22,13 @@ import { boxShadowCombinator } from './boxShadow.combinator';
 import { displayStyle } from './display';
 import { defineCustomStyle, defineStyleAlias } from './index';
 
+const numberConverter = (val) => {
+  if (typeof val === 'number') {
+    return `${val}px`;
+  }
+
+  return val;
+};
 const columnsConverter = (val) => {
   if (typeof val === 'number') {
     return 'minmax(1px, 1fr) '.repeat(val).trim();
@@ -35,6 +44,25 @@ const rowsConverter = (val) => {
   return;
 };
 
+// Manually define styles that are used in other custom styles.
+// Otherwise, they won't be handled as expected.
+defineStyleAlias('fontSize');
+defineStyleAlias('lineHeight');
+defineStyleAlias('fontWeight');
+defineStyleAlias('fontStyle');
+defineStyleAlias('letterSpacing');
+defineStyleAlias('textTransform');
+defineStyleAlias('fontFamily');
+defineStyleAlias('paddingTop');
+defineStyleAlias('paddingRight');
+defineStyleAlias('paddingBottom');
+defineStyleAlias('paddingLeft');
+// Coordinates
+defineStyleAlias('top', 'top', numberConverter);
+defineStyleAlias('right', 'right', numberConverter);
+defineStyleAlias('bottom', 'bottom', numberConverter);
+defineStyleAlias('left', 'left', numberConverter);
+// Style aliases
 defineStyleAlias('gridAreas', 'grid-template-areas');
 defineStyleAlias('gridColumns', 'grid-template-columns', columnsConverter);
 defineStyleAlias('gridRows', 'grid-template-rows', rowsConverter);
@@ -46,6 +74,7 @@ defineStyleAlias('gridTemplate', 'grid-template', (val) => {
     .map((s, i) => (i ? columnsConverter : rowsConverter)(s))
     .join('/');
 });
+
 [
   displayStyle,
   transitionStyle,
@@ -61,12 +90,14 @@ defineStyleAlias('gridTemplate', 'grid-template', (val) => {
   borderStyle,
   shadowStyle,
   paddingStyle,
-  sizeStyle,
+  paddingBlockStyle,
+  paddingInlineStyle,
+  presetStyle,
   boxShadowCombinator,
   outlineStyle,
   fontStyle,
   fontStyleStyle,
   groupRadiusAttr,
 ]
-// @ts-ignore
+  // @ts-ignore
   .forEach((handler) => defineCustomStyle(handler));

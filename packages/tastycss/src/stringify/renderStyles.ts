@@ -19,11 +19,11 @@ function getSelector(key) {
   }
 
   if (key.startsWith('.')) {
-    return `& ${key}`;
+    return ` ${key}`;
   }
 
   if (key.match(/^[A-Z]/)) {
-    return `& [data-element="${key}"]`;
+    return ` [data-element="${key}"]`;
   }
 
   return null;
@@ -65,8 +65,8 @@ export function renderStyles<K extends Styles>(styles: K, responsive: number[], 
 
     const keys = Object.keys(styles);
     // @ts-ignore
-    const selectorKeys = keys.filter(
-      (key) => isSelector(key),
+    const selectorKeys = keys.filter((key) =>
+      isSelector(key),
     ) as SuffixSelector[];
 
     let innerStyles = '';

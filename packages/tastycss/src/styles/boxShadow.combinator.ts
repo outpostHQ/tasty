@@ -1,15 +1,16 @@
-import { isNoValue } from '../utils/styles';
-
 export function boxShadowCombinator(styles) {
-  const values = boxShadowCombinator.__lookupStyles.reduce((list: string[], style) => {
-    const value = styles[style];
+  const values = boxShadowCombinator.__lookupStyles.reduce(
+    (list: string[], style) => {
+      const value = styles[style];
 
-    if (!isNoValue(value)) {
-      list.push(`var(--local-${style}-box-shadow)`);
-    }
+      if (value) {
+        list.push(`var(--local-${style}-box-shadow)`);
+      }
 
-    return list;
-  }, []);
+      return list;
+    },
+    [],
+  );
 
   if (!values.length) return '';
 

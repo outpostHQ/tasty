@@ -37,7 +37,7 @@ export function dimensionStyle(name) {
 
     const styles = {
       [name]: 'auto',
-      [minStyle]: 'auto',
+      [minStyle]: 'initial',
       [maxStyle]: 'initial',
     };
 

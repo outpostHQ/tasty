@@ -467,15 +467,6 @@ export function customUnit(value, unit) {
   return `(${value} * ${converter})`;
 }
 
-/**
- * Check for "no" value.
- * @param {string} value - original attribute value.
- * @return {boolean}
- */
-export function isNoValue(value) {
-  return !value && value !== 0;
-}
-
 export function extendStyles(defaultStyles, newStyles) {
   let styles = {};
 

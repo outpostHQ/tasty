@@ -1,4 +1,4 @@
-import { isNoValue } from '../utils/styles';
+import { parseStyle } from '../utils/styles';
 
 const MAP = {
   move: ['transform'],
@@ -11,7 +11,13 @@ const MAP = {
   radius: ['border-radius'],
   shadow: ['box-shadow'],
   outline: ['box-shadow'],
-  size: ['font-size', 'line-height'],
+  preset: [
+    'font-size',
+    'line-height',
+    'letter-spacing',
+    'font-weight',
+    'font-style',
+  ],
   text: ['font-weight', 'text-decoration-color'],
   theme: ['color', 'background-color', 'box-shadow', 'border', 'border-radius'],
   inset: ['box-shadow'],
@@ -30,26 +36,24 @@ function getTiming(name) {
   return `var(--${name}-transition, var(--transition))`;
 }
 
-const TRANSITION_REGEXP = /([.0-9ms]+)|([a-z0-9-]+\(.+?\))|([a-z0-9-]+)|(,)/gi;
-
 export function transitionStyle({ transition }) {
-  if (transition == null || isNoValue(transition)) return;
+  if (!transition) return;
 
-  const tokens = transition.match(TRANSITION_REGEXP);
+  const tokens = parseStyle(transition).all;
 
   if (!tokens) return;
 
-  let tempTransition = '';
-  const transitions: string[] = [];
+  let tempTransition: string[] = [];
+  const transitions: string[][] = [];
 
   tokens.forEach((token) => {
     if (token === ',') {
       if (tempTransition) {
         transitions.push(tempTransition);
-        tempTransition = '';
+        tempTransition = [];
       }
     } else {
-      tempTransition += ` ${token}`;
+      tempTransition.push(token);
     }
   });
 
@@ -58,21 +62,17 @@ export function transitionStyle({ transition }) {
   }
 
   const map: {
-		name?: string;
-		easing?: string;
-		timing?: string;
-		delay?: string;
-	} = {};
+    name?: string;
+    easing?: string;
+    timing?: string;
+    delay?: string;
+  } = {};
 
   transitions.forEach((transition) => {
-    const temp = transition.match(TRANSITION_REGEXP);
-
-    if (!temp) return;
-
-    const name = temp[0];
-    const timing = temp[1];
-    const easing = temp[2];
-    const delay = temp[3];
+    const name = transition[0];
+    const timing = transition[1];
+    const easing = transition[2];
+    const delay = transition[3];
 
     const styles = MAP[name] || [name];
 
@@ -83,7 +83,9 @@ export function transitionStyle({ transition }) {
 
   const result = Object.entries(map)
     .map(([style, [name, easing, timing, delay]]) => {
-      return `${style}  ${timing || getTiming(name)} ${easing || DEFAULT_EASING} ${delay || '0s'}`;
+      return `${style}  ${timing || getTiming(name)} ${
+        easing || DEFAULT_EASING
+      } ${delay || '0s'}`;
     })
     .join(', ');
 
