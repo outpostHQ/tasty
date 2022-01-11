@@ -1,5 +1,5 @@
 import { AllHTMLAttributes, CSSProperties, ReactNode } from 'react';
-import { Styles } from './render';
+import { Styles } from '../styles/types';
 
 export interface BasePropsWithoutChildren extends Pick<AllHTMLAttributes<HTMLElement>, 'className' | 'role' | 'id'> {
 	/** QA ID for e2e testing **/
@@ -23,7 +23,9 @@ export interface BasePropsWithoutChildren extends Pick<AllHTMLAttributes<HTMLEle
 	/** Whether the element is disabled (`disabled` attribute is set) **/
 	isDisabled?: boolean;
 	/** Plain css for the element **/
-	css?: string;
+	css?: string | ((props: Props) => string);
+  /** The element name for using in style overriding */
+  styleName?: string;
 	/** The CSS style map */
 	style?: CSSProperties | (CSSProperties & { [key: string]: string | number | null });
 }

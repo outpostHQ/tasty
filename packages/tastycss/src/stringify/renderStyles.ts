@@ -1,7 +1,7 @@
 import { mediaWrapper, normalizeStyleZones } from '../utils/responsive';
-import { StyleHandler, StyleMap, Styles, StyleValueStateMap } from '../types/render';
+import { StyleHandler, StyleMap, StyleValueStateMap } from '../types/render';
 import { createStyle, STYLE_HANDLER_MAP } from '../styles';
-import { SuffixSelector } from '../styles/types';
+import { Styles, Selector } from '../styles/types';
 
 type HandlerQueueItem = {
 	handler: StyleHandler;
@@ -67,7 +67,7 @@ export function renderStyles<K extends Styles>(styles: K, responsive: number[], 
     // @ts-ignore
     const selectorKeys = keys.filter((key) =>
       isSelector(key),
-    ) as SuffixSelector[];
+    ) as Selector[];
 
     let innerStyles = '';
 

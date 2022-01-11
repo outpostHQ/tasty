@@ -1,9 +1,8 @@
 import { forwardRef, useContext } from 'react';
 import styledComponents from 'styled-components';
 import { BreakpointsContext, BreakpointsProvider } from './providers/BreakpointsProvider';
-import { pointsToZones, renderStyles, AllBaseProps } from 'tastycss';
+import { pointsToZones, renderStyles, AllBaseProps, Styles } from 'tastycss';
 import { modAttrs } from './utils/modAttrs';
-import { Styles } from './styled';
 
 const DEFAULT_STYLES: Styles = {
   display: 'inline-block',

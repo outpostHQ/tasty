@@ -1,5 +1,3 @@
-export type Styles = Record<string, ResponsiveStyleValue<string | number | boolean | undefined>>;
-
 export type StyleValue<T = string> = number | null | boolean | undefined | T;
 
 export type StyleValueStateMap<T = string> = {

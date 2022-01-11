@@ -7,3 +7,4 @@ export * from './utils/styles';
 export * from './styles/list';
 export * from './styles/index';
 export * from './utils/responsive';
+export * from './styles/types';

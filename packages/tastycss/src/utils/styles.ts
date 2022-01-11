@@ -4,13 +4,13 @@ import {
   CSSMap,
   ResponsiveStyleValue,
   StyleMap,
-  Styles,
   StyleStateDataList,
   StyleStateList,
   StyleStateMap,
   StyleStateMapList,
 } from '../types/render';
 import { CUSTOM_UNITS } from '../units';
+import { Styles } from '../styles/types';
 
 const devMode = process.env.NODE_ENV !== 'production';
 

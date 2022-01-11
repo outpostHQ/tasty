@@ -158,14 +158,15 @@ export interface StylesInterface extends Omit<CSSProperties, 'color' | 'fill' | 
     | string;
 }
 
-export type SuffixSelector = `&${string}`;
-export type NotSuffixSelector = Exclude<
+export type SuffixForSelector = '&' | '.' | 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J' | 'K' | 'L' | 'M' | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T' | 'U' | 'V' | 'W' | 'X' | 'Y' | 'Z';
+export type Selector = `${SuffixForSelector}${string}`;
+export type NotSelector = Exclude<
   string,
-  SuffixSelector | keyof StylesInterface
+  Selector | keyof StylesInterface
 >;
 
 export type StylesWithoutSelectors = {
-  [key in keyof StylesInterface]?: ResponsiveStyleValue<StylesInterface[key]>;
+  [key in keyof StylesInterface]?: ResponsiveStyleValue<StylesInterface[key] | string | number | boolean | undefined>;
 };
 export type Styles = StylesWithoutSelectors & {
   [key: string]:
