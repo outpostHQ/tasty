@@ -20,7 +20,7 @@ const COLOR_FUNCS = ['rgb', 'rgba'];
 const IGNORE_MODS = ['auto', 'max-content', 'min-content', 'none', 'subgrid', 'initial'];
 
 const ATTR_REGEXP
-	= /("[^"]*")|('[^']*')|([a-z]+\()|(#[a-z0-9.-]{2,}(?![a-f0-9[-]))|(--[a-z0-9-]+|@[a-z0-9-]+)|([a-z][a-z0-9-]*)|(([0-9]+(?![0-9.])|[0-9-.]{2,}|[0-9-]{2,}|[0-9.-]{3,})([a-z%]{0,3}))|([*/+-])|([()])|(,)/gi;
+	= /("[^"]*")|('[^']*')|([a-z-]+\()|(#[a-z0-9.-]{2,}(?![a-f0-9[-]))|(--[a-z0-9-]+|@[a-z0-9-]+)|([a-z][a-z0-9-]*)|(([0-9]+(?![0-9.])|[0-9-.]{2,}|[0-9-]{2,}|[0-9.-]{3,})([a-z%]{0,3}))|([*/+-])|([()])|(,)/gi;
 const ATTR_CACHE = new Map();
 const ATTR_CACHE_AUTOCALC = new Map();
 const ATTR_CACHE_IGNORE_COLOR = new Map();
@@ -211,6 +211,10 @@ export function parseStyle(value, mode = 0) {
           currentValue = `${currentValue.trim()}), `;
         } else {
           currentValue = `${currentValue.trim()}, `;
+        }
+
+        if (!counter) {
+          all.push(',');
         }
       }
 
