@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.5.2 (2022-01-11)
+
+
+### Bug Fixes
+
+* update yarn lock ([eef08c4](https://github.com/numldesign/tatsy/commit/eef08c497e09376966846079465459fc9efa6603))
+
+
+
+
+
 ## 0.5.1 (2022-01-11)
 
 **Note:** Version bump only for package tastycss
