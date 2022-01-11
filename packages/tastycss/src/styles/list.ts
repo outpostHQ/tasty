@@ -1,13 +1,20 @@
-export const BASE_STYLES = ['display', 'size', 'font', 'preset'] as const;
+export const BASE_STYLES = [
+  'display',
+  'font',
+  'preset',
+  'hide',
+  'opacity',
+  'whiteSpace',
+] as const;
 
 export const POSITION_STYLES = [
   'gridArea',
-  'flexGrow',
-  'flexShrink',
   'order',
   'gridColumn',
   'gridRow',
   'placeSelf',
+  'alignSelf',
+  'justifySelf',
   'zIndex',
   'margin',
 ] as const;
@@ -15,6 +22,8 @@ export const POSITION_STYLES = [
 export const BLOCK_STYLES = [
   'reset',
   'padding',
+  'paddingInline',
+  'paddingBlock',
   'shadow',
   'border',
   'radius',
@@ -28,9 +37,20 @@ export const BLOCK_STYLES = [
 
 export const COLOR_STYLES = ['color', 'fill'] as const;
 
-export const TEXT_STYLES = ['textAlign', 'textTransform', 'fontWeight', 'fontStyle'] as const;
+export const TEXT_STYLES = [
+  'textTransform',
+  'fontWeight',
+  'fontStyle',
+] as const;
 
-export const DIMENSION_STYLES = ['width', 'height', 'flexBasis'] as const;
+export const DIMENSION_STYLES = [
+  'width',
+  'height',
+  'flexBasis',
+  'flexGrow',
+  'flexShrink',
+  'flex',
+] as const;
 
 export const FLOW_STYLES = [
   'flow',
@@ -41,6 +61,8 @@ export const FLOW_STYLES = [
   'justifyItems',
   'justifyContent',
   'gap',
+  'columnGap',
+  'rowGap',
   'gridColumns',
   'gridRows',
   'gridTemplate',

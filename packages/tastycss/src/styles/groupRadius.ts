@@ -32,22 +32,22 @@ export function groupRadiusAttr({ groupRadius, flow }) {
 
   return [
     {
-      '$': '>:first-child:not(:last-child)',
+      $: '>:first-child:not(:last-child)',
       'border-radius': startValue,
       '--local-radius': startValue,
     },
     {
-      '$': '>:last-child:not(:first-child)',
+      $: '>:last-child:not(:first-child)',
       'border-radius': endValue,
       '--local-radius': endValue,
     },
     {
-      '$': '>:last-child:first-child',
+      $: '>:last-child:first-child',
       'border-radius': value,
       '--local-radius': value,
     },
     {
-      '$': '>:not(:last-child):not(:first-child)',
+      $: '>:not(:last-child):not(:first-child)',
       'border-radius': '0',
       '--local-radius': '0',
     },

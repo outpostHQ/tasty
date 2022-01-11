@@ -20,12 +20,16 @@ transition: opacity var(--transition) linear;
       css: 'display: none',
     },
     {
-      $: [':-webkit-autofill', ':-webkit-autofill:hover', ':-webkit-autofill:focus'],
+      $: [
+        ':-webkit-autofill',
+        ':-webkit-autofill:hover',
+        ':-webkit-autofill:focus',
+      ],
       css: `
-caret-color: var(--special-color);
--webkit-text-fill-color: var(--special-color);
--webkit-box-shadow: 0 0 0px 9999rem var(--input-color) inset;
-box-shadow: 0 0 0px 9999rem var(--input-color) inset;
+caret-color: var(--purple-color);
+-webkit-text-fill-color: var(--purple-color);
+-webkit-box-shadow: 0 0 0px 9999rem var(--white-color) inset;
+box-shadow: 0 0 0px 9999rem var(--white-color) inset;
 font-family: inherit;
 font-size: inherit;
 line-height: inherit;
@@ -56,7 +60,7 @@ display: none;
     },
     {
       $: ':not([disabled])::placeholder',
-      css: '--local-placeholder-color: var(--placeholder-color, rgba(var(--text-color-rgb), .5));\n',
+      css: '--local-placeholder-color: var(--placeholder-color, rgba(var(--dark-color-rgb), .3));\n',
     },
   ],
   button: [
@@ -69,7 +73,7 @@ outline: none;
 appearance: none;
 position: relative;
 touch-action: manipulation;
--webkit-tap-highlight-color: var(--mark-color);
+-webkit-tap-highlight-color: transparent;
 text-decoration: none;
 `,
     },

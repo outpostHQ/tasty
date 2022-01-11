@@ -9,6 +9,26 @@ type HandlerQueueItem = {
 	isResponsive: boolean;
 };
 
+function isSelector(key) {
+  return key.startsWith('&') || key.startsWith('.') || key.match(/^[A-Z]/);
+}
+
+function getSelector(key) {
+  if (key.startsWith('&')) {
+    return key.slice(1);
+  }
+
+  if (key.startsWith('.')) {
+    return ` ${key}`;
+  }
+
+  if (key.match(/^[A-Z]/)) {
+    return ` [data-element="${key}"]`;
+  }
+
+  return null;
+}
+
 /** Props level cache for `renderStyles` function. */
 let STYLE_CACHE = {};
 
@@ -45,22 +65,22 @@ export function renderStyles<K extends Styles>(styles: K, responsive: number[], 
 
     const keys = Object.keys(styles);
     // @ts-ignore
-    const selectorKeys: SuffixSelector[] = keys.filter((key) =>
-      key.startsWith('&'),
-    );
+    const selectorKeys = keys.filter((key) =>
+      isSelector(key),
+    ) as SuffixSelector[];
 
     let innerStyles = '';
 
     if (selectorKeys.length) {
-      selectorKeys.forEach((selector) => {
-        const suffix = selector.slice(1);
+      selectorKeys.forEach((key) => {
+        const suffix = getSelector(key);
 
-        innerStyles += renderStyles(styles[selector] as Styles, responsive, suffix);
+        innerStyles += renderStyles(styles[key] as Styles, responsive, suffix);
       });
     }
 
     Object.keys(styles).forEach((styleName) => {
-      if (styleName.startsWith('&')) return;
+      if (isSelector(styleName)) return;
 
       let handlers: StyleHandler[] = STYLE_HANDLER_MAP[styleName];
 
@@ -76,8 +96,16 @@ export function renderStyles<K extends Styles>(styles: K, responsive: number[], 
         const filteredStyleMap = lookupStyles.reduce((map, name) => {
           map[name] = styles[name];
 
-          if (Array.isArray(styles[name])) {
-            isResponsive = true;
+          if (Array.isArray(map[name])) {
+            if (map[name].length === 0) {
+              delete map[name];
+            } else {
+              if (map[name].length === 1) {
+                map[name] = map[name][0];
+              }
+
+              isResponsive = true;
+            }
           }
 
           return map;
