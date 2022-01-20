@@ -1,4 +1,4 @@
-export type StyleValue<T = string> = number | null | boolean | undefined | T;
+export type StyleValue<T = string> = T | boolean | number | null;
 
 export type StyleValueStateMap<T = string> = {
 	[key: string]: StyleValue<T>;

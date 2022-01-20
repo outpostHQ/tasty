@@ -44,7 +44,7 @@ type Digit = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 type OpaquePercentage = '' | `.${Digit}` | `.${Digit}${Digit}` | '.100';
 export type NoType = false | null | undefined;
 
-export interface StylesInterface extends Omit<CSSProperties, 'color' | 'fill' | 'font' | 'outline'> {
+export interface StylesInterface extends Omit<CSSProperties, 'color' | 'fill' | 'font' | 'outline' | 'type'> {
 	/** Set the background color of the element.
 	 * ```
 	 * fill="#{name_of_the_color}"
@@ -75,10 +75,6 @@ export interface StylesInterface extends Omit<CSSProperties, 'color' | 'fill' | 
 	 */
 	reset?: 'input' | 'button';
 	/**
-	 * Whether the element has styled scrollbar.
-	 */
-	styledScrollbar?: boolean;
-	/**
 	 * Whether the element is hidden using `display: none`.
 	 */
 	hide?: boolean;
@@ -94,7 +90,7 @@ export interface StylesInterface extends Omit<CSSProperties, 'color' | 'fill' | 
 	 * Syntax: `[[<value> | [ <verticalValue> <horizontalValue>] ]? [ [ leaf | backleaf ] | [ 'top' | 'right' | 'bottom' | 'top' ]{1,2} ] ] | [ 'round' | 'ellipse' ] | true`
 	 * Examples: `"1x"`, `"2x 4x"`, `"top"`, `"round"`, `"3x leaf"`, `"ellipse"`.
 	 */
-	radius?: 'round' | 'ellipse' | 'leaf' | 'backleaf' | string;
+	radius?: 'round' | 'ellipse' | 'leaf' | 'backleaf' | string | true;
 	/**
 	 * The group radius style rounds the corners of a container's outer border edge by applying radius style to to its children.
 	 * Syntax: `<value> [ 'round' | 'ellipse' ]? | true`
@@ -132,44 +128,75 @@ export interface StylesInterface extends Omit<CSSProperties, 'color' | 'fill' | 
 	 * Syntax: <value> 'inset'?
 	 */
 	outline?: CSSProperties['fontFamily'] | boolean;
-  /**
-   * The preset style sets the base text settings according to the names preset. Affected styles: `font-size`, `line-height`, `letter-spacing`, `font-weight` and `text-transform`.
-   */
-  preset?:
-    | 'h1'
-    | 'h2'
-    | 'h3'
-    | 'h4'
-    | 'h5'
-    | 'h5s'
-    | 'h5m'
-    | 'h6'
-    | 't1'
-    | 't2'
-    | 't3'
-    | 't4'
-    | 't4m'
-    | 'p1'
-    | 'p2'
-    | 'p3'
-    | 'p4'
-    | 'tag'
-    | 'default'
-    | string;
+	/**
+	 * The preset style sets the base text settings according to the names preset. Affected styles: `font-size`, `line-height`, `letter-spacing`, `font-weight` and `text-transform`.
+	 */
+	preset?:
+		| 'h1'
+		| 'h2'
+		| 'h3'
+		| 'h4'
+		| 'h5'
+		| 'h5s'
+		| 'h5m'
+		| 'h6'
+		| 't1'
+		| 't2'
+		| 't3'
+		| 't4'
+		| 't4m'
+		| 'p1'
+		| 'p2'
+		| 'p3'
+		| 'p4'
+		| 'tag'
+		| 'default'
+		| string;
+	/**
+	 * Shorthand for align-items and align-content.
+	 */
+	align?: CSSProperties['alignItems'] | CSSProperties['alignContent'];
+	/**
+	 * Shorthand for justify-items and justify-content.
+	 */
+	justify?: CSSProperties['justifyItems'] | CSSProperties['justifyContent'];
 }
 
-export type SuffixForSelector = '&' | '.' | 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J' | 'K' | 'L' | 'M' | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T' | 'U' | 'V' | 'W' | 'X' | 'Y' | 'Z';
+export type SuffixForSelector =
+	| '&'
+	| '.'
+	| 'A'
+	| 'B'
+	| 'C'
+	| 'D'
+	| 'E'
+	| 'F'
+	| 'G'
+	| 'H'
+	| 'I'
+	| 'J'
+	| 'K'
+	| 'L'
+	| 'M'
+	| 'N'
+	| 'O'
+	| 'P'
+	| 'Q'
+	| 'R'
+	| 'S'
+	| 'T'
+	| 'U'
+	| 'V'
+	| 'W'
+	| 'X'
+	| 'Y'
+	| 'Z';
 export type Selector = `${SuffixForSelector}${string}`;
-export type NotSelector = Exclude<
-  string,
-  Selector | keyof StylesInterface
->;
+export type NotSelector = Exclude<string, Selector | keyof StylesInterface>;
 
 export type StylesWithoutSelectors = {
-  [key in keyof StylesInterface]?: ResponsiveStyleValue<StylesInterface[key] | string | number | boolean | undefined>;
+	[key in keyof StylesInterface]?: ResponsiveStyleValue<StylesInterface[key]>;
 };
 export type Styles = StylesWithoutSelectors & {
-  [key: string]:
-    | ResponsiveStyleValue<string | number | boolean | undefined>
-    | StylesWithoutSelectors;
+	[key: string]: ResponsiveStyleValue<string | number | boolean | undefined> | StylesWithoutSelectors;
 };

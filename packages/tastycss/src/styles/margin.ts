@@ -1,29 +1,48 @@
 import { parseStyle, DIRECTIONS, filterMods } from '../utils/styles';
 
-export function marginStyle({ margin }) {
-  if (typeof margin === 'number') {
-    margin = `${margin}px`;
-  }
+export function marginStyle({ margin, marginBlock, marginInline, marginTop, marginRight, marginBottom, marginLeft }) {
+	if (typeof margin === 'number') {
+		margin = `${margin}px`;
+	}
 
-  if (!margin) return '';
+	if (!margin) return '';
 
-  if (margin === true) margin = '1x';
+	if (margin === true) margin = '1x';
 
-  const { values, mods } = parseStyle(margin);
+	let { values, mods } = parseStyle(margin);
 
-  const directions = filterMods(mods, DIRECTIONS);
+	let directions = filterMods(mods, DIRECTIONS);
 
-  if (!directions.length) {
-    return { margin: values.join(' ') };
-  }
+	if (!values.length) {
+		values = ['var(--gap)'];
+	}
 
-  return directions.reduce((styles, dir) => {
-    const index = DIRECTIONS.indexOf(dir);
+	if (!directions.length) {
+		directions = DIRECTIONS;
+	}
 
-    styles[`margin-${dir}`] = values[index] || values[index % 2] || values[0];
+	const marginDirs = [marginTop, marginRight, marginBottom, marginLeft];
 
-    return styles;
-  }, {});
+	return directions.reduce((styles, dir) => {
+		const index = DIRECTIONS.indexOf(dir);
+
+		if (
+			((!!(index % 2) && marginInline == null) || (!(index % 2) && marginBlock == null)) &&
+			marginDirs[index] == null
+		) {
+			styles[`margin-${dir}`] = values[index] || values[index % 2] || values[0];
+		}
+
+		return styles;
+	}, {});
 }
 
-marginStyle.__lookupStyles = ['margin'];
+marginStyle.__lookupStyles = [
+	'margin',
+	'marginTop',
+	'marginRight',
+	'marginBottom',
+	'marginLeft',
+	'marginBlock',
+	'marginInline',
+];
