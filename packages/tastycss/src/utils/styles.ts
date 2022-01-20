@@ -593,7 +593,7 @@ export function renderStylesToSC(styles: CSSMap | CSSMap[], selector = '') {
  * @param {StyleStateList|StyleStateMapList} states
  * @param {string} suffix
  */
-export function applyStates(selector: string, states, suffix: string = '') {
+export function applyStates(selector: string, states, suffix = '') {
   return states.reduce((css, state) => {
     if (!state.value) return css;
 
