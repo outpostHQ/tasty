@@ -5,7 +5,7 @@ import { pointsToZones, renderStyles, AllBaseProps, Styles } from 'tastycss';
 import { modAttrs } from './utils/modAttrs';
 
 const DEFAULT_STYLES: Styles = {
-  display: 'inline-block',
+	display: 'inline-block',
 } as const;
 
 interface CSSElementProps {
@@ -15,30 +15,30 @@ interface CSSElementProps {
 const CSSElement = styledComponents.div(({ css }: CSSElementProps) => css || '');
 
 const Element = (allProps: AllBaseProps, ref) => {
-  let { as, styles: originalStyles, breakpoints, mods, qa, qaVal, css, ...props } = allProps;
+	let { as, styles: originalStyles, breakpoints, mods, qa, qaVal, css, ...props } = allProps;
 
-  const styles: Styles = { ...DEFAULT_STYLES, ...originalStyles };
+	const styles: Styles = { ...DEFAULT_STYLES, ...originalStyles };
 
-  const contextBreakpoints = useContext(BreakpointsContext);
-  const zones = pointsToZones(breakpoints || contextBreakpoints);
+	const contextBreakpoints = useContext(BreakpointsContext);
+	const zones = pointsToZones(breakpoints || contextBreakpoints);
 
-  css = `${css || ''}${renderStyles(styles, zones)}`;
+	css = `${css || ''}${renderStyles(styles, zones)}`;
 
-  if (mods) {
-    Object.assign(props, modAttrs(mods));
-  }
+	if (mods) {
+		Object.assign(props, modAttrs(mods));
+	}
 
-  return (
-    <CSSElement
-      // @ts-ignore
-      as={as}
-      data-qa={qa}
-      data-qaval={qaVal}
-      {...props}
-      ref={ref}
-      css={css}
-    />
-  );
+	return (
+		<CSSElement
+			// @ts-ignore
+			as={as}
+			data-qa={qa}
+			data-qaval={qaVal}
+			{...props}
+			ref={ref}
+			css={css}
+		/>
+	);
 };
 
 /**

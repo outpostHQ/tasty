@@ -75,10 +75,6 @@ export interface StylesInterface extends Omit<CSSProperties, 'color' | 'fill' | 
 	 */
 	reset?: 'input' | 'button';
 	/**
-	 * Whether the element has styled scrollbar.
-	 */
-	 styledScrollbar?: boolean;
-	/**
 	 * Whether the element is hidden using `display: none`.
 	 */
 	hide?: boolean;

@@ -1,39 +1,31 @@
 import { parseStyle } from '../utils/styles';
 
-export function paddingBlockStyle({
-  paddingBlock: padding,
-  paddingTop,
-  paddingBottom,
-}) {
-  if (typeof padding === 'number') {
-    padding = `${padding}px`;
-  }
+export function paddingBlockStyle({ paddingBlock: padding, paddingTop, paddingBottom }) {
+	if (typeof padding === 'number') {
+		padding = `${padding}px`;
+	}
 
-  if (!padding) return '';
+	if (!padding) return '';
 
-  if (padding === true) padding = '1x';
+	if (padding === true) padding = '1x';
 
-  let { values } = parseStyle(padding);
+	let { values } = parseStyle(padding);
 
-  if (!values.length) {
-    values = ['var(--gap)'];
-  }
+	if (!values.length) {
+		values = ['var(--gap)'];
+	}
 
-  const styles = {};
+	const styles = {};
 
-  if (paddingTop == null) {
-    styles['padding-top'] = values[0];
-  }
+	if (paddingTop == null) {
+		styles['padding-top'] = values[0];
+	}
 
-  if (paddingBottom == null) {
-    styles['padding-bottom'] = values[1] || values[0];
-  }
+	if (paddingBottom == null) {
+		styles['padding-bottom'] = values[1] || values[0];
+	}
 
-  return styles;
+	return styles;
 }
 
-paddingBlockStyle.__lookupStyles = [
-  'paddingBlock',
-  'paddingTop',
-  'paddingBottom',
-];
+paddingBlockStyle.__lookupStyles = ['paddingBlock', 'paddingTop', 'paddingBottom'];

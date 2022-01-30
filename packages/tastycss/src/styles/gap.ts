@@ -1,66 +1,64 @@
 import { parseStyle } from '../utils/styles';
 
 export function gapStyle({ display = 'block', flow, gap }) {
-  if (typeof gap === 'number') {
-    gap = `${gap}px`;
-  }
+	if (typeof gap === 'number') {
+		gap = `${gap}px`;
+	}
 
-  if (!gap) {
-    return;
-  }
+	if (!gap) {
+		return;
+	}
 
-  if (gap === true) {
-    gap = '1.5x';
-  }
+	if (gap === true) {
+		gap = '1.5x';
+	}
 
-  const isGrid = display.includes('grid');
-  const isFlex = display.includes('flex');
-  const isWrap = flow
-    ? flow.includes('wrap') && !flow.includes('nowrap')
-    : false;
+	const isGrid = display.includes('grid');
+	const isFlex = display.includes('flex');
+	const isWrap = flow ? flow.includes('wrap') && !flow.includes('nowrap') : false;
 
-  if (!isGrid && flow == null) {
-    flow = isFlex ? 'row' : 'column';
-  }
+	if (!isGrid && flow == null) {
+		flow = isFlex ? 'row' : 'column';
+	}
 
-  const { values } = parseStyle(gap);
+	const { values } = parseStyle(gap);
 
-  gap = values.join(' ');
+	gap = values.join(' ');
 
-  if (isGrid) {
-    return { gap };
-  }
+	if (isGrid) {
+		return { gap };
+	}
 
-  const isReverse = isFlex && flow.includes('reverse');
-  const gapDir
-    = gap && !isGrid
-      ? !isReverse
-        ? flow.includes('row')
-          ? 'right'
-          : 'bottom'
-        : flow.includes('row')
-        ? 'left'
-        : 'top'
-      : '';
-  const marginFirst = isReverse ? 'margin-left' : 'margin-right';
-  const marginSecond = isReverse ? 'margin-top' : 'margin-bottom';
+	const isReverse = isFlex && flow.includes('reverse');
+	const gapDir =
+		gap && !isGrid
+			? !isReverse
+				? flow.includes('row')
+					? 'right'
+					: 'bottom'
+				: flow.includes('row')
+				? 'left'
+				: 'top'
+			: '';
+	const marginFirst = isReverse ? 'margin-left' : 'margin-right';
+	const marginSecond = isReverse ? 'margin-top' : 'margin-bottom';
 
-  return isWrap
-    ? [
-        {
-          [marginFirst]: `calc(-1 * ${values[1] || values[0]})`,
-          [marginSecond]: `calc(-1 * ${values[0]})`,
-        },
-        {
-          $: '& > *',
-          [marginFirst]: values[1] || values[0],
-          [marginSecond]: values[0],
-        },
-      ]
-    : {
-        $: '& > *:not(:last-child)',
-        [`margin-${gapDir}`]: gap,
-      };
+	return isWrap
+		? [
+				{
+					[marginFirst]: `calc(-1 * ${values[1] || values[0]})`,
+					[marginSecond]: `calc(-1 * ${values[0]})`,
+				},
+				{
+					$: '& > *',
+					[marginFirst]: values[1] || values[0],
+					[marginSecond]: values[0],
+				},
+		  ]
+		: {
+				$: '& > *:not(:last-child)',
+				[`margin-${gapDir}`]: gap,
+		  };
 }
 
 gapStyle.__lookupStyles = ['display', 'flow', 'gap'];

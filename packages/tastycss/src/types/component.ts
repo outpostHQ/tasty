@@ -24,8 +24,8 @@ export interface BasePropsWithoutChildren extends Pick<AllHTMLAttributes<HTMLEle
 	isDisabled?: boolean;
 	/** Plain css for the element **/
 	css?: string | ((props: Props) => string);
-  /** The element name for using in style overriding */
-  styleName?: string;
+	/** The element name for using in style overriding */
+	styleName?: string;
 	/** The CSS style map */
 	style?: CSSProperties | (CSSProperties & { [key: string]: string | number | null });
 }

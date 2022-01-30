@@ -9,5 +9,5 @@ interface BreakpointsProviderProps {
 }
 
 export function BreakpointsProvider({ value, children }: BreakpointsProviderProps) {
-  return <BreakpointsContext.Provider value={value}>{children}</BreakpointsContext.Provider>;
+	return <BreakpointsContext.Provider value={value}>{children}</BreakpointsContext.Provider>;
 }

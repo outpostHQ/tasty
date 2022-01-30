@@ -9,27 +9,27 @@ export interface ThemeProps {
 }
 
 export const DEFAULT_TOKENS = {
-  'gap': '8px',
-  'outline-width': 'calc(1rem / 16 * 3)',
-  'border-width': '1px',
-  'radius': '4px',
-  'transition': '120ms',
+	'gap': '8px',
+	'outline-width': 'calc(1rem / 16 * 3)',
+	'border-width': '1px',
+	'radius': '4px',
+	'transition': '120ms',
 };
 
 export const GlobalStyles = createGlobalStyle<ThemeProps>`
   html {
     --font: ${({ font }) =>
-    font
-			|| 'Inter'}, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+			font ||
+			'Inter'}, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
     --monospace-font: ${({ monospaceFont }) =>
-    `${monospaceFont}, ` || ''}Menlo, Monaco, Consolas, 'Courier New', monospace;
+			`${monospaceFont}, ` || ''}Menlo, Monaco, Consolas, 'Courier New', monospace;
     ${({ tokens }) => {
-    return Object.entries({ ...DEFAULT_TOKENS, ...tokens })
-      .map(([key, value]) => {
-        return `--${key}: ${value};`;
-      })
-      .join('\n    ');
-  }}
+			return Object.entries({ ...DEFAULT_TOKENS, ...tokens })
+				.map(([key, value]) => {
+					return `--${key}: ${value};`;
+				})
+				.join('\n    ');
+		}}
   }
 
   body {
@@ -41,12 +41,12 @@ export const GlobalStyles = createGlobalStyle<ThemeProps>`
     padding: 0;
     font-weight: 400;
     ${({ styles }) => {
-    return Object.entries(styles || {})
-      .map(([key, value]) => {
-        return `${key}: ${value};`;
-      })
-      .join('\n    ');
-  }}
+			return Object.entries(styles || {})
+				.map(([key, value]) => {
+					return `${key}: ${value};`;
+				})
+				.join('\n    ');
+		}}
     ${({ css }) => css || ''}
   }
 `;
