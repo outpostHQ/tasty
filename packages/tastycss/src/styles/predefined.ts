@@ -21,6 +21,7 @@ import { outlineStyle } from './outline';
 import { transitionStyle } from './transition';
 import { groupRadiusAttr } from './groupRadius';
 import { boxShadowCombinator } from './boxShadow.combinator';
+import { styledScrollbarStyle } from './styledScrollbar';
 import { displayStyle } from './display';
 import { alignStyle } from './align';
 import { justifyStyle } from './justify';
@@ -110,6 +111,7 @@ defineStyleAlias('gridTemplate', 'grid-template', (val) => {
 	fontStyle,
 	fontStyleStyle,
 	groupRadiusAttr,
+	styledScrollbarStyle,
 ]
 	// @ts-ignore
 	.forEach((handler) => defineCustomStyle(handler));

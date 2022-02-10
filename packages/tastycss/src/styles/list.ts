@@ -22,6 +22,7 @@ export const BLOCK_STYLES = [
 	'radius',
 	'opacity',
 	'overflow',
+	'styledScrollbar',
 	'hide',
 	'outline',
 	'textAlign',
