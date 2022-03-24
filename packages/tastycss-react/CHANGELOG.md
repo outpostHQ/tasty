@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.6.4 (2022-03-24)
+
+
+### Bug Fixes
+
+* transition style for some widgets ([b4bfb25](https://github.com/numldesign/tatsy/commit/b4bfb25f989e693374a63dea3e074c2d657efadb))
+
+
+
+
+
 ## 0.6.3 (2022-03-18)
 
 **Note:** Version bump only for package tastycss-react
