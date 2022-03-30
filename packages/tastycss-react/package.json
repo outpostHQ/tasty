@@ -1,7 +1,7 @@
 {
   "$schema": "../../.vscode/package.schema.json",
   "name": "tastycss-react",
-  "version": "0.6.4",
+  "version": "0.6.5",
   "type": "module",
   "main": "dist/cjs/index.js",
   "module": "dist/mjs/index.js",
@@ -117,7 +117,7 @@
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0",
     "styled-components": "5.3.5",
-    "tastycss": "^0.6.4"
+    "tastycss": "^0.6.5"
   },
   "browserslist": [
     "last 1 chrome versions",
