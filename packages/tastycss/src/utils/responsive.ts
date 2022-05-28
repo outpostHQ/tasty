@@ -1,4 +1,4 @@
-import { ResponsiveStyleValue } from '../types/render';
+import { ResponsiveStyleValue } from './styles';
 
 export function mediaWrapper(cssRules, points) {
 	return points
@@ -56,6 +56,12 @@ export function pointsToZones(points: number[]) {
 
 	return zonesCache[cacheKey];
 }
+
+// export function getResponsiveValue(values, zoneNumber) {
+//   for (let i = zoneNumber; i >= 0; i--) {
+//     if (values[i] != null)
+//   }
+// }
 
 export function normalizeStyleZones(value: ResponsiveStyleValue, zoneNumber: number) {
 	if (value == null) return value;

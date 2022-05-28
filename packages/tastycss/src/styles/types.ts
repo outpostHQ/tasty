@@ -1,5 +1,5 @@
 import { CSSProperties } from 'react';
-import { ResponsiveStyleValue } from '../types/render';
+import { ResponsiveStyleValue } from '../utils/styles';
 
 type NamedColor =
 	| 'purple'
@@ -53,7 +53,7 @@ export interface StylesInterface extends Omit<CSSProperties, 'color' | 'fill' | 
 	 * fill="#dark.30" // the dark color with 30% opacity
 	 * ```
 	 */
-	fill?: `#${NamedColor}${OpaquePercentage}` | `rgb(${string})` | `rgba(${string})` | boolean | string;
+	fill?: `#${NamedColor}${OpaquePercentage}` | `rgb(${string})` | `rgba(${string})` | boolean | (string & {});
 	/** Set the text (current) color of the element
 	 * ```
 	 * color="#{name_of_the_color}"
@@ -63,12 +63,6 @@ export interface StylesInterface extends Omit<CSSProperties, 'color' | 'fill' | 
 	 * ```
 	 */
 	color?: `#${NamedColor}${OpaquePercentage}` | `rgb(${string})` | `rgba(${string})` | boolean | string;
-	/**
-	 * The font-size, line-height, and letter-spacing of the element with ability to apply presets.
-	 * Syntax: `<fontSize> <lineHeight>? <letterSpacing>?`.
-	 * Syntax: `<presetName>`
-	 */
-	size?: 'md' | 'sm' | 'lg' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'text' | string;
 	/**
 	 * Whether styles of the element should be reset.
 	 * Possible values: `input`, `button`.
@@ -165,7 +159,6 @@ export interface StylesInterface extends Omit<CSSProperties, 'color' | 'fill' | 
 	 */
 	justify?: CSSProperties['justifyItems'] | CSSProperties['justifyContent'];
 }
-
 export type SuffixForSelector =
 	| '&'
 	| '.'

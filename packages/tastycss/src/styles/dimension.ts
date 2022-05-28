@@ -53,7 +53,7 @@ export function dimensionStyle(name) {
 
 		let flag = false;
 
-		for (const mod of mods) {
+		for (let mod of mods) {
 			switch (mod) {
 				case 'min':
 					styles[minStyle] = values[0] || DEFAULT_MIN_SIZE;

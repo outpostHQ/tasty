@@ -1,18 +1,85 @@
-import { getModCombinations } from './getModCombinations';
-import {
-	ComputeModel,
-	CSSMap,
-	ResponsiveStyleValue,
-	StyleMap,
-	StyleStateDataList,
-	StyleStateList,
-	StyleStateMap,
-	StyleStateMapList,
-} from '../types/render';
-import { CUSTOM_UNITS } from '../units';
 import { Styles } from '../styles/types';
 
+import { getModCombinations } from './index';
+
+export type StyleValue<T = string> = T | boolean | number | null;
+
+export type StyleValueStateMap<T = string> = {
+	[key: string]: StyleValue<T>;
+};
+
+export type ResponsiveStyleValue<T = string> =
+	| StyleValue<T>
+	| StyleValue<T>[]
+	| StyleValueStateMap<T>
+	| StyleValueStateMap<T>[];
+
+export type ComputeModel = string | number;
+
+export type CSSMap = { $?: string } & { [key: string]: string | string[] };
+
+export type RawStyleHandler = (value: StyleValueStateMap, suffix?: string) => CSSMap | CSSMap[] | void;
+
+export type StyleHandler = RawStyleHandler & {
+	__lookupStyles: string[];
+};
+
+export interface StyleStateData {
+	model?: ComputeModel;
+	tokens?: string[];
+	value: ResponsiveStyleValue;
+	/** The list of mods to apply */
+	mods: string[];
+	/** The list of **not** mods to apply (e.g. `:not(:hover)`) */
+	notMods: string[];
+}
+
+export type StyleStateDataList = StyleStateData[];
+
+export type StyleStateDataListMap = { [key: string]: StyleStateDataList };
+
+/** An object that describes a relation between specific modifiers and style value. **/
+export interface StyleState {
+	/** The list of mods to apply */
+	mods: string[];
+	/** The list of **not** mods to apply (e.g. `:not(:hover)`) */
+	notMods: string[];
+	/** The value to apply */
+	value: StyleMap;
+}
+
+export type ComputeUnit = string | (string | string[])[];
+
+export type StyleStateList = StyleState[];
+
+export type StyleMap = { [key: string]: ResponsiveStyleValue };
+
+export type StyleStateMap = { [key: string]: StyleState };
+
+export type StyleStateMapList = StyleStateMap[];
+
+export type StyleStateListMap = { [key: string]: StyleStateList };
+
 const devMode = process.env.NODE_ENV !== 'production';
+
+export const CUSTOM_UNITS = {
+	r: 'var(--radius)',
+	bw: 'var(--border-width)',
+	ow: 'var(--outline-width)',
+	x: 'var(--gap)',
+	fs: 'var(--font-size)',
+	lh: 'var(--line-height)',
+	rp: 'var(--rem-pixel)',
+	gp: 'var(--column-gap)',
+	// global setting
+	wh: function wh(num) {
+		return `calc(var(--cube-visual-viewport-height) / 100 * ${num})`;
+	},
+	// span unit for GridProvider
+	sp: function spanWidth(num) {
+		return `((${num} * var(--column-width)) + (${num - 1} * var(--column-gap)))`;
+	},
+};
 
 export const DIRECTIONS = ['top', 'right', 'bottom', 'left'];
 
@@ -187,7 +254,7 @@ export function parseStyle(value, mode = 0) {
 				currentValue += `${operator} `;
 			} else if (unit) {
 				if (unitMetric && CUSTOM_UNITS[unitMetric]) {
-					const add = customUnit(unitVal, unitMetric);
+					let add = customUnit(unitVal, unitMetric);
 
 					if (!~calc && add.startsWith('(')) {
 						currentValue += 'calc';
@@ -311,6 +378,9 @@ export function parseColor(val, ignoreError = false) {
 			} else if (opacity < 0) {
 				opacity = 0;
 			}
+		}
+
+		if (!color) {
 			color =
 				opacity !== 100 ? rgbColorProp(name, Math.round(opacity) / 100) : colorProp(name, null, strToRgb(`#${name}`));
 		}
@@ -348,7 +418,7 @@ export function parseColor(val, ignoreError = false) {
 
 	if (!name) {
 		if (!ignoreError && devMode) {
-			console.warn('TastyCSS: incorrect color value:', val);
+			console.warn('CubeUIKit: incorrect color value:', val);
 		}
 
 		return {};
@@ -361,8 +431,10 @@ export function parseColor(val, ignoreError = false) {
 			color = 'currentColor';
 		} else if (name === 'inherit') {
 			color = 'inherit';
+		} else if (name !== 'transparent' && name !== 'currentColor') {
+			color = `var(--${name}-color, ${name})`;
 		} else {
-			color = `var(--${name}-color)`;
+			color = name;
 		}
 
 		return {
@@ -503,7 +575,7 @@ export function extractStyles(
 	defaultStyles?: Styles,
 	propMap?: { [key: string]: string },
 	ignoreList: readonly string[] = [],
-) {
+): Styles {
 	const styles: Styles = {
 		...defaultStyles,
 		...props.styles,
@@ -593,7 +665,7 @@ export function renderStylesToSC(styles: CSSMap | CSSMap[], selector = '') {
  * @param {StyleStateList|StyleStateMapList} states
  * @param {string} suffix
  */
-export function applyStates(selector: string, states, suffix: string = '') {
+export function applyStates(selector: string, states, suffix = '') {
 	return states.reduce((css, state) => {
 		if (!state.value) return css;
 
@@ -601,7 +673,8 @@ export function applyStates(selector: string, states, suffix: string = '') {
 			.map((mod) => `:not(${getModSelector(mod)})`)
 			.join('')}`;
 
-		return `${css}${selector}${modifiers}${suffix}{\n${state.value}}\n`;
+		// TODO: replace `replace()` a REAL hotfix
+		return `${css}${selector}${modifiers}${suffix}{\n${state.value.replace(/^&&/, '&')}}\n`;
 	}, '');
 }
 
@@ -610,14 +683,14 @@ export function styleHandlerCacheWrapper(styleHandler, limit = 1000) {
 		return renderStylesToSC(styleHandler(styleMap));
 	}, limit);
 
-	const wrappedMapHandler = cacheWrapper((styleMap, suffix) => {
+	const wrappedMapHandler = cacheWrapper((styleMap, suffix = '') => {
 		if (styleMap == null || styleMap === false) return null;
 
 		const stateMapList = styleMapToStyleMapStateList(styleMap);
 
 		replaceStateValues(stateMapList, wrappedStyleHandler);
 
-		return applyStates('&&', stateMapList, suffix);
+		return applyStates('&', stateMapList, suffix);
 	}, limit);
 
 	return Object.assign(wrappedMapHandler, {
@@ -628,8 +701,10 @@ export function styleHandlerCacheWrapper(styleHandler, limit = 1000) {
 /**
  * Replace state values with new ones.
  * For example, if you want to replace initial values with finite CSS code.
+ * @param {StyleStateList|StyleStateMapList} states
+ * @param {Function} replaceFn
  */
-export function replaceStateValues(states: StyleStateList | StyleStateMapList, replaceFn: Function) {
+export function replaceStateValues(states, replaceFn) {
 	const cache = new Map();
 
 	states.forEach((state) => {
@@ -643,8 +718,12 @@ export function replaceStateValues(states: StyleStateList | StyleStateMapList, r
 	return states;
 }
 
-export function getModesFromStyleStateList(stateList: StyleStateList) {
-	return stateList.reduce((list: string[], state) => {
+/**
+ * Get all presented modes from style state list.
+ * @param {StyleStateList} stateList
+ */
+export function getModesFromStyleStateList(stateList) {
+	return stateList.reduce((list, state) => {
 		state.mods.forEach((mod) => {
 			if (!list.includes(mod)) {
 				list.push(mod);
@@ -657,8 +736,10 @@ export function getModesFromStyleStateList(stateList: StyleStateList) {
 
 /**
  * Get all presented modes from style state list map.
+ * @param {StyleStateMapList} stateListMap
+ * @return {string[]}
  */
-export function getModesFromStyleStateListMap(stateListMap: StyleStateMapList): string[] {
+export function getModesFromStyleStateListMap(stateListMap) {
 	return Object.keys(stateListMap).reduce((list: string[], style) => {
 		const stateList = stateListMap[style];
 
@@ -682,12 +763,9 @@ export function styleMapToStyleMapStateList(styleMap: StyleMap, filterKeys?: str
 
 	if (!keys.length) return [];
 
-	/**
-	 * //@type {StyleStateListMap}
-	 */
 	const stateDataListMap = {};
 
-	const allModsSet: Set<string> = new Set();
+	let allModsSet: Set<string> = new Set();
 
 	keys.forEach((style) => {
 		stateDataListMap[style] = styleStateMapToStyleStateDataList(styleMap[style]);
@@ -725,6 +803,9 @@ export const STATE_OPERATORS = {
 
 export const STATE_OPERATOR_LIST = ['!', '&', '|', '^'];
 
+/**
+ *
+ */
 function convertTokensToComputeUnits(tokens: any[]) {
 	if (tokens.length === 1) {
 		return tokens[0];
@@ -758,7 +839,7 @@ function convertTokensToComputeUnits(tokens: any[]) {
 /**
  * Parse state notation and return tokens, modifiers and compute model.
  */
-function parseStateNotationInner<T>(notation: string, value: T) {
+function parseStateNotationInner(notation: string, value: any) {
 	const tokens = notation.replace(/,/g, '|').match(STATES_REGEXP);
 
 	if (!tokens || !tokens.length) {
@@ -779,7 +860,7 @@ function parseStateNotationInner<T>(notation: string, value: T) {
 
 	const mods: string[] = [];
 
-	const operations: any[][] = [[]];
+	let operations: any[][] = [[]];
 	let list = operations[0];
 	let position = 0;
 
@@ -843,9 +924,7 @@ export function styleStateMapToStyleStateDataList(styleStateMap: StyleStateMap |
 	const stateDataList: StyleStateDataList = [];
 
 	Object.keys(styleStateMap).forEach((stateNotation) => {
-		const state = parseStateNotation(stateNotation);
-
-		state.value = styleStateMap[stateNotation];
+		const state = parseStateNotation(stateNotation, styleStateMap[stateNotation]);
 
 		stateDataList.push(state);
 	});
@@ -884,7 +963,7 @@ export const COMPUTE_FUNC_MAP = {
 	'^': (a, b) => a ^ b,
 	'|': (a, b) => a | b,
 	'&': (a, b) => a & b,
-} as const;
+};
 
 /**
  * Compute a result based on model and incoming map.
@@ -892,7 +971,7 @@ export const COMPUTE_FUNC_MAP = {
 export function computeState(
 	computeModel: ComputeModel,
 	valueMap: (number | boolean)[] | { [key: string]: boolean } | Function,
-): boolean {
+) {
 	if (!computeModel) return true;
 
 	if (!Array.isArray(computeModel)) {
@@ -906,7 +985,7 @@ export function computeState(
 	const func = COMPUTE_FUNC_MAP[computeModel[0]];
 
 	if (!func) {
-		console.warn('tastycss: unexpected compute method in the model', computeModel);
+		console.warn('CubeUIKit: unexpected compute method in the model', computeModel);
 		// return false;
 	}
 
@@ -921,7 +1000,7 @@ export function computeState(
 	}
 
 	if (computeModel.length === 2) {
-		return !!func(a);
+		return func(a);
 	}
 
 	let b = computeModel[2];
@@ -938,12 +1017,11 @@ export function computeState(
 }
 
 export function cacheWrapper(handler: Function, limit = 1000) {
-	let cache: Record<string, any> = {};
+	let cache = {};
 	let count = 0;
 
-	return (map: any, suffix?: string) => {
-		const args = [map, suffix];
-		const key = typeof args[0] === 'string' && !suffix ? args[0] : JSON.stringify(args);
+	return (firstArg: any, secondArg?: string) => {
+		const key = typeof firstArg === 'string' && secondArg == null ? firstArg : JSON.stringify([firstArg, secondArg]);
 
 		if (!cache[key]) {
 			if (count > limit) {
@@ -953,7 +1031,7 @@ export function cacheWrapper(handler: Function, limit = 1000) {
 
 			count++;
 
-			cache[key] = !suffix ? handler(map) : handler(map, suffix);
+			cache[key] = secondArg == null ? handler(firstArg) : handler(firstArg, secondArg);
 		}
 
 		return cache[key];

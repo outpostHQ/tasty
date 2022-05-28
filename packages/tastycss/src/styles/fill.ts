@@ -7,7 +7,6 @@ export function fillStyle({ fill }) {
 		fill = parseStyle(fill).color || fill;
 	}
 
-	// lgtm [js/polynomial-redos]
 	const match = fill.match(/var\(--(.+?)-color/);
 	let name = '';
 
@@ -18,7 +17,6 @@ export function fillStyle({ fill }) {
 	const styles: any[] = [
 		{
 			'background-color': fill,
-			fill,
 		},
 	];
 
