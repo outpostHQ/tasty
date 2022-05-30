@@ -1,4 +1,3 @@
-export * from '../styled/styled';
 export { tasty } from './tasty';
 export * from './utils/filterBaseProps';
 export * from './utils/colors';
@@ -14,7 +13,6 @@ export * from './utils/warnings';
 export type {
   TastyProps,
   GlobalTastyProps,
-  AllBasePropsWithMods,
 } from './tasty';
 export type {
   AllBaseProps,
