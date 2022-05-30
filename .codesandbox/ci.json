@@ -1,5 +1,5 @@
 {
   "node": "14",
-  "packages": ["packages/tastycss", "packages/tastycss-react"],
+  "packages": ["packages/tastycss"],
   "sandboxes": ["new", "vanilla"]
 }
