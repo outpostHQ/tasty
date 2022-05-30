@@ -33,9 +33,11 @@ const getPlugins = (format) => {
     ENV === 'development' ? undefined : terser(),
   ];
 };
+const external = ['react/jsx-runtime', 'react', 'styled-components', 'tastycss'];
 
 export default [
   {
+    external,
     input: 'src/index.ts',
     output: [
       {
@@ -49,6 +51,7 @@ export default [
     plugins: getPlugins('mjs'),
   },
   {
+    external,
     input: 'src/index.ts',
     output: [
       {
