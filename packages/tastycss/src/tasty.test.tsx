@@ -1,7 +1,5 @@
 import { getByTestId, render } from '@testing-library/react';
 import { tasty } from './tasty';
-import { Button } from '../components/actions';
-import { Block } from '../components/Block';
 
 describe('tasty() API', () => {
   beforeEach(() => {
