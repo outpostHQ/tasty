@@ -77,23 +77,7 @@ const CustomElement = tasty(Element, {
 });
 ```
 
-This will create two breakpoints (1200px and 960px) which will split possible screen width into three zones: >=1200px, >=960px & <1200px, <960px.
-
-Then you can create responsive styles with specific value for each zone:
-
-```typescript jsx
-<Element styles={{ 
-  color: [
-    'red', // >=1200px
-    'blue', // >=960px & <1200px
-    'purple', // <960px
-  ],
-}}>
-  content
-</Element>
-```
-
-**This documentation is work in progress. It is not yet ready.**
+**Documentation is work in progress.**
 
 ## Contributing
 
