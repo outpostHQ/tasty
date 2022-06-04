@@ -1,14 +1,12 @@
 # TastyCSS
 
-A set of modules is for CSS-in-JS solution that includes state-to-style bindings, SSR and next-level developer experience. It includes a framework-agnostic implementation
+CSS-in-JS solution modules that include state-to-style bindings, SSR, and next-level developer experience.
 
 [![NPM Version](https://img.shields.io/npm/v/tastycss.svg?style=flat)](https://www.npmjs.com/package/tastycss)
 [![Discord](https://img.shields.io/discord/793832892781690891?color=7389D8&label=chat%20on%20Discord&logo=Discord&logoColor=ffffff)](https://discord.gg/sHnHPnAPZj)
 
 
 ## Installation
-
-Framework-agnostic version:
 
 ```sh
 # with npm
@@ -18,34 +16,16 @@ npm install tastycss
 yarn add tastycss
 ```
 
-React version:
-
-```sh
-# with npm
-npm install tastycss-react
-
-# with yarn
-yarn add tastycss-react
-```
-
-## Documentation
-
-TastyCSS utils allow generating performant CSS with responsiveness and style-to-state bindings.
-
-TastyCSS React is a styled version for React Apps that uses `styled-components` under-the-hood.
-
-### React
+## Usage of Tasty API
 
 Let's look at styled API:
 
 ```typescript jsx
-import styled from 'tastycss-react';
+import { tasty } from 'tastycss';
 
-const Element = styled({
-  /** The name of the element. It can be used to override styles in context. */
-  name: 'Article',
+const Element = tasty({
   /** The tag name of the element. */
-  tag: 'span',
+  as: 'span',
   /** Default styles of the element. */
   styles: {
     // tokens
@@ -60,15 +40,10 @@ const Element = styled({
       blue: 'blue',
     }, // use color token
   },
-  /** Default raw css of the element. */
-  css: `
-    appearance: none;
-  `,
-  /** Default attributes */
-  attrs: {
-    role: 'article',
-  },
-  availableMods: ['blue'],
+  /** Default attributes (example) */
+  role: 'article',
+  /** The list of styles that can be provided by props */
+  styleProps: ['align'],
 });
 ```
 
@@ -76,92 +51,33 @@ Now you can use this element inside your React App:
 
 ```typescript jsx
 export default function Component({ title, children }) {
-  return <>
-    <Heading>{title}</Heading>
-    <Element>{chidlren}</Element>
-  </>;
+  return (
+    <>
+      <Heading>{title}</Heading>
+      <Element>{children}</Element>
+    </>
+  );
 }
 ```
 
-Customize styles in-place using `styles` attribute:
+#### Extend base options
+
+You can use `tasty()` function to extend styling of the existing component.
 
 ```typescript jsx
-<Element styles={{ color: 'red' }}>{chidlren}</Element>
+const CustomElement = tasty(Element, {
+  /** Change tag name */
+  as: 'input',
+  /** Extend or rewrite styles */
+  styles: {
+    color: '#purple',
+  },
+  /** Add more default properties/attributes */
+  role: 'article',
+});
 ```
 
-Customize styles in context:
-
-```typescript jsx
-import { StylesProvider } from 'tastycss-react';
-
-export default function Component({ title, children }) {
-  return <StylesProvider Article={{
-    color: 'red',
-  }}>
-    <Heading>{title}</Heading>
-    <Element>{chidlren}</Element>
-    <Element>{chidlren}</Element>
-  </StylesProvider>;
-}
-```
-
-#### Responsive breakpoints
-
-Customize responsive breakpoints:
-
-```typescript jsx
-import { BreakpointsProvider } from 'tastycss-react';
-
-export default function Component({ title, children }) {
-  return <BreakpointsProvider value={[1200, 960]}>
-    <Heading>{title}</Heading>
-    <Element>{chidlren}</Element>
-    <Element>{chidlren}</Element>
-  </BreakpointsProvider>;
-}
-```
-
-This will create two breakpoints (1200px and 960px) which will split possible screen width into three zones: >=1200px, >=960px & <1200px, <960px.
-
-Then you can create responsive styles with specific value for each zone:
-
-```typescript jsx
-<Element styles={{ 
-  color: [
-    'red', // >=1200px
-    'blue', // >=960px & <1200px
-    'purple', // <960px
-  ],
-}}>
-  content
-</Element>
-```
-
-#### Style-to-state bindings
-
-Style-to-state binding works gracefully and allows to use logical operators:
-
-```typescript jsx
-// This example is not a real-life case. It's only a demonstation of library capabilities.
-<Element styles={{
-  color: {
-    // default
-    '': 'yellow',
-    // if `blue` mod is presented on the element
-    'blue': 'blue',
-    // if `blue` mod is not presented on the element and the element is hovered
-    '!blue & :hover': 'purple',
-    // if `green` or `success` mod is presented on the element
-    'success | green': 'green',
-    // if either `red` or `danger` mod is presented on the element
-    'success ^ green': 'green',
-  }
-}}></Element>
-```
-
-You can use even more complex expressions with brackets. The algorithm will go from the last to the first expression trying to match every possible combination of modifiers. If the combination is matched then it applies the style value to that selector.
-
-**This documentation is work in progress. It is not yet ready.**
+**Documentation is work in progress.**
 
 ## Contributing
 
