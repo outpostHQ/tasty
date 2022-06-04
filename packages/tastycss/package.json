@@ -79,7 +79,7 @@
   ],
   "scripts": {
     "build": "rollup -c rollup.config.js && yarn size-limit",
-    "test": "web-test-runner test/*.test.js --node-resolve",
+    "test": "jest",
     "fix": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\" && eslint --fix --cache src --ext .js,.ts,.jsx,.tsx"
   },
   "devDependencies": {
@@ -88,10 +88,10 @@
     "@rollup/plugin-typescript": "8.3.2",
     "@size-limit/preset-small-lib": "7.0.8",
     "@testing-library/jest-dom": "5.16.4",
+    "@testing-library/react": "^13.3.0",
     "@typescript-eslint/eslint-plugin": "5.26.0",
     "@typescript-eslint/parser": "5.26.0",
     "@web/dev-server-esbuild": "0.3.0",
-    "@web/test-runner": "0.13.28",
     "babel-eslint": "10.1.0",
     "eslint": "8.16.0",
     "eslint-config-prettier": "8.5.0",
@@ -101,6 +101,7 @@
     "eslint-plugin-jsx-a11y": "6.5.1",
     "eslint-plugin-react": "7.30.0",
     "eslint-plugin-react-hooks": "4.5.0",
+    "jest": "^28.1.0",
     "prettier": "2.6.2",
     "rollup": "2.75.1",
     "rollup-plugin-local-resolve": "1.0.7",

@@ -5,6 +5,7 @@ const labelablePropNames = new Set(['aria-label', 'aria-labelledby', 'aria-descr
 const BasePropNames = new Set([
 	'role',
 	'as',
+	'element',
 	'css',
 	'qa',
 	'mods',
