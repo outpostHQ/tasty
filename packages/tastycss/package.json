@@ -83,6 +83,8 @@
     "fix": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\" && eslint --fix --cache src --ext .js,.ts,.jsx,.tsx"
   },
   "devDependencies": {
+    "@jenga-ui/button": "^0.1.1",
+    "@jenga-ui/core": "^0.1.1",
     "@open-wc/testing": "3.1.6",
     "@rollup/plugin-commonjs": "22.0.1",
     "@rollup/plugin-typescript": "8.3.3",

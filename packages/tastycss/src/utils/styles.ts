@@ -73,7 +73,7 @@ export const CUSTOM_UNITS = {
 	gp: 'var(--column-gap)',
 	// global setting
 	wh: function wh(num) {
-		return `calc(var(--tasty-visual-viewport-height) / 100 * ${num})`;
+		return `calc(var(--cube-visual-viewport-height) / 100 * ${num})`;
 	},
 	// span unit for GridProvider
 	sp: function spanWidth(num) {
@@ -418,7 +418,7 @@ export function parseColor(val, ignoreError = false) {
 
 	if (!name) {
 		if (!ignoreError && devMode) {
-			console.warn('Tasty: incorrect color value:', val);
+			console.warn('CubeUIKit: incorrect color value:', val);
 		}
 
 		return {};
@@ -588,13 +588,7 @@ export function extractStyles(
 		if (ignoreList && ignoreList.includes(prop)) {
 			// do nothing
 		} else if (styleList.includes(propName)) {
-			// If value is not nullish then map it to the styles
-			if (value != null && value !== false) {
-				styles[propName] = value;
-				// If value is nullish then erase the default value of the style
-			} else if (propName in styles) {
-				delete styles[propName];
-			}
+			styles[propName] = value;
 		}
 	}, {});
 
@@ -985,7 +979,7 @@ export function computeState(
 	const func = COMPUTE_FUNC_MAP[computeModel[0]];
 
 	if (!func) {
-		console.warn('Tasty: unexpected compute method in the model', computeModel);
+		console.warn('CubeUIKit: unexpected compute method in the model', computeModel);
 		// return false;
 	}
 
