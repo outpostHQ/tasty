@@ -73,6 +73,10 @@ export interface StylesInterface extends Omit<CSSProperties, 'color' | 'fill' | 
 	 */
 	styledScrollbar?: boolean;
 	/**
+	 * Set font weight for bold texts.
+	 */
+	boldFontWeight?: number;
+	/**
 	 * Whether the element is hidden using `display: none`.
 	 */
 	hide?: boolean;
@@ -159,6 +163,7 @@ export interface StylesInterface extends Omit<CSSProperties, 'color' | 'fill' | 
 	 */
 	justify?: CSSProperties['justifyItems'] | CSSProperties['justifyContent'];
 }
+
 export type SuffixForSelector =
 	| '&'
 	| '.'

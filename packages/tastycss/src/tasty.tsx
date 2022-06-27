@@ -89,7 +89,7 @@ function tasty<K extends StyleList, C = Record<string, unknown>>(Component, opti
 			const mergedStylesMap: Styles | undefined = useMemo(() => {
 				return propsWithStyles.reduce((map, prop) => {
 					if (restProps[prop] != null && defaultProps[prop] != null) {
-						map[prop] = mergeStyles(restProps[prop], defaultProps[prop]);
+						map[prop] = mergeStyles(defaultProps[prop], restProps[prop]);
 					} else {
 						map[prop] = restProps[prop] || defaultProps[prop];
 					}
