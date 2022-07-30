@@ -3,7 +3,15 @@ import { Styles } from './types';
 
 function setCSSValue(styles: Styles, styleName: string, presetName: string, isPropOnly = false) {
 	styles[`--${styleName}`] =
-		presetName === 'inherit' ? 'inherit' : `var(--${presetName}-${styleName}, var(--default-${styleName}, inherit))`;
+		presetName === 'inherit'
+			? 'inherit'
+			: presetName === 'default'
+			? `var(--default-${styleName}, ${styleName === 'font-family' ? 'var(--font, sans-serif)' : ''})${
+					styleName === 'font-family' ? ', var(--font, sans-serif)' : ''
+			  }`
+			: `var(--${presetName}-${styleName}, var(--default-${styleName}, ${
+					styleName === 'font-family' ? 'var(--font, sans-serif)' : ''
+			  }))${styleName === 'font-family' ? ', var(--font, sans-serif)' : ''}`;
 
 	if (!isPropOnly) {
 		styles[styleName] = styles[`--${styleName}`];

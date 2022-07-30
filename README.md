@@ -89,6 +89,6 @@ Please follow our [contributing guidelines](CONTRIBUTING.md).
 
 ## License
 
-TastyCSS is a project by [Forneu](https://forneu.com).
+TastyCSS is a project by [Outpost](https://outpost.run).
 
 Released under the [MIT License](LICENSE).
