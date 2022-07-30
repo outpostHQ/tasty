@@ -8,7 +8,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Bug Fixes
 
-* (preset-style) font-family fallback and notf. ([fb65272](https://github.com/numldesign/tatsy/commit/fb652720514e75331638be980c85d3cc5f49614b))
+* (preset-style) font-family fallback and notf. ([fb65272](https://github.com/OutpostHQ/tatsy/commit/fb652720514e75331638be980c85d3cc5f49614b))
 
 
 
@@ -67,7 +67,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Bug Fixes
 
-* transition style for some widgets ([b4bfb25](https://github.com/numldesign/tatsy/commit/b4bfb25f989e693374a63dea3e074c2d657efadb))
+* transition style for some widgets ([b4bfb25](https://github.com/OutpostHQ/tatsy/commit/b4bfb25f989e693374a63dea3e074c2d657efadb))
 
 
 
@@ -142,7 +142,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Bug Fixes
 
-* update yarn lock ([eef08c4](https://github.com/numldesign/tatsy/commit/eef08c497e09376966846079465459fc9efa6603))
+* update yarn lock ([eef08c4](https://github.com/OutpostHQ/tatsy/commit/eef08c497e09376966846079465459fc9efa6603))
 
 
 
@@ -156,12 +156,12 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-# [0.5.0](https://github.com/numldesign/tatsy/compare/v0.4.4...v0.5.0) (2022-01-11)
+# [0.5.0](https://github.com/OutpostHQ/tatsy/compare/v0.4.4...v0.5.0) (2022-01-11)
 
 
 ### Features
 
-* add suffix support for selectors ([b3ebd75](https://github.com/numldesign/tatsy/commit/b3ebd75cefc25ff4325fc72e01db51687bbb1476))
+* add suffix support for selectors ([b3ebd75](https://github.com/OutpostHQ/tatsy/commit/b3ebd75cefc25ff4325fc72e01db51687bbb1476))
 
 
 
