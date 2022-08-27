@@ -1,10 +1,10 @@
 import { ResponsiveStyleValue } from './styles';
 
 export function mediaWrapper(cssRules, points) {
-	return points
-		.filter((point) => point.mediaQuery)
-		.map((point, i) => `@media ${point.mediaQuery} {${cssRules[i]}}`)
-		.join('\n');
+  return points
+    .filter((point) => point.mediaQuery)
+    .map((point, i) => `@media ${point.mediaQuery} {${cssRules[i]}}`)
+    .join('\n');
 }
 
 export interface ResponsiveZone {
@@ -16,45 +16,45 @@ export interface ResponsiveZone {
 const zonesCache = {};
 
 export function pointsToZones(points: number[]) {
-	const cacheKey = points.join('|');
+  const cacheKey = points.join('|');
 
-	if (!zonesCache[cacheKey]) {
-		const zones: ResponsiveZone[] = [];
+  if (!zonesCache[cacheKey]) {
+    const zones: ResponsiveZone[] = [];
 
-		points.forEach((point, i) => {
-			const zone: ResponsiveZone = {};
+    points.forEach((point, i) => {
+      const zone: ResponsiveZone = {};
 
-			if (i) {
-				zone.max = points[i - 1] - 1;
-			}
+      if (i) {
+        zone.max = points[i - 1] - 1;
+      }
 
-			zone.min = point;
+      zone.min = point;
 
-			zones.push(zone);
-		});
+      zones.push(zone);
+    });
 
-		zones.push({
-			max: points[points.length - 1] - 1,
-		});
+    zones.push({
+      max: points[points.length - 1] - 1,
+    });
 
-		zones.forEach((zone) => {
-			const queries: string[] = [];
+    zones.forEach((zone) => {
+      const queries: string[] = [];
 
-			if (zone.min) {
-				queries.push(`(min-width: ${zone.min}px)`);
-			}
+      if (zone.min) {
+        queries.push(`(min-width: ${zone.min}px)`);
+      }
 
-			if (zone.max) {
-				queries.push(`(max-width: ${zone.max}px)`);
-			}
+      if (zone.max) {
+        queries.push(`(max-width: ${zone.max}px)`);
+      }
 
-			zone.mediaQuery = queries.join(' and ');
-		});
+      zone.mediaQuery = queries.join(' and ');
+    });
 
-		zonesCache[cacheKey] = zones;
-	}
+    zonesCache[cacheKey] = zones;
+  }
 
-	return zonesCache[cacheKey];
+  return zonesCache[cacheKey];
 }
 
 // export function getResponsiveValue(values, zoneNumber) {
@@ -64,23 +64,23 @@ export function pointsToZones(points: number[]) {
 // }
 
 export function normalizeStyleZones(value: ResponsiveStyleValue, zoneNumber: number) {
-	if (value == null) return value;
+  if (value == null) return value;
 
-	const arr = Array.from(Array(zoneNumber));
+  const arr = Array.from(Array(zoneNumber));
 
-	if (typeof value === 'string') return arr.map(() => value);
+  if (typeof value === 'string') return arr.map(() => value);
 
-	if (Array.isArray(value)) {
-		let prevValue = null;
+  if (Array.isArray(value)) {
+    let prevValue = null;
 
-		for (let i = 0; i < arr.length; i++) {
-			arr[i] = value[i] == null ? prevValue : value[i];
+    for (let i = 0; i < arr.length; i++) {
+      arr[i] = value[i] == null ? prevValue : value[i];
 
-			prevValue = arr[i];
-		}
+      prevValue = arr[i];
+    }
 
-		return arr;
-	}
+    return arr;
+  }
 
-	return [];
+  return [];
 }

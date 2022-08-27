@@ -1,15 +1,16 @@
 import { AllHTMLAttributes, CSSProperties } from 'react';
+
 import { Styles } from './styles/types';
 import {
-	BASE_STYLES,
-	BLOCK_STYLES,
-	COLOR_STYLES,
-	CONTAINER_STYLES,
-	DIMENSION_STYLES,
-	FLOW_STYLES,
-	OUTER_STYLES,
-	POSITION_STYLES,
-	TEXT_STYLES,
+  BASE_STYLES,
+  BLOCK_STYLES,
+  COLOR_STYLES,
+  CONTAINER_STYLES,
+  DIMENSION_STYLES,
+  FLOW_STYLES,
+  OUTER_STYLES,
+  POSITION_STYLES,
+  TEXT_STYLES,
 } from './styles/list';
 
 export interface GlobalStyledProps {

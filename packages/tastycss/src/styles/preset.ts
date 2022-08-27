@@ -1,83 +1,90 @@
 import { parseStyle } from '../utils/styles';
+
 import { Styles } from './types';
 
 function setCSSValue(styles: Styles, styleName: string, presetName: string, isPropOnly = false) {
-	styles[`--${styleName}`] =
-		presetName === 'inherit'
-			? 'inherit'
-			: presetName === 'default'
-			? `var(--default-${styleName}, ${styleName === 'font-family' ? 'var(--font, sans-serif)' : ''})${
-					styleName === 'font-family' ? ', var(--font, sans-serif)' : ''
-			  }`
-			: `var(--${presetName}-${styleName}, var(--default-${styleName}, ${
-					styleName === 'font-family' ? 'var(--font, sans-serif)' : ''
-			  }))${styleName === 'font-family' ? ', var(--font, sans-serif)' : ''}`;
+  styles[`--${styleName}`] = (() => {
+    if (presetName === 'inherit') {
+      return 'inherit';
+    }
 
-	if (!isPropOnly) {
-		styles[styleName] = styles[`--${styleName}`];
-	}
+    const defaultValue = `var(--default-${styleName}, ${
+      styleName === 'font-family' ? 'var(--font, NonexistentFontName)' : 'inherit'
+    })`;
+    const fontSuffix = styleName === 'font-family' ? ', var(--font, sans-serif)' : '';
+
+    if (presetName === 'default') {
+      return `${defaultValue}${fontSuffix}`;
+    } else {
+      return `var(--${presetName}-${styleName}, ${defaultValue})${fontSuffix}`;
+    }
+  })();
+
+  if (!isPropOnly) {
+    styles[styleName] = styles[`--${styleName}`];
+  }
 }
 
 export function presetStyle({
-	preset,
-	fontSize,
-	lineHeight,
-	textTransform,
-	letterSpacing,
-	fontWeight,
-	fontStyle,
-	font,
+  preset,
+  fontSize,
+  lineHeight,
+  textTransform,
+  letterSpacing,
+  fontWeight,
+  fontStyle,
+  font,
 }) {
-	if (!preset) return '';
+  if (!preset) return '';
 
-	if (preset === true) preset = '';
+  if (preset === true) preset = '';
 
-	const { mods } = parseStyle(preset);
+  const { mods } = parseStyle(preset);
 
-	const name = mods[0] || 'default';
+  const name = mods[0] || 'default';
 
-	const styles: Styles = {};
+  const styles: Styles = {};
 
-	if (!fontSize) {
-		setCSSValue(styles, 'font-size', name);
-	}
+  if (!fontSize) {
+    setCSSValue(styles, 'font-size', name);
+  }
 
-	if (!lineHeight) {
-		setCSSValue(styles, 'line-height', name);
-	}
+  if (!lineHeight) {
+    setCSSValue(styles, 'line-height', name);
+  }
 
-	if (!letterSpacing) {
-		setCSSValue(styles, 'letter-spacing', name);
-	}
+  if (!letterSpacing) {
+    setCSSValue(styles, 'letter-spacing', name);
+  }
 
-	if (!fontWeight) {
-		setCSSValue(styles, 'font-weight', name);
-	}
+  if (!fontWeight) {
+    setCSSValue(styles, 'font-weight', name);
+  }
 
-	if (!fontStyle) {
-		setCSSValue(styles, 'font-style', name);
-	}
+  if (!fontStyle) {
+    setCSSValue(styles, 'font-style', name);
+  }
 
-	if (!textTransform) {
-		setCSSValue(styles, 'text-transform', name);
-	}
+  if (!textTransform) {
+    setCSSValue(styles, 'text-transform', name);
+  }
 
-	if (!font) {
-		setCSSValue(styles, 'font-family', name);
-	}
+  if (!font) {
+    setCSSValue(styles, 'font-family', name);
+  }
 
-	setCSSValue(styles, 'bold-font-weight', name, true);
+  setCSSValue(styles, 'bold-font-weight', name, true);
 
-	return styles;
+  return styles;
 }
 
 presetStyle.__lookupStyles = [
-	'preset',
-	'fontSize',
-	'lineHeight',
-	'letterSpacing',
-	'textTransform',
-	'fontWeight',
-	'fontStyle',
-	'font',
+  'preset',
+  'fontSize',
+  'lineHeight',
+  'letterSpacing',
+  'textTransform',
+  'fontWeight',
+  'fontStyle',
+  'font',
 ];

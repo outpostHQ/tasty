@@ -14,7 +14,7 @@
     "publish:dev": "run-s build:dev publish:beta"
   },
   "devDependencies": {
-    "lerna": "^5.3.0",
+    "lerna": "^5.4.3",
     "prettier": "^2.7.1"
   }
 }

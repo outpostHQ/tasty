@@ -4,11 +4,11 @@
  * @return {Object<string,string>}
  */
 export function modAttrs(map) {
-	return Object.keys(map).reduce((attrs, key) => {
-		if (map[key]) {
-			attrs[`data-is-${key}`] = '';
-		}
+  return Object.keys(map).reduce((attrs, key) => {
+    if (map[key]) {
+      attrs[`data-is-${key}`] = '';
+    }
 
-		return attrs;
-	}, {});
+    return attrs;
+  }, {});
 }

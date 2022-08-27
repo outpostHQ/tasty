@@ -1,150 +1,144 @@
 import { getByTestId, render } from '@testing-library/react';
-import { tasty } from './tasty';
+
 import { Button } from '@jenga-ui/button';
 import { Block } from '@jenga-ui/core';
+
+import { tasty } from './tasty';
 import { CONTAINER_STYLES } from './styles/list';
 
 describe('tasty() API', () => {
-	beforeEach(() => {
-		jest.clearAllMocks();
-	});
+  it('should provide defaults and give ability to override', () => {
+    const SButton = tasty(Button, { type: 'primary' });
 
-	afterAll(() => {
-		jest.restoreAllMocks();
-	});
+    const { getByTestId, rerender } = render(<SButton qa="button" label="Button" />);
+    expect(getByTestId('button').dataset.type).toBe('primary');
 
-	it('should provide defaults and give ability to override', () => {
-		const SButton = tasty(Button, { type: 'primary' });
+    rerender(<SButton type="secondary" qa="button" label="Button" />);
+    expect(getByTestId('button').dataset.type).toBe('secondary');
+  });
 
-		const { getByTestId, rerender } = render(<SButton qa="button" label="Button" />);
-		expect(getByTestId('button').dataset.type).toBe('primary');
+  it('should pass styles from tasty', () => {
+    const StyledBlock = tasty(Block, { styles: { color: '#clear.1' } });
+    const { container } = render(<StyledBlock />);
 
-		rerender(<SButton type="secondary" qa="button" label="Button" />);
-		expect(getByTestId('button').dataset.type).toBe('secondary');
-	});
+    expect(container).toMatchSnapshot();
+  });
 
-	it('should pass styles from tasty', () => {
-		const StyledBlock = tasty(Block, { styles: { color: '#clear.1' } });
-		const { container } = render(<StyledBlock />);
+  it('should merge styles', () => {
+    const Block = tasty({
+      styles: {
+        color: { '': '#dark', 'modified': '#purple' },
+        fill: '#white',
+      },
+    });
+    const StyledBlock = tasty(Block, {
+      styles: { fill: '#black' },
+    });
+    const { container } = render(<StyledBlock />);
 
-		expect(container).toMatchSnapshot();
-	});
+    expect(container).toMatchSnapshot();
+  });
 
-	it('should merge styles', () => {
-		const Block = tasty({
-			styles: {
-				color: { '': '#dark', 'modified': '#purple' },
-				fill: '#white',
-			},
-		});
-		const StyledBlock = tasty(Block, {
-			styles: { fill: '#black' },
-		});
-		const { container } = render(<StyledBlock />);
+  it('should merge styles in custom prop', () => {
+    const Block = tasty({
+      inputStyles: {
+        color: { '': '#dark', 'modified': '#purple' },
+        fill: '#white',
+      },
+    });
+    const StyledBlock = tasty(Block, {
+      inputStyles: { fill: '#black' },
+    });
+    const { container } = render(<StyledBlock />);
 
-		expect(container).toMatchSnapshot();
-	});
+    expect(container).toMatchSnapshot();
+  });
 
-	it('should merge styles in custom prop', () => {
-		const Block = tasty({
-			inputStyles: {
-				color: { '': '#dark', 'modified': '#purple' },
-				fill: '#white',
-			},
-		});
-		const StyledBlock = tasty(Block, {
-			inputStyles: { fill: '#black' },
-		});
-		const { container } = render(<StyledBlock />);
+  it('should be able to override styles', () => {
+    const StyledBlock = tasty(Block, { styles: { color: '#clear.1' } });
+    const { container } = render(<StyledBlock styles={{ color: '#black.1' }} />);
 
-		expect(container).toMatchSnapshot();
-	});
+    expect(container).toMatchSnapshot();
+  });
 
-	it('should be able to override styles', () => {
-		const StyledBlock = tasty(Block, { styles: { color: '#clear.1' } });
-		const { container } = render(<StyledBlock styles={{ color: '#black.1' }} />);
+  it('should pass qa prop', () => {
+    const StyledBlock = tasty({ qa: 'Field' });
+    const { container } = render(<StyledBlock />);
 
-		expect(container).toMatchSnapshot();
-	});
+    expect(getByTestId(container, 'Field', {})).toBeDefined();
+  });
 
-	it('should pass qa prop', () => {
-		const StyledBlock = tasty({ qa: 'Field' });
-		const { container } = render(<StyledBlock />);
+  it('should create responsive styles', () => {
+    const StyledBlock = tasty(Block, { styles: { display: ['grid', 'flex'] } });
+    const { container } = render(<StyledBlock />);
 
-		expect(getByTestId(container, 'Field', {})).toBeDefined();
-	});
+    expect(container).toMatchSnapshot();
+  });
 
-	it('should create responsive styles', () => {
-		const StyledBlock = tasty(Block, { styles: { display: ['grid', 'flex'] } });
-		const { container } = render(<StyledBlock />);
+  it('should create element styles', () => {
+    const Block = tasty({
+      styles: { Element: { color: { '': '#dark', 'modified': '#purple' } } },
+    });
+    const { container } = render(<Block />);
 
-		expect(container).toMatchSnapshot();
-	});
+    expect(container).toMatchSnapshot();
+  });
 
-	it('should create element styles', () => {
-		const Block = tasty({
-			styles: { Element: { color: { '': '#dark', 'modified': '#purple' } } },
-		});
-		const { container } = render(<Block />);
+  it('should merge element styles', () => {
+    const Block = tasty({
+      styles: {
+        Element: {
+          color: { '': '#dark', 'modified': '#purple' },
+          fill: '#white',
+        },
+      },
+    });
+    const StyledBlock = tasty(Block, {
+      styles: { Element: { fill: '#black' } },
+    });
+    const { container } = render(<StyledBlock />);
 
-		expect(container).toMatchSnapshot();
-	});
+    expect(container).toMatchSnapshot();
+  });
 
-	it('should merge element styles', () => {
-		const Block = tasty({
-			styles: {
-				Element: {
-					color: { '': '#dark', 'modified': '#purple' },
-					fill: '#white',
-				},
-			},
-		});
-		const StyledBlock = tasty(Block, {
-			styles: { Element: { fill: '#black' } },
-		});
-		const { container } = render(<StyledBlock />);
+  it('should define style props', () => {
+    const Block = tasty({
+      styles: {
+        border: '2bw',
+      },
+      styleProps: CONTAINER_STYLES,
+    });
 
-		expect(container).toMatchSnapshot();
-	});
+    const { container } = render(<Block border={true} />);
 
-	it('should define style props', () => {
-		const Block = tasty({
-			styles: {
-				border: '2bw',
-			},
-			styleProps: CONTAINER_STYLES,
-		});
+    expect(container).toMatchSnapshot();
+  });
 
-		const { container } = render(<Block border={true} />);
+  it('should allow multiple wrapping', () => {
+    const Block = tasty({
+      styles: {
+        position: 'relative',
+        padding: '1x top',
+        border: true,
+      },
+      styleProps: CONTAINER_STYLES,
+    });
+    const SecondBlock = tasty(Block, {
+      styles: {
+        border: false,
+      },
+    });
+    const ThirdBlock = tasty(SecondBlock, {
+      styles: {
+        position: 'static',
+        padding: '2x top',
+        color: '#white',
+        border: '#black',
+      },
+    });
 
-		expect(container).toMatchSnapshot();
-	});
+    const { container } = render(<ThirdBlock display="flex" />);
 
-	it('should allow multiple wrapping', () => {
-		const Block = tasty({
-			styles: {
-				position: 'relative',
-				padding: '1x top',
-				border: true,
-			},
-			styleProps: CONTAINER_STYLES,
-		});
-		const SecondBlock = tasty(Block, {
-			styles: {
-				border: false,
-			},
-		});
-		const ThirdBlock = tasty(SecondBlock, {
-			styles: {
-				position: 'static',
-				padding: '2x top',
-				color: '#white',
-				border: '#black',
-			},
-		});
-
-		const { container } = render(<ThirdBlock display="flex" />);
-
-		expect(container).toMatchSnapshot();
-	});
+    expect(container).toMatchSnapshot();
+  });
 });
