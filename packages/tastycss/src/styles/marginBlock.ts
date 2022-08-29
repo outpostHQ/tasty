@@ -1,6 +1,10 @@
 import { parseStyle } from '../utils/styles';
 
-export function marginBlockStyle({ marginBlock: margin, marginTop, marginBottom }) {
+export function marginBlockStyle({
+  marginBlock: margin,
+  marginTop,
+  marginBottom,
+}) {
   if (typeof margin === 'number') {
     margin = `${margin}px`;
   }

@@ -5,9 +5,9 @@ import { mediaWrapper, normalizeStyleZones } from './responsive';
 import { StyleHandler, StyleMap, StyleValueStateMap } from './styles';
 
 type HandlerQueueItem = {
-	handler: StyleHandler;
-	styleMap: StyleMap;
-	isResponsive: boolean;
+  handler: StyleHandler;
+  styleMap: StyleMap;
+  isResponsive: boolean;
 };
 
 export function isSelector(key) {
@@ -46,7 +46,11 @@ const CACHE_LIMIT = 1000;
  * @param {string} [suffix]
  * @return {string}
  */
-export function renderStyles(styles: Styles, responsive: number[], suffix?: string) {
+export function renderStyles(
+  styles: Styles,
+  responsive: number[],
+  suffix?: string,
+) {
   const zones = responsive;
   const responsiveStyles = Array.from(Array(zones.length)).map(() => '');
   const cacheKey = JSON.stringify({ s: styles, r: responsive, suffix });
@@ -73,7 +77,11 @@ export function renderStyles(styles: Styles, responsive: number[], suffix?: stri
       selectorKeys.forEach((key) => {
         const addSuffix = getSelector(key);
 
-        innerStyles += renderStyles(styles[key] as Styles, responsive, addSuffix);
+        innerStyles += renderStyles(
+          styles[key] as Styles,
+          responsive,
+          addSuffix,
+        );
       });
     }
 
@@ -87,7 +95,8 @@ export function renderStyles(styles: Styles, responsive: number[], suffix?: stri
       }
 
       handlers.forEach((STYLE) => {
-        if (handlerQueue.find((queueItem) => queueItem.handler === STYLE)) return;
+        if (handlerQueue.find((queueItem) => queueItem.handler === STYLE))
+          return;
 
         let isResponsive = false;
         const lookupStyles = STYLE.__lookupStyles;
@@ -139,18 +148,25 @@ export function renderStyles(styles: Styles, responsive: number[], suffix?: stri
           return pointProps;
         });
 
-        const rulesByPoint = propsByPoint.map((props) => handler(props, suffix));
+        const rulesByPoint = propsByPoint.map((props) =>
+          handler(props, suffix),
+        );
 
         rulesByPoint.forEach((rules, i) => {
           responsiveStyles[i] += rules || '';
         });
       } else {
-        rawStyles += handler(styleMap as StyleValueStateMap<string>, suffix) || '';
+        rawStyles +=
+          handler(styleMap as StyleValueStateMap<string>, suffix) || '';
       }
     });
 
-    STYLE_CACHE[cacheKey] = `outline: none;\n&[hidden]{display: none !important;}${rawStyles}${
-      responsive && responsive.length && responsiveStyles.filter((s) => s).length
+    STYLE_CACHE[
+      cacheKey
+    ] = `outline: none;\n&[hidden]{display: none !important;}${rawStyles}${
+      responsive &&
+      responsive.length &&
+      responsiveStyles.filter((s) => s).length
         ? mediaWrapper(responsiveStyles, zones)
         : ''
     }${innerStyles}`;

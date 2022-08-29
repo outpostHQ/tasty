@@ -13,18 +13,20 @@ export function deprecationWarning(
     betterAlternative,
     reason,
   }: {
-		property: string;
-		name: string;
-		betterAlternative: (() => string) | string;
-		reason?: (() => string) | string;
-	},
+    property: string;
+    name: string;
+    betterAlternative: (() => string) | string;
+    reason?: (() => string) | string;
+  },
 ) {
   if (condition) return;
 
   if (process.env.NODE_ENV === 'production') {
     return warn(
       `DEPRECATION ${name} "${property}" -> ${
-        typeof betterAlternative === 'function' ? betterAlternative() : betterAlternative
+        typeof betterAlternative === 'function'
+          ? betterAlternative()
+          : betterAlternative
       }`,
     );
   }
@@ -34,7 +36,9 @@ export function deprecationWarning(
   console.group(`⚠️ ${PREFIX}: Deprecation in ${name}`);
   warn(
     `"${property}" is deprecated, consider better alternative: ${
-      typeof betterAlternative === 'function' ? betterAlternative() : betterAlternative
+      typeof betterAlternative === 'function'
+        ? betterAlternative()
+        : betterAlternative
     }`,
   );
   reason && warn(`Reason: ${typeof reason === 'function' ? reason() : reason}`);

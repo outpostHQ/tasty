@@ -8,9 +8,9 @@ export function mediaWrapper(cssRules, points) {
 }
 
 export interface ResponsiveZone {
-	max?: number;
-	min?: number;
-	mediaQuery?: string;
+  max?: number;
+  min?: number;
+  mediaQuery?: string;
 }
 
 const zonesCache = {};
@@ -63,7 +63,10 @@ export function pointsToZones(points: number[]) {
 //   }
 // }
 
-export function normalizeStyleZones(value: ResponsiveStyleValue, zoneNumber: number) {
+export function normalizeStyleZones(
+  value: ResponsiveStyleValue,
+  zoneNumber: number,
+) {
   if (value == null) return value;
 
   const arr = Array.from(Array(zoneNumber));

@@ -1,4 +1,8 @@
-import { RawStyleHandler, StyleHandler, styleHandlerCacheWrapper } from '../utils/styles';
+import {
+  RawStyleHandler,
+  StyleHandler,
+  styleHandlerCacheWrapper,
+} from '../utils/styles';
 
 import { gapStyle } from './gap';
 import { fillStyle } from './fill';
@@ -55,7 +59,10 @@ type StyleHandlerMap = Record<string, StyleHandler[]>;
 
 export const STYLE_HANDLER_MAP: StyleHandlerMap = {};
 
-export function defineCustomStyle(names: string[] | StyleHandler, handler?: RawStyleHandler) {
+export function defineCustomStyle(
+  names: string[] | StyleHandler,
+  handler?: RawStyleHandler,
+) {
   let handlerWithLookup: StyleHandler;
 
   if (typeof names === 'function') {
@@ -82,9 +89,15 @@ export function defineCustomStyle(names: string[] | StyleHandler, handler?: RawS
   }
 }
 
-type ConverterHandler = (s: string | boolean | number | undefined) => string | undefined;
+type ConverterHandler = (
+  s: string | boolean | number | undefined,
+) => string | undefined;
 
-export function defineStyleAlias(styleName: string, cssStyleName?: string, converter?: ConverterHandler) {
+export function defineStyleAlias(
+  styleName: string,
+  cssStyleName?: string,
+  converter?: ConverterHandler,
+) {
   const styleHandler = createStyle(styleName, cssStyleName, converter);
 
   if (!STYLE_HANDLER_MAP[styleName]) {
@@ -159,7 +172,7 @@ export function predefine() {
     groupRadiusAttr,
     styledScrollbarStyle,
   ]
-  // @ts-ignore
+    // @ts-ignore
     .forEach((handler) => defineCustomStyle(handler));
 
   return { STYLE_HANDLER_MAP, defineCustomStyle, defineStyleAlias };

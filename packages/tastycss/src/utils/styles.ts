@@ -5,33 +5,36 @@ import { getModCombinations } from './index';
 export type StyleValue<T = string> = T | boolean | number | null;
 
 export type StyleValueStateMap<T = string> = {
-	[key: string]: StyleValue<T>;
+  [key: string]: StyleValue<T>;
 };
 
 export type ResponsiveStyleValue<T = string> =
-	| StyleValue<T>
-	| StyleValue<T>[]
-	| StyleValueStateMap<T>
-	| StyleValueStateMap<T>[];
+  | StyleValue<T>
+  | StyleValue<T>[]
+  | StyleValueStateMap<T>
+  | StyleValueStateMap<T>[];
 
 export type ComputeModel = string | number;
 
 export type CSSMap = { $?: string } & { [key: string]: string | string[] };
 
-export type RawStyleHandler = (value: StyleValueStateMap, suffix?: string) => CSSMap | CSSMap[] | void;
+export type RawStyleHandler = (
+  value: StyleValueStateMap,
+  suffix?: string,
+) => CSSMap | CSSMap[] | void;
 
 export type StyleHandler = RawStyleHandler & {
-	__lookupStyles: string[];
+  __lookupStyles: string[];
 };
 
 export interface StyleStateData {
-	model?: ComputeModel;
-	tokens?: string[];
-	value: ResponsiveStyleValue;
-	/** The list of mods to apply */
-	mods: string[];
-	/** The list of **not** mods to apply (e.g. `:not(:hover)`) */
-	notMods: string[];
+  model?: ComputeModel;
+  tokens?: string[];
+  value: ResponsiveStyleValue;
+  /** The list of mods to apply */
+  mods: string[];
+  /** The list of **not** mods to apply (e.g. `:not(:hover)`) */
+  notMods: string[];
 }
 
 export type StyleStateDataList = StyleStateData[];
@@ -40,12 +43,12 @@ export type StyleStateDataListMap = { [key: string]: StyleStateDataList };
 
 /** An object that describes a relation between specific modifiers and style value. **/
 export interface StyleState {
-	/** The list of mods to apply */
-	mods: string[];
-	/** The list of **not** mods to apply (e.g. `:not(:hover)`) */
-	notMods: string[];
-	/** The value to apply */
-	value: StyleMap;
+  /** The list of mods to apply */
+  mods: string[];
+  /** The list of **not** mods to apply (e.g. `:not(:hover)`) */
+  notMods: string[];
+  /** The value to apply */
+  value: StyleMap;
 }
 
 export type ComputeUnit = string | (string | string[])[];
@@ -77,22 +80,35 @@ export const CUSTOM_UNITS = {
   },
   // span unit for GridProvider
   sp: function spanWidth(num) {
-    return `((${num} * var(--column-width)) + (${num - 1} * var(--column-gap)))`;
+    return `((${num} * var(--column-width)) + (${
+      num - 1
+    } * var(--column-gap)))`;
   },
 };
 
 export const DIRECTIONS = ['top', 'right', 'bottom', 'left'];
 
 const COLOR_FUNCS = ['rgb', 'rgba'];
-const IGNORE_MODS = ['auto', 'max-content', 'min-content', 'none', 'subgrid', 'initial'];
+const IGNORE_MODS = [
+  'auto',
+  'max-content',
+  'min-content',
+  'none',
+  'subgrid',
+  'initial',
+];
 
-const ATTR_REGEXP
-	= /("[^"]*")|('[^']*')|([a-z-]+\()|(#[a-z0-9.-]{2,}(?![a-f0-9[-]))|(--[a-z0-9-]+|@[a-z0-9-]+)|([a-z][a-z0-9-]*)|(([0-9]+(?![0-9.])|[0-9-.]{2,}|[0-9-]{2,}|[0-9.-]{3,})([a-z%]{0,3}))|([*/+-])|([()])|(,)/gi;
+const ATTR_REGEXP =
+  /("[^"]*")|('[^']*')|([a-z-]+\()|(#[a-z0-9.-]{2,}(?![a-f0-9[-]))|(--[a-z0-9-]+|@[a-z0-9-]+)|([a-z][a-z0-9-]*)|(([0-9]+(?![0-9.])|[0-9-.]{2,}|[0-9-]{2,}|[0-9.-]{3,})([a-z%]{0,3}))|([*/+-])|([()])|(,)/gi;
 const ATTR_CACHE = new Map();
 const ATTR_CACHE_AUTOCALC = new Map();
 const ATTR_CACHE_IGNORE_COLOR = new Map();
 const MAX_CACHE = 10000;
-const ATTR_CACHE_MODE_MAP = [ATTR_CACHE_AUTOCALC, ATTR_CACHE, ATTR_CACHE_IGNORE_COLOR];
+const ATTR_CACHE_MODE_MAP = [
+  ATTR_CACHE_AUTOCALC,
+  ATTR_CACHE,
+  ATTR_CACHE_IGNORE_COLOR,
+];
 const PREPARE_REGEXP = /calc\((\d*)\)/gi;
 
 export function createRule(prop, value, selector) {
@@ -227,13 +243,19 @@ export function parseStyle(value, mode = 0) {
             if (currentValue.includes('(')) {
               const index = currentValue.lastIndexOf('(');
 
-              currentValue = `${currentValue.slice(0, index)}(calc(${currentValue.slice(index + 1)}`;
+              currentValue = `${currentValue.slice(
+                0,
+                index,
+              )}(calc(${currentValue.slice(index + 1)}`;
 
               calc = counter;
               counter++;
             }
           } else if (values.length) {
-            parsedValue = parsedValue.slice(0, parsedValue.length - values[values.length - 1].length - 1);
+            parsedValue = parsedValue.slice(
+              0,
+              parsedValue.length - values[values.length - 1].length - 1,
+            );
 
             let tmp = values.splice(values.length - 1, 1)[0];
 
@@ -308,7 +330,9 @@ export function parseStyle(value, mode = 0) {
     }
 
     if (counter) {
-      let prepared = prepareParsedValue(`${currentValue.trim()}${')'.repeat(counter)}`);
+      let prepared = prepareParsedValue(
+        `${currentValue.trim()}${')'.repeat(counter)}`,
+      );
 
       if (prepared.startsWith('color(')) {
         prepared = prepared.slice(6, -1);
@@ -381,8 +405,10 @@ export function parseColor(val, ignoreError = false) {
     }
 
     if (!color) {
-      color
-				= opacity !== 100 ? rgbColorProp(name, Math.round(opacity) / 100) : colorProp(name, null, strToRgb(`#${name}`));
+      color =
+        opacity !== 100
+          ? rgbColorProp(name, Math.round(opacity) / 100)
+          : colorProp(name, null, strToRgb(`#${name}`));
     }
 
     return {
@@ -459,7 +485,9 @@ export function rgbColorProp(
   const fallbackValuePart = fallbackValue ? `, ${fallbackValue}` : '';
 
   return `rgba(var(--${colorName}-color-rgb${
-    fallbackColorName ? `, var(--${fallbackColorName}-color-rgb, ${fallbackValuePart})` : fallbackValuePart
+    fallbackColorName
+      ? `, var(--${fallbackColorName}-color-rgb, ${fallbackValuePart})`
+      : fallbackValuePart
   }), ${opacity})`;
 }
 
@@ -467,7 +495,9 @@ export function colorProp(colorName, fallbackColorName, fallbackValue) {
   const fallbackValuePart = fallbackValue ? `, ${fallbackValue}` : '';
 
   return `var(--${colorName}-color${
-    fallbackColorName ? `, var(--${fallbackColorName}${fallbackValuePart})` : fallbackValuePart
+    fallbackColorName
+      ? `, var(--${fallbackColorName}${fallbackValuePart})`
+      : fallbackValuePart
   })`;
 }
 
@@ -490,7 +520,10 @@ export function getRgbValuesFromRgbaString(str) {
 
 export function hexToRgb(hex) {
   const rgba = hex
-    .replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i, (m, r, g, b) => '#' + r + r + g + g + b + b)
+    .replace(
+      /^#?([a-f\d])([a-f\d])([a-f\d])$/i,
+      (m, r, g, b) => '#' + r + r + g + g + b + b,
+    )
     .substring(1)
     .match(/.{2}/g)
     .map((x, i) => parseInt(x, 16) * (i === 3 ? 1 / 255 : 1));
@@ -610,28 +643,31 @@ export function renderStylesToSC(styles: CSSMap | CSSMap[], selector = '') {
   }
 
   const { $, css, ...styleProps } = styles;
-  let renderedStyles = Object.keys(styleProps).reduce((styleList, styleName) => {
-    const value = styleProps[styleName];
+  let renderedStyles = Object.keys(styleProps).reduce(
+    (styleList, styleName) => {
+      const value = styleProps[styleName];
 
-    if (Array.isArray(value)) {
-      return (
-        styleList
-				+ value.reduce((css, val) => {
-				  if (val) {
-				    return css + `${styleName}:${val};\n`;
-				  }
+      if (Array.isArray(value)) {
+        return (
+          styleList +
+          value.reduce((css, val) => {
+            if (val) {
+              return css + `${styleName}:${val};\n`;
+            }
 
-				  return css;
-				}, '')
-      );
-    }
+            return css;
+          }, '')
+        );
+      }
 
-    if (value) {
-      return `${styleList}${styleName}:${value};\n`;
-    }
+      if (value) {
+        return `${styleList}${styleName}:${value};\n`;
+      }
 
-    return styleList;
-  }, '');
+      return styleList;
+    },
+    '',
+  );
 
   if (css) {
     renderedStyles = css + '\n' + renderedStyles;
@@ -643,13 +679,18 @@ export function renderStylesToSC(styles: CSSMap | CSSMap[], selector = '') {
 
   if (Array.isArray($)) {
     return `${selector ? `${selector}{\n` : ''}${$.reduce((rend, suffix) => {
-      return rend + `${suffix ? `&${suffix}{\n` : ''}${renderedStyles}${suffix ? '}\n' : ''}`;
+      return (
+        rend +
+        `${suffix ? `&${suffix}{\n` : ''}${renderedStyles}${
+          suffix ? '}\n' : ''
+        }`
+      );
     }, '')}${selector ? '}\n' : ''}`;
   }
 
-  return `${selector ? `${selector}{\n` : ''}${$ ? `&${$}{\n` : ''}${renderedStyles}${$ ? '}\n' : ''}${
-    selector ? '}\n' : ''
-  }`;
+  return `${selector ? `${selector}{\n` : ''}${
+    $ ? `&${$}{\n` : ''
+  }${renderedStyles}${$ ? '}\n' : ''}${selector ? '}\n' : ''}`;
 }
 
 /**
@@ -663,12 +704,17 @@ export function applyStates(selector: string, states, suffix = '') {
   return states.reduce((css, state) => {
     if (!state.value) return css;
 
-    const modifiers = `${(state.mods || []).map(getModSelector).join('')}${(state.notMods || [])
+    const modifiers = `${(state.mods || []).map(getModSelector).join('')}${(
+      state.notMods || []
+    )
       .map((mod) => `:not(${getModSelector(mod)})`)
       .join('')}`;
 
     // TODO: replace `replace()` a REAL hotfix
-    return `${css}${selector}${modifiers}${suffix}{\n${state.value.replace(/^&&/, '&')}}\n`;
+    return `${css}${selector}${modifiers}${suffix}{\n${state.value.replace(
+      /^&&/,
+      '&',
+    )}}\n`;
   }, '');
 }
 
@@ -752,7 +798,10 @@ export function getModesFromStyleStateListMap(stateListMap) {
  * @param styleMap
  * @param filterKeys
  */
-export function styleMapToStyleMapStateList(styleMap: StyleMap, filterKeys?: string[]) {
+export function styleMapToStyleMapStateList(
+  styleMap: StyleMap,
+  filterKeys?: string[],
+) {
   const keys = filterKeys || Object.keys(styleMap);
 
   if (!keys.length) return [];
@@ -762,7 +811,9 @@ export function styleMapToStyleMapStateList(styleMap: StyleMap, filterKeys?: str
   let allModsSet: Set<string> = new Set();
 
   keys.forEach((style) => {
-    stateDataListMap[style] = styleStateMapToStyleStateDataList(styleMap[style]);
+    stateDataListMap[style] = styleStateMapToStyleStateDataList(
+      styleMap[style],
+    );
     stateDataListMap[style].mods.forEach(allModsSet.add, allModsSet);
   });
 
@@ -787,7 +838,8 @@ export function styleMapToStyleMapStateList(styleMap: StyleMap, filterKeys?: str
   return styleStateMapList;
 }
 
-const STATES_REGEXP = /([&|!^])|([()])|([a-z0-6-]+)|(:[a-z0-6-]+)|(\.[a-z0-6-]+)|(\[[^\]]+])/gi;
+const STATES_REGEXP =
+  /([&|!^])|([()])|([a-z0-6-]+)|(:[a-z0-6-]+)|(\.[a-z0-6-]+)|(\[[^\]]+])/gi;
 export const STATE_OPERATORS = {
   NOT: '!',
   AND: '&',
@@ -818,7 +870,12 @@ function convertTokensToComputeUnits(tokens: any[]) {
           tokens.splice(i, 1);
         }
       } else {
-        if (tokens[i - 1] && tokens[i + 1] && tokens[i - 1].length !== 1 && tokens[i + 1].length !== 1) {
+        if (
+          tokens[i - 1] &&
+          tokens[i + 1] &&
+          tokens[i - 1].length !== 1 &&
+          tokens[i + 1].length !== 1
+        ) {
           tokens.splice(i - 1, 3, [token, tokens[i - 1], tokens[i + 1]]);
         } else {
           tokens.splice(i, 1);
@@ -860,23 +917,23 @@ function parseStateNotationInner(notation: string, value: any) {
 
   tokens.forEach((token) => {
     switch (token) {
-    case '(':
-      const operation = [];
-      position++;
-      list = operations[position] = operation;
-      break;
-    case ')':
-      position--;
-      operations[position].push(convertTokensToComputeUnits(list));
-      list = operations[position];
-      break;
-    default:
-      if (token.length > 1) {
-        if (!mods.includes(token)) {
-          mods.push(token);
+      case '(':
+        const operation = [];
+        position++;
+        list = operations[position] = operation;
+        break;
+      case ')':
+        position--;
+        operations[position].push(convertTokensToComputeUnits(list));
+        list = operations[position];
+        break;
+      default:
+        if (token.length > 1) {
+          if (!mods.includes(token)) {
+            mods.push(token);
+          }
         }
-      }
-      list.push(token);
+        list.push(token);
     }
   });
 
@@ -901,7 +958,9 @@ export const parseStateNotation = cacheWrapper(parseStateNotationInner);
  * @param {StyleStateMap|string|number|boolean|null|undefined} styleStateMap
  * @return {{ states: StyleStateDataList, mods: string[] }}
  */
-export function styleStateMapToStyleStateDataList(styleStateMap: StyleStateMap | ResponsiveStyleValue) {
+export function styleStateMapToStyleStateDataList(
+  styleStateMap: StyleStateMap | ResponsiveStyleValue,
+) {
   if (typeof styleStateMap !== 'object' || !styleStateMap) {
     return {
       states: [
@@ -918,7 +977,10 @@ export function styleStateMapToStyleStateDataList(styleStateMap: StyleStateMap |
   const stateDataList: StyleStateDataList = [];
 
   Object.keys(styleStateMap).forEach((stateNotation) => {
-    const state = parseStateNotation(stateNotation, styleStateMap[stateNotation]);
+    const state = parseStateNotation(
+      stateNotation,
+      styleStateMap[stateNotation],
+    );
 
     stateDataList.push(state);
   });
@@ -979,7 +1041,10 @@ export function computeState(
   const func = COMPUTE_FUNC_MAP[computeModel[0]];
 
   if (!func) {
-    console.warn('JengaUIKit: unexpected compute method in the model', computeModel);
+    console.warn(
+      'JengaUIKit: unexpected compute method in the model',
+      computeModel,
+    );
     // return false;
   }
 
@@ -1015,7 +1080,10 @@ export function cacheWrapper(handler: Function, limit = 1000) {
   let count = 0;
 
   return (firstArg: any, secondArg?: string) => {
-    const key = typeof firstArg === 'string' && secondArg == null ? firstArg : JSON.stringify([firstArg, secondArg]);
+    const key =
+      typeof firstArg === 'string' && secondArg == null
+        ? firstArg
+        : JSON.stringify([firstArg, secondArg]);
 
     if (!cache[key]) {
       if (count > limit) {
@@ -1025,7 +1093,8 @@ export function cacheWrapper(handler: Function, limit = 1000) {
 
       count++;
 
-      cache[key] = secondArg == null ? handler(firstArg) : handler(firstArg, secondArg);
+      cache[key] =
+        secondArg == null ? handler(firstArg) : handler(firstArg, secondArg);
     }
 
     return cache[key];

@@ -10,7 +10,9 @@ describe('tasty() API', () => {
   it('should provide defaults and give ability to override', () => {
     const SButton = tasty(Button, { type: 'primary' });
 
-    const { getByTestId, rerender } = render(<SButton qa="button" label="Button" />);
+    const { getByTestId, rerender } = render(
+      <SButton qa="button" label="Button" />,
+    );
     expect(getByTestId('button').dataset.type).toBe('primary');
 
     rerender(<SButton type="secondary" qa="button" label="Button" />);
@@ -27,7 +29,7 @@ describe('tasty() API', () => {
   it('should merge styles', () => {
     const Block = tasty({
       styles: {
-        color: { '': '#dark', 'modified': '#purple' },
+        color: { '': '#dark', modified: '#purple' },
         fill: '#white',
       },
     });
@@ -42,7 +44,7 @@ describe('tasty() API', () => {
   it('should merge styles in custom prop', () => {
     const Block = tasty({
       inputStyles: {
-        color: { '': '#dark', 'modified': '#purple' },
+        color: { '': '#dark', modified: '#purple' },
         fill: '#white',
       },
     });
@@ -56,7 +58,9 @@ describe('tasty() API', () => {
 
   it('should be able to override styles', () => {
     const StyledBlock = tasty(Block, { styles: { color: '#clear.1' } });
-    const { container } = render(<StyledBlock styles={{ color: '#black.1' }} />);
+    const { container } = render(
+      <StyledBlock styles={{ color: '#black.1' }} />,
+    );
 
     expect(container).toMatchSnapshot();
   });
@@ -77,7 +81,7 @@ describe('tasty() API', () => {
 
   it('should create element styles', () => {
     const Block = tasty({
-      styles: { Element: { color: { '': '#dark', 'modified': '#purple' } } },
+      styles: { Element: { color: { '': '#dark', modified: '#purple' } } },
     });
     const { container } = render(<Block />);
 
@@ -88,7 +92,7 @@ describe('tasty() API', () => {
     const Block = tasty({
       styles: {
         Element: {
-          color: { '': '#dark', 'modified': '#purple' },
+          color: { '': '#dark', modified: '#purple' },
           fill: '#white',
         },
       },

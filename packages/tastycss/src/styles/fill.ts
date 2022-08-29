@@ -23,7 +23,7 @@ export function fillStyle({ fill }) {
   if (name) {
     styles.push([
       {
-        '$': '>*',
+        $: '>*',
         '--context-fill-color': fill,
         '--context-fill-color-rgb': `var(--${name}-color-rgb)`,
       },

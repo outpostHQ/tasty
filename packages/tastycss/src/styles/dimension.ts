@@ -4,7 +4,9 @@ const DEFAULT_MIN_SIZE = 'var(--gap)';
 const DEFAULT_MAX_SIZE = '100%';
 
 function isSizingSupport(val) {
-  return typeof CSS !== 'undefined' && typeof CSS.supports !== 'undefined' ? CSS.supports('height', val) : false;
+  return typeof CSS !== 'undefined' && typeof CSS.supports !== 'undefined'
+    ? CSS.supports('height', val)
+    : false;
 }
 
 const STRETCH = 'stretch';
@@ -14,12 +16,12 @@ const MOZ_FILL_AVAILABLE = '-moz-fill-available';
 const STRETCH_SIZE = isSizingSupport(STRETCH)
   ? STRETCH
   : isSizingSupport(FILL_AVAILABLE)
-    ? FILL_AVAILABLE
-    : isSizingSupport(WEBKIT_FILL_AVAILABLE)
-      ? WEBKIT_FILL_AVAILABLE
-      : isSizingSupport(MOZ_FILL_AVAILABLE)
-        ? MOZ_FILL_AVAILABLE
-        : null;
+  ? FILL_AVAILABLE
+  : isSizingSupport(WEBKIT_FILL_AVAILABLE)
+  ? WEBKIT_FILL_AVAILABLE
+  : isSizingSupport(MOZ_FILL_AVAILABLE)
+  ? MOZ_FILL_AVAILABLE
+  : null;
 const INTRINSIC_MODS = ['max-content', 'min-content', 'fit-content', 'stretch'];
 
 export function dimensionStyle(name) {
@@ -55,16 +57,16 @@ export function dimensionStyle(name) {
 
     for (let mod of mods) {
       switch (mod) {
-      case 'min':
-        styles[minStyle] = values[0] || DEFAULT_MIN_SIZE;
-        flag = true;
-        break;
-      case 'max':
-        styles[maxStyle] = values[0] || DEFAULT_MAX_SIZE;
-        flag = true;
-        break;
-      default:
-        break;
+        case 'min':
+          styles[minStyle] = values[0] || DEFAULT_MIN_SIZE;
+          flag = true;
+          break;
+        case 'max':
+          styles[maxStyle] = values[0] || DEFAULT_MAX_SIZE;
+          flag = true;
+          break;
+        default:
+          break;
       }
     }
 

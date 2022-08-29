@@ -23,9 +23,19 @@ export function radiusStyle({ radius }) {
   }
 
   if (mods.includes('leaf')) {
-    values = [values[1] || SHARP, values[0] || PROP, values[1] || SHARP, values[0] || PROP];
+    values = [
+      values[1] || SHARP,
+      values[0] || PROP,
+      values[1] || SHARP,
+      values[0] || PROP,
+    ];
   } else if (mods.includes('backleaf')) {
-    values = [values[0] || PROP, values[1] || SHARP, values[0] || PROP, values[1] || SHARP];
+    values = [
+      values[0] || PROP,
+      values[1] || SHARP,
+      values[0] || PROP,
+      values[1] || SHARP,
+    ];
   } else if (mods.length) {
     const arr = ['0', '0', '0', '0'];
 
@@ -51,7 +61,7 @@ export function radiusStyle({ radius }) {
       'border-radius': 'var(--local-radius)',
     },
     {
-      '$': '>*',
+      $: '>*',
       '--context-radius': values.join(' '),
     },
   ];

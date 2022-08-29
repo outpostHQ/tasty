@@ -11,7 +11,11 @@ export * from './providers/BreakpointsProvider';
 export * from './utils/mergeStyles';
 export * from './utils/warnings';
 export * from './utils/get-display-name';
-export type { TastyProps, GlobalTastyProps, AllBasePropsWithMods } from './tasty';
+export type {
+  TastyProps,
+  GlobalTastyProps,
+  AllBasePropsWithMods,
+} from './tasty';
 export type {
   AllBaseProps,
   BaseProps,

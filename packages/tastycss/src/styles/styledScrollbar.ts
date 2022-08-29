@@ -20,23 +20,25 @@ export function styledScrollbarStyle({ styledScrollbar: val }) {
       height: 'var(--scrollbar-width)',
     },
     {
-      '$': '::-webkit-scrollbar-track',
+      $: '::-webkit-scrollbar-track',
       'background-color': 'var(--scrollbar-bg-color)',
     },
     {
-      '$': '::-webkit-scrollbar-thumb',
+      $: '::-webkit-scrollbar-thumb',
       'background-color': 'var(--scrollbar-thumb-color)',
       'border-radius': 'var(--scrollbar-radius)',
-      'border': 'var(--scrollbar-outline-width) solid var(--scrollbar-outline-color)',
+      border:
+        'var(--scrollbar-outline-width) solid var(--scrollbar-outline-color)',
       'background-clip': 'padding-box',
     },
     {
-      '$': '::-webkit-scrollbar-corner',
+      $: '::-webkit-scrollbar-corner',
       'background-color': 'var(--scrollbar-corner-color)',
     },
     {
       'scrollbar-width': 'thin',
-      'scrollbar-color': 'var(--scrollbar-bg-color) var(--scrollbar-thumb-color)',
+      'scrollbar-color':
+        'var(--scrollbar-bg-color) var(--scrollbar-thumb-color)',
     },
   ];
 }

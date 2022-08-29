@@ -1,6 +1,13 @@
 import { StylesInterface } from './types';
 
-export const BASE_STYLES = ['display', 'font', 'preset', 'hide', 'opacity', 'whiteSpace'] as const;
+export const BASE_STYLES = [
+  'display',
+  'font',
+  'preset',
+  'hide',
+  'opacity',
+  'whiteSpace',
+] as const;
 
 export const POSITION_STYLES = [
   'gridArea',
@@ -32,9 +39,20 @@ export const BLOCK_STYLES = [
 
 export const COLOR_STYLES = ['color', 'fill'] as const;
 
-export const TEXT_STYLES = ['textTransform', 'fontWeight', 'fontStyle'] as const;
+export const TEXT_STYLES = [
+  'textTransform',
+  'fontWeight',
+  'fontStyle',
+] as const;
 
-export const DIMENSION_STYLES = ['width', 'height', 'flexBasis', 'flexGrow', 'flexShrink', 'flex'] as const;
+export const DIMENSION_STYLES = [
+  'width',
+  'height',
+  'flexBasis',
+  'flexGrow',
+  'flexShrink',
+  'flex',
+] as const;
 
 export const FLOW_STYLES = [
   'flow',

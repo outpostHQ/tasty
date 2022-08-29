@@ -11,7 +11,13 @@ const MAP = {
   radius: ['border-radius'],
   shadow: ['box-shadow'],
   outline: ['box-shadow'],
-  preset: ['font-size', 'line-height', 'letter-spacing', 'font-weight', 'font-style'],
+  preset: [
+    'font-size',
+    'line-height',
+    'letter-spacing',
+    'font-weight',
+    'font-style',
+  ],
   text: ['font-weight', 'text-decoration-color'],
   theme: ['color', 'background-color', 'box-shadow', 'border', 'border-radius'],
   inset: ['box-shadow'],
@@ -56,11 +62,11 @@ export function transitionStyle({ transition }) {
   }
 
   const map: {
-		name?: string;
-		easing?: string;
-		timing?: string;
-		delay?: string;
-	} = {};
+    name?: string;
+    easing?: string;
+    timing?: string;
+    delay?: string;
+  } = {};
 
   transitions.forEach((transition) => {
     const name = transition[0];
@@ -77,7 +83,9 @@ export function transitionStyle({ transition }) {
 
   const result = Object.entries(map)
     .map(([style, [name, easing, timing, delay]]) => {
-      return `${style}  ${timing || getTiming(name)} ${easing || DEFAULT_EASING} ${delay || '0s'}`;
+      return `${style}  ${timing || getTiming(name)} ${
+        easing || DEFAULT_EASING
+      } ${delay || '0s'}`;
     })
     .join(', ');
 

@@ -12,7 +12,9 @@ export function outlineStyle({ outline }) {
   const outlineColor = color || 'var(--outline-color)';
 
   return {
-    '--local-outline-box-shadow': `${inset ? 'inset ' : ''}0 0 0 ${size} ${outlineColor}`,
+    '--local-outline-box-shadow': `${
+      inset ? 'inset ' : ''
+    }0 0 0 ${size} ${outlineColor}`,
   };
 }
 

@@ -1,4 +1,10 @@
-import { applyStates, computeState, extractStyles, replaceStateValues, styleMapToStyleMapStateList } from './styles';
+import {
+  applyStates,
+  computeState,
+  extractStyles,
+  replaceStateValues,
+  styleMapToStyleMapStateList,
+} from './styles';
 
 describe('applyStates', () => {
   function checkAppliance(list) {
@@ -57,7 +63,11 @@ describe('applyStates', () => {
           [
             {
               mods: [],
-              notMods: ['[data-type="link"]', '[data-size="hero"]', '[data-size="large"]'],
+              notMods: [
+                '[data-type="link"]',
+                '[data-size="hero"]',
+                '[data-size="large"]',
+              ],
               value: 'value1',
             },
             {
@@ -176,7 +186,8 @@ describe('replaceStateValues', () => {
               },
             },
           ],
-          ({ style1, style2, style3 }) => `${style1 || ''}${style2 || ''}${style3 || ''}`,
+          ({ style1, style2, style3 }) =>
+            `${style1 || ''}${style2 || ''}${style3 || ''}`,
         ],
         output: [
           {
@@ -314,7 +325,7 @@ describe('styleMapToStyleMapStateList', () => {
               '[type="one"]': 'one',
               '[type="two"]': 'two',
               '[type="three"]': 'three',
-              'mod': 'modvalue',
+              mod: 'modvalue',
             },
           },
           ['one'],

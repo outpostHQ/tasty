@@ -18,7 +18,11 @@ resize: none;
       css: 'display: none',
     },
     {
-      $: [':-webkit-autofill', ':-webkit-autofill:hover', ':-webkit-autofill:focus'],
+      $: [
+        ':-webkit-autofill',
+        ':-webkit-autofill:hover',
+        ':-webkit-autofill:focus',
+      ],
       css: `
 caret-color: var(--purple-color);
 -webkit-text-fill-color: var(--purple-color);

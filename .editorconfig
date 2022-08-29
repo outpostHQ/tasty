@@ -2,21 +2,13 @@ root = true
 
 [*]
 charset = utf-8
-end_of_line = lf
-insert_final_newline = true
-indent_style = space
-trim_trailing_whitespace = true
-
-[*.md]
-trim_trailing_whitespace = false
-
-[*.{json,md,yml}]
-indent_size = 2
-indent_style = space
 
 [*.{js,jsx,ts,tsx}]
 indent_style = space
 indent_size = 2
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
 ij_typescript_spaces_within_imports = true
 ij_javascript_spaces_within_object_type_braces = true
 ij_javascript_spaces_within_object_literal_braces = true

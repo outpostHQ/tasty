@@ -2,16 +2,24 @@ import { parseStyle } from '../utils/styles';
 
 import { Styles } from './types';
 
-function setCSSValue(styles: Styles, styleName: string, presetName: string, isPropOnly = false) {
+function setCSSValue(
+  styles: Styles,
+  styleName: string,
+  presetName: string,
+  isPropOnly = false,
+) {
   styles[`--${styleName}`] = (() => {
     if (presetName === 'inherit') {
       return 'inherit';
     }
 
     const defaultValue = `var(--default-${styleName}, ${
-      styleName === 'font-family' ? 'var(--font, NonexistentFontName)' : 'inherit'
+      styleName === 'font-family'
+        ? 'var(--font, NonexistentFontName)'
+        : 'inherit'
     })`;
-    const fontSuffix = styleName === 'font-family' ? ', var(--font, sans-serif)' : '';
+    const fontSuffix =
+      styleName === 'font-family' ? ', var(--font, sans-serif)' : '';
 
     if (presetName === 'default') {
       return `${defaultValue}${fontSuffix}`;

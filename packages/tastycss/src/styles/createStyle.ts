@@ -22,7 +22,8 @@ export function createStyle<T = string>(
 
       if (styleValue == null || styleValue === false) return;
 
-      const finalCssStyle = cssStyle || toSnakeCase(styleName).replace(/^@/, '--');
+      const finalCssStyle =
+        cssStyle || toSnakeCase(styleName).replace(/^@/, '--');
 
       // convert non-string values
       if (converter && typeof styleValue !== 'string') {
@@ -31,7 +32,11 @@ export function createStyle<T = string>(
         if (!styleValue) return;
       }
 
-      if (typeof styleValue === 'string' && finalCssStyle.startsWith('--') && finalCssStyle.endsWith('-color')) {
+      if (
+        typeof styleValue === 'string' &&
+        finalCssStyle.startsWith('--') &&
+        finalCssStyle.endsWith('-color')
+      ) {
         styleValue = styleValue.trim();
 
         const rgba = strToRgb(styleValue);
@@ -41,7 +46,9 @@ export function createStyle<T = string>(
         if (name && rgba) {
           return {
             [finalCssStyle]: `var(--${name}-color, ${rgba})`,
-            [`${finalCssStyle}-rgb`]: `var(--${name}-color-rgb, ${getRgbValuesFromRgbaString(rgba).join(', ')})`,
+            [`${finalCssStyle}-rgb`]: `var(--${name}-color-rgb, ${getRgbValuesFromRgbaString(
+              rgba,
+            ).join(', ')})`,
           };
         } else if (name) {
           if (color) {
@@ -58,7 +65,8 @@ export function createStyle<T = string>(
         } else if (rgba) {
           return {
             [finalCssStyle]: rgba,
-            [`${finalCssStyle}-rgb`]: getRgbValuesFromRgbaString(rgba).join(', '),
+            [`${finalCssStyle}-rgb`]:
+              getRgbValuesFromRgbaString(rgba).join(', '),
           };
         }
 

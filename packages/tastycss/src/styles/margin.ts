@@ -1,6 +1,14 @@
 import { parseStyle, DIRECTIONS, filterMods } from '../utils/styles';
 
-export function marginStyle({ margin, marginBlock, marginInline, marginTop, marginRight, marginBottom, marginLeft }) {
+export function marginStyle({
+  margin,
+  marginBlock,
+  marginInline,
+  marginTop,
+  marginRight,
+  marginBottom,
+  marginLeft,
+}) {
   if (typeof margin === 'number') {
     margin = `${margin}px`;
   }
@@ -27,8 +35,9 @@ export function marginStyle({ margin, marginBlock, marginInline, marginTop, marg
     const index = DIRECTIONS.indexOf(dir);
 
     if (
-      ((!!(index % 2) && marginInline == null) || (!(index % 2) && marginBlock == null))
-			&& marginDirs[index] == null
+      ((!!(index % 2) && marginInline == null) ||
+        (!(index % 2) && marginBlock == null)) &&
+      marginDirs[index] == null
     ) {
       styles[`margin-${dir}`] = values[index] || values[index % 2] || values[0];
     }

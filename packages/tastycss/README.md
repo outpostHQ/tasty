@@ -5,7 +5,6 @@ CSS-in-JS solution modules that include state-to-style bindings, SSR, and next-l
 [![NPM Version](https://img.shields.io/npm/v/tastycss.svg?style=flat)](https://www.npmjs.com/package/tastycss)
 [![Discord](https://img.shields.io/discord/793832892781690891?color=7389D8&label=chat%20on%20Discord&logo=Discord&logoColor=ffffff)](https://discord.gg/sHnHPnAPZj)
 
-
 ## Installation
 
 ```sh

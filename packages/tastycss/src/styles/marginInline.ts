@@ -1,6 +1,10 @@
 import { parseStyle } from '../utils/styles';
 
-export function marginInlineStyle({ marginInline: margin, marginLeft, marginRight }) {
+export function marginInlineStyle({
+  marginInline: margin,
+  marginLeft,
+  marginRight,
+}) {
   if (typeof margin === 'number') {
     margin = `${margin}px`;
   }
@@ -28,4 +32,8 @@ export function marginInlineStyle({ marginInline: margin, marginLeft, marginRigh
   return styles;
 }
 
-marginInlineStyle.__lookupStyles = ['marginInline', 'marginLeft', 'marginRight'];
+marginInlineStyle.__lookupStyles = [
+  'marginInline',
+  'marginLeft',
+  'marginRight',
+];
