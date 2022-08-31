@@ -1,8 +1,8 @@
 {
-    "extends": "../../tsconfig.json",
+    "extends": "./tsconfig.json",
     "compilerOptions": {
-      "declarationDir": "dist/types",
-      "outDir": "./dist/es",
+      "declarationDir": "./dist",
+      "outDir": "./dist",
       "noEmit": false
     }
   }
