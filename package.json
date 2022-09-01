@@ -13,7 +13,7 @@
     "clean": "turbo run clean && rm -rf node_modules",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "test": "turbo run test",
-    "publish:all": "lerna publish --no-verify-access",
+    "publish:all": "lerna publish --no-verify-access --no-private",
     "publish:beta": "lerna publish --ignore-prepublish --ignore-scripts --canary --preid beta --dist-tag beta",
     "publish:dev": "run-s build:dev publish:beta"
   },
