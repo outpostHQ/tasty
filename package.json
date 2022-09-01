@@ -3,7 +3,8 @@
   "packageManager": "yarn@3.0.2",
   "private": true,
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "example"
   ],
   "scripts": {
     "build": "turbo run build",
