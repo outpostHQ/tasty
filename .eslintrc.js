@@ -6,7 +6,6 @@ module.exports = /** @type {import('eslint').Linter.Config} */ ({
 	  'react-app',
 	  'plugin:react/recommended',
 	  'plugin:react/jsx-runtime',
-	  'plugin:storybook/recommended',
 	  'plugin:@typescript-eslint/recommended',
 	],
 	rules: {
@@ -78,20 +77,13 @@ module.exports = /** @type {import('eslint').Linter.Config} */ ({
 		},
 	  },
 	  {
-		files: ['*.stories.tsx', '**/storybook/**/*.tsx'],
-		rules: {
-		  'react/function-component-definition': 0,
-		  'react/boolean-prop-naming': 0,
-		  'react/prop-types': 0,
-		  'react/no-unescaped-entities': 0,
-		},
-	  },
-	  {
 		files: ['*.test.ts', '*.test.tsx'],
 		rules: {
 		  '@typescript-eslint/no-unused-vars': 'off',
 		  '@typescript-eslint/no-explicit-any': 'off',
 		  '@typescript-eslint/ban-ts-comment': 'off',
+
+		  'react/prop-types': 'off',
 		},
 	  },
 	],

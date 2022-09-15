@@ -7,33 +7,17 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package tastycss
 
-
-
-
-
 ## 0.8.4 (2022-08-31)
 
 **Note:** Version bump only for package tastycss
-
-
-
-
 
 ## 0.8.3 (2022-08-31)
 
 **Note:** Version bump only for package tastycss
 
-
-
-
-
 ## 0.8.2 (2022-08-29)
 
 **Note:** Version bump only for package tastycss
-
-
-
-
 
 ## 0.8.1 (2022-08-27)
 
