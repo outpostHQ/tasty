@@ -2,9 +2,6 @@ import type { NextPage } from 'next';
 import { tasty } from 'tastycss';
 import styles from '../styles/Home.module.css';
 
-const IS_DVH_SUPPORTED =
-  typeof CSS?.supports !== 'undefined' ? CSS.supports('height: 100dvh') : false;
-
 const Element = tasty({
   as: 'span',
   styles: {
