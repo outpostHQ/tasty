@@ -83,7 +83,7 @@ export const CUSTOM_UNITS = {
   dvh: function dvh(num) {
     return IS_DVH_SUPPORTED
       ? `${num}dvh`
-      : `calc(var(--cube-dynamic-viewport-height, 100dvh) / 100 * ${num})`;
+      : `calc(var(--jenga-dynamic-viewport-height, 100dvh) / 100 * ${num})`;
   },
   // span unit for GridProvider
   sp: function spanWidth(num) {
@@ -451,7 +451,7 @@ export function parseColor(val, ignoreError = false) {
 
   if (!name) {
     if (!ignoreError && devMode) {
-      console.warn('CubeUIKit: incorrect color value:', val);
+      console.warn('JengaUIKit: incorrect color value:', val);
     }
 
     return {};
@@ -1049,7 +1049,7 @@ export function computeState(
 
   if (!func) {
     console.warn(
-      'CubeUIKit: unexpected compute method in the model',
+      'JengaUIKit: unexpected compute method in the model',
       computeModel,
     );
     // return false;
