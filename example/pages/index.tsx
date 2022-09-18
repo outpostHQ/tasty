@@ -1,6 +1,6 @@
-import type { NextPage } from 'next'
-import { tasty } from 'tastycss'
-import styles from '../styles/Home.module.css'
+import type { NextPage } from 'next';
+import { tasty } from 'tastycss';
+import styles from '../styles/Home.module.css';
 
 const Element = tasty({
   as: 'span',
@@ -11,7 +11,7 @@ const Element = tasty({
     color: {
       '': '#text',
       blue: 'blue',
-    }, 
+    },
   },
   role: 'article',
   styleProps: ['align'],
@@ -20,20 +20,19 @@ const Element = tasty({
 const Heading = tasty({
   as: 'h1',
   styles: {
-  styleProps: ['align'],
-  }
+    styleProps: ['align'],
+  },
 });
 
-const Span = tasty('span', {
-});
+const Span = tasty('span', {});
 
 const Home: NextPage = () => {
   return (
-    <div >
-    <Heading> TastyCSS</Heading>
-    <Element> yum!</Element>
+    <div>
+      <Heading> TastyCSS</Heading>
+      <Element> yum!</Element>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
