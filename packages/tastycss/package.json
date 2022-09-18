@@ -67,8 +67,6 @@
     "react": "^17.0.0"
   },
   "devDependencies": {
-    "@jenga-ui/button": "^0.1.1",
-    "@jenga-ui/core": "^0.1.1",
     "@testing-library/jest-dom": "5.16.1",
     "@testing-library/react": "^12.1.2",
     "@typescript-eslint/eslint-plugin": "5.8.1",
