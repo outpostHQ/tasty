@@ -9,8 +9,8 @@
     "dist/**"
   ],
   "sideEffects": false,
-  "repository": "OutpostHQ/tatsy",
-  "homepage": "https://tasty.numl.design/",
+  "repository": "OutpostHQ/tasty",
+  "homepage": "https://github.com/OutpostHQ/tasty",
   "bugs": "https://github.com/OutpostHQ/tasty/issues",
   "publishConfig": {
     "access": "public"
@@ -54,7 +54,8 @@
     "transform",
     "ts",
     "variable",
-    "variables"
+    "variables",
+    "react"
   ],
   "scripts": {
     "build": "JSX=1 tsup --minify --treeshake",

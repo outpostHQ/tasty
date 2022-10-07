@@ -14,7 +14,7 @@ const config = {
         },
       ],
     },
-    setupFilesAfterEnv: ['./src/test/setup.ts'],
+    setupFilesAfterEnv: ['./test/setup.ts'],
   };
   
   module.exports = config;

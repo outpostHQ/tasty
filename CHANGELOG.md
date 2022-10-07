@@ -5,22 +5,13 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## 0.8.8 (2022-10-02)
 
-
 ### Bug Fixes
 
-* optimize bundle size and turbo script ([f82574f](https://github.com/OutpostHQ/tasty/commit/f82574f9c26611d9469754af10da1199faadd58d))
-
-
-
-
+- optimize bundle size and turbo script ([f82574f](https://github.com/OutpostHQ/tasty/commit/f82574f9c26611d9469754af10da1199faadd58d))
 
 ## 0.8.7 (2022-09-18)
 
 **Note:** Version bump only for package tasty
-
-
-
-
 
 ## 0.8.6 (2022-09-01)
 
