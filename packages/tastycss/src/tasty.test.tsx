@@ -1,7 +1,6 @@
 import { getByTestId, render } from '@testing-library/react';
 
-import { Button } from '@jengaui/button';
-import { Block } from '@jengaui/react';
+import { Button, Block } from '@jengaui/react';
 
 import { tasty } from './tasty';
 import { CONTAINER_STYLES } from './styles/list';
