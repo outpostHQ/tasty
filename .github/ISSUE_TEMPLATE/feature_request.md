@@ -1,19 +1,56 @@
----
-name: Feature request
-about: Suggest an idea for this project
-title: ''
-labels: ''
-assignees: ''
----
+name: "Feature Request"
+description: "Request a feature or enhancement"
+labels: ["needs triage"]
+body:
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+- type: "markdown"
+  attributes:
+  value: |
+  Thanks for filing an issue! 🙂
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
+      Please search open/closed issues before submitting. Someone
+      might have asked the same thing before! 🔎
 
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
+- type: "textarea"
+  id: "description"
+  attributes:
+  label: "Description"
+  description: "Please describe your request in one or two sentences."
+  validations:
+  required: true
+- type: "textarea"
+  id: "justification"
+  attributes:
+  label: "Problem Statement/Justification"
+  description: |
+  Please provide information(s) why this should be added to TastyCSS
 
-**Additional context**
-Add any other context or screenshots about the feature request here.
+      If this feature is related to a problem you've noticed, mention it as
+      well.
+
+  validations:
+  required: true
+
+- type: "textarea"
+  id: "proposed-solution"
+  attributes:
+  label: "Proposed Solution or API"
+  description: |
+  Please provide code snippets, gists, or links to the ideal
+  design or API.
+  validations:
+  required: true
+- type: "textarea"
+  id: "alternatives"
+  attributes:
+  label: "Alternatives"
+  description: |
+  What alternative solutions have you considered before making this
+  request?
+- type: "textarea"
+  id: "additional-information"
+  attributes:
+  label: "Additional Information"
+  description: |
+  What resources (links, screenshots, etc.) do you have to assist this
+  effort?

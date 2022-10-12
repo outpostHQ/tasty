@@ -29,7 +29,7 @@ scope and avoid unrelated commits.
    git remote add upstream git@github.com:tenphi/tastefulcss.git
 
    # Install the tools necessary for testing
-   yarn # or npm install
+   pnpm install
    ```
 
 2. Create a branch for your feature or fix:
@@ -48,10 +48,10 @@ scope and avoid unrelated commits.
 
    ```bash
    # Test current code
-   yarn test # or npm test
+   pnpm run test
 
    # Build current code
-   yarn build # or npm run build
+   pnpm build
    ```
 
    > Note: ensure your version of Node is 14 or higher to run scripts
