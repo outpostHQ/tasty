@@ -1,49 +1,48 @@
-on: [push, pull_request]
-name: Build, Test and maybe Publish
+name: Release
+
+on:
+  push:
+    paths:
+      - '.changeset/**'
+      - 'packages/**'
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+
 jobs:
-  test:
-    name: Build & Test
+  release:
+    name: Release
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [16.x]
     steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'yarn'
-          cache-dependency-path: .yarn/cache
+      - name: Checkout branch
+        uses: actions/checkout@v3
+
       - name: Install
-        run: yarn install
+        uses: ./.github/composite-actions/install
+
       - name: Build
-        run: yarn build
-  publish:
-    name: Publish
-    needs: test
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Git Identity
-        run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/$GITHUB_REPOSITORY
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Install
-        run: yarn install
-      - name: Build
-        run: yarn build
-      - name: Setup Node ${{ matrix.node_version }}
-        uses: actions/setup-node@v1
+        run: pnpm build
+
+      - name: Create release Pull Request or publish to NPM
+        id: changesets
+        uses: changesets/action@v1
         with:
-          node-version: 16.x
-          registry-url: 'https://registry.npmjs.org'
-      - name: Publish
-        run: yarn publish:all
+          publish: pnpm release
+          commit: 'ci(changesets): version packages'
+          setupGitUser: false
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create @dev release
+        if: steps.changesets.outputs.published != 'true'
+        run: |
+          git checkout main
+          pnpm version:dev
+          pnpm release:dev
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
