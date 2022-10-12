@@ -1,15 +1,17 @@
 # Change Log
 
+## 0.9.0
+
+### Minor Changes
+
+- [`ee69f06`](https://github.com/OutpostHQ/tasty/commit/ee69f0686109211e9723ebf6bb07a784091d2307) Thanks [@shubham-kaushal](https://github.com/shubham-kaushal)! - migrate from yarn workspace to pnpm workspace
+
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
 ## 0.8.9 (2022-10-07)
 
 **Note:** Version bump only for package tastycss
-
-
-
-
 
 ## 0.8.8 (2022-10-02)
 
