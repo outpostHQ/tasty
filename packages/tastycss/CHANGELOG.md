@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.9.1
+
+### Patch Changes
+
+- [#25](https://github.com/OutpostHQ/tasty/pull/25) [`9b8f513`](https://github.com/OutpostHQ/tasty/commit/9b8f5133875b67682a56df408f9c95007cb56df1) Thanks [@shubham-kaushal](https://github.com/shubham-kaushal)! - upgrade dependencies with React v18.2.0 and Typescript v4.8.4 support
+
 ## 0.9.0
 
 ### Minor Changes
