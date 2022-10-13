@@ -1,6 +1,6 @@
-import type { NextPage } from 'next';
 import { tasty } from 'tastycss';
-import styles from '../styles/Home.module.css';
+
+import type { NextPage } from 'next';
 
 const Element = tasty({
   as: 'span',
@@ -23,8 +23,6 @@ const Heading = tasty({
     styleProps: ['align'],
   },
 });
-
-const Span = tasty('span', {});
 
 const Home: NextPage = () => {
   return (
