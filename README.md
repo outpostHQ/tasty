@@ -3,6 +3,7 @@
 CSS-in-JS solution modules that include state-to-style bindings, SSR, and next-level developer experience.
 
 [![NPM Version](https://img.shields.io/npm/v/tastycss.svg?style=flat)](https://www.npmjs.com/package/tastycss)
+[![LGTM](https://img.shields.io/lgtm/grade/javascript/github/OutpostHQ/tasty?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/OutpostHQ/tasty/)
 [![Discord](https://img.shields.io/discord/793832892781690891?color=7389D8&label=chat%20on%20Discord&logo=Discord&logoColor=ffffff)](https://discord.gg/sHnHPnAPZj)
 
 ## Installation
@@ -13,6 +14,9 @@ npm install tastycss
 
 # with yarn
 yarn add tastycss
+
+# with pnpm
+pnpm add tastycss
 ```
 
 ## Usage of Tasty API
@@ -73,6 +77,22 @@ const CustomElement = tasty(Element, {
   },
   /** Add more default properties/attributes */
   role: 'article',
+});
+```
+
+#### Define global styles
+
+Use `tasty()` to define global styles for elements:
+
+```typescript jsx
+import { tasty } from 'tastycss';
+
+const GlobalStyledHeading = tasty('div.myButton', {
+  display: 'inline-block',
+  padding: '1x 2x',
+  preset: 't2',
+  border: true,
+  radius: true,
 });
 ```
 

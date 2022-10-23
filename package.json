@@ -3,33 +3,36 @@
   "private": true,
   "scripts": {
     "build": "turbo build",
-    "dev": "turbo dev --no-cache --parallel --continue",
-    "lint": "turbo lint",
-    "clean": "turbo clean && rm -rf node_modules",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "test": "turbo test",
-    "preinstall": "npx only-allow pnpm",
     "changeset": "changeset",
-    "version": "changeset version",
+    "clean": "turbo clean && rm -rf node_modules",
+    "dev": "turbo dev --no-cache --parallel --continue",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "preinstall": "npx only-allow pnpm",
+    "lint": "turbo lint",
     "release": "changeset publish",
-    "version:dev": "changeset version --snapshot dev",
-    "release:dev": "changeset publish --tag dev"
+    "release:dev": "changeset publish --tag dev",
+    "test": "turbo test",
+    "version": "changeset version",
+    "version:dev": "changeset version --snapshot dev"
+  },
+  "dependencies": {
+    "@jengaui/react": "^0.2.0",
+    "@testing-library/react": "^13.4.0",
+    "@types/node": "18.11.3",
+    "find-packages": "10.0.1",
+    "find-up": "^6.3.0",
+    "react-transition-group": "^4.4.5"
   },
   "devDependencies": {
     "@changesets/changelog-github": "0.4.7",
     "@changesets/cli": "2.25.0",
     "@testing-library/jest-dom": "^5.16.5",
-    "eslint": "8.25.0",
-    "jest": "29.1.2",
+    "eslint": "8.26.0",
+    "jest": "29.2.1",
     "jest-styled-components": "^7.1.1",
     "node-abort-controller": "3.0.1",
     "prettier": "^2.7.1",
-    "turbo": "^1.5.6"
-  },
-  "dependencies": {
-    "@jengaui/react": "^0.1.5",
-    "@testing-library/react": "^13.4.0",
-    "@types/node": "18.8.5",
-    "react-transition-group": "^4.4.5"
+    "tsup": "^6.3.0",
+    "turbo": "^1.6.1"
   }
 }
