@@ -13,6 +13,9 @@ npm install tastycss
 
 # with yarn
 yarn add tastycss
+
+# with pnpm
+pnpm add tastycss
 ```
 
 ## Usage of Tasty API
