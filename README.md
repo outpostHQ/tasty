@@ -80,6 +80,22 @@ const CustomElement = tasty(Element, {
 });
 ```
 
+#### Define global styles
+
+Use `tasty()` to define global styles for elements:
+
+```typescript jsx
+import { tasty } from 'tastycss';
+
+const GlobalStyledHeading = tasty('div.myButton', {
+  display: 'inline-block',
+  padding: '1x 2x',
+  preset: 't2',
+  border: true,
+  radius: true,
+});
+```
+
 **Documentation is work in progress.**
 
 ## Contributing
