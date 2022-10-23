@@ -1,5 +1,12 @@
 # Change Log
 
+## 0.10.0
+
+### Minor Changes
+
+- [#27](https://github.com/OutpostHQ/tasty/pull/27) [`486b377`](https://github.com/OutpostHQ/tasty/commit/486b37734a228a94dd178758cf0ad8d9dd1cd7df) Thanks [@shubham-kaushal](https://github.com/shubham-kaushal)! - - fix: typing for `BreakpointsProvider`
+  - upgrade dependencies
+
 ## 0.9.1
 
 ### Patch Changes
