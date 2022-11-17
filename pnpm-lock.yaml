@@ -23,8 +23,9 @@ importers:
       prettier: ^2.7.1
       react-transition-group: ^4.4.5
       turbo: ^1.6.3
+      typescript: ~4.7
     dependencies:
-      '@jengaui/react': 0.2.0_crda7s2jdttgg4f3z37dovghbe
+      '@jengaui/react': 0.2.0_ynexpblpw6yow2wg5xtgpjadia
       '@testing-library/react': 13.4.0_biqbaboplfbrettd7655fr4n2y
       '@types/node': 18.11.9
       react-transition-group: 4.4.5_biqbaboplfbrettd7655fr4n2y
@@ -32,7 +33,7 @@ importers:
       '@changesets/changelog-github': 0.4.7
       '@changesets/cli': 2.25.2
       '@parcel/packager-ts': 2.8.0_@parcel+core@2.8.0
-      '@parcel/transformer-typescript-types': 2.8.0_zwebtavvrs4h4pvjmo3zqilplq
+      '@parcel/transformer-typescript-types': 2.8.0_mlgxe7qvpmdpky4isjjassdxl4
       '@testing-library/jest-dom': 5.16.5
       eslint: 8.27.0
       jest: 29.3.1_@types+node@18.11.9
@@ -41,6 +42,7 @@ importers:
       parcel: 2.8.0
       prettier: 2.7.1
       turbo: 1.6.3
+      typescript: 4.7.4
 
   example:
     specifiers:
@@ -1989,7 +1991,7 @@ packages:
       - styled-components
     dev: false
 
-  /@jengaui/breadcrumbs/0.2.0_crda7s2jdttgg4f3z37dovghbe:
+  /@jengaui/breadcrumbs/0.2.0_ynexpblpw6yow2wg5xtgpjadia:
     resolution: {integrity: sha512-x0ENzgmqEai7qUUcUecPR77turWeu91bWHcczceFyneYyMdmSXv3k2H+zGpuuvuZnQSw5t4LD6CV/AexTDSvoA==}
     peerDependencies:
       react: '>= 18.2.0'
@@ -2003,7 +2005,7 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       tastycss: 0.9.1_2zpt4ilzykmne4yndyzrqd4gdm
-      tsup: 6.5.0_typescript@4.9.3
+      tsup: 6.5.0_typescript@4.7.4
     transitivePeerDependencies:
       - '@swc/core'
       - postcss
@@ -2500,7 +2502,7 @@ packages:
       - styled-components
     dev: false
 
-  /@jengaui/react/0.2.0_crda7s2jdttgg4f3z37dovghbe:
+  /@jengaui/react/0.2.0_ynexpblpw6yow2wg5xtgpjadia:
     resolution: {integrity: sha512-ms3GtA7rnFRxNTDCxZPdF0EzMA+zvQ/jdmYkPfGDbc5SqZ+y2AXICeoMqyRFoSztoBweCpkwtEECMIuySq6GKg==}
     peerDependencies:
       react: '>= 18.2.0'
@@ -2513,7 +2515,7 @@ packages:
       '@jengaui/avatar': 0.2.0_2zpt4ilzykmne4yndyzrqd4gdm
       '@jengaui/badge': 0.2.0_2zpt4ilzykmne4yndyzrqd4gdm
       '@jengaui/banner': 0.2.0_2zpt4ilzykmne4yndyzrqd4gdm
-      '@jengaui/breadcrumbs': 0.2.0_crda7s2jdttgg4f3z37dovghbe
+      '@jengaui/breadcrumbs': 0.2.0_ynexpblpw6yow2wg5xtgpjadia
       '@jengaui/button': 0.2.0_2zpt4ilzykmne4yndyzrqd4gdm
       '@jengaui/button-group': 0.2.0_2zpt4ilzykmne4yndyzrqd4gdm
       '@jengaui/card': 0.2.0_2zpt4ilzykmne4yndyzrqd4gdm
@@ -4041,7 +4043,7 @@ packages:
       - '@parcel/core'
     dev: true
 
-  /@parcel/transformer-typescript-types/2.8.0_zwebtavvrs4h4pvjmo3zqilplq:
+  /@parcel/transformer-typescript-types/2.8.0_mlgxe7qvpmdpky4isjjassdxl4:
     resolution: {integrity: sha512-np7HTfEylyJO7Uc6vMTQDhKmIbKyzGi81otpm74t86CUqlSoecXL/IuifTAAaHdhZv7WSNR3AOtmSa8geMVUCA==}
     engines: {node: '>= 12.0.0', parcel: ^2.8.0}
     peerDependencies:
@@ -4050,22 +4052,22 @@ packages:
       '@parcel/diagnostic': 2.8.0
       '@parcel/plugin': 2.8.0_@parcel+core@2.8.0
       '@parcel/source-map': 2.1.1
-      '@parcel/ts-utils': 2.8.0_typescript@4.9.3
+      '@parcel/ts-utils': 2.8.0_typescript@4.7.4
       '@parcel/utils': 2.8.0
       nullthrows: 1.1.1
-      typescript: 4.9.3
+      typescript: 4.7.4
     transitivePeerDependencies:
       - '@parcel/core'
     dev: true
 
-  /@parcel/ts-utils/2.8.0_typescript@4.9.3:
+  /@parcel/ts-utils/2.8.0_typescript@4.7.4:
     resolution: {integrity: sha512-DoSpJfckv8JmVAffS95EurbaLtp+bryyJTcXQfEI2fQVQBnXW8K92cxvIj8MtC+xQW22J/3/PZ+d0HRxmbxT1w==}
     engines: {node: '>= 12.0.0'}
     peerDependencies:
       typescript: '>=3.0.0'
     dependencies:
       nullthrows: 1.1.1
-      typescript: 4.9.3
+      typescript: 4.7.4
     dev: true
 
   /@parcel/types/2.8.0:
@@ -10304,7 +10306,7 @@ packages:
     resolution: {integrity: sha512-tGyy4dAjRIEwI7BzsB0lynWgOpfqjUdq91XXAlIWD2OwKBH7oCl/GZG/HT4BOHrTlPMOASlMQ7veyTqpmRcrNA==}
     dev: true
 
-  /tsup/6.5.0_typescript@4.9.3:
+  /tsup/6.5.0_typescript@4.7.4:
     resolution: {integrity: sha512-36u82r7rYqRHFkD15R20Cd4ercPkbYmuvRkz3Q1LCm5BsiFNUgpo36zbjVhCOgvjyxNBWNKHsaD5Rl8SykfzNA==}
     engines: {node: '>=14'}
     hasBin: true
@@ -10334,7 +10336,7 @@ packages:
       source-map: 0.8.0-beta.0
       sucrase: 3.29.0
       tree-kill: 1.2.2
-      typescript: 4.9.3
+      typescript: 4.7.4
     transitivePeerDependencies:
       - supports-color
       - ts-node
@@ -10464,12 +10466,6 @@ packages:
 
   /typescript/4.7.4:
     resolution: {integrity: sha512-C0WQT0gezHuw6AdY1M2jxUO83Rjf0HP7Sk1DtXj6j1EwkQNZrHAg2XPWlq62oqEhYvONq5pkC2Y9oPljWToLmQ==}
-    engines: {node: '>=4.2.0'}
-    hasBin: true
-    dev: true
-
-  /typescript/4.9.3:
-    resolution: {integrity: sha512-CIfGzTelbKNEnLpLdGFgdyKhG23CKdKgQPOBc+OUNrkJ2vr+KSzsSV5kq5iWhEQbok+quxgGzrAtGWCyU7tHnA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
 
