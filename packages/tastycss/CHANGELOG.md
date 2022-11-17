@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.10.1
+
+### Patch Changes
+
+- [#29](https://github.com/OutpostHQ/tasty/pull/29) [`5f2cca2`](https://github.com/OutpostHQ/tasty/commit/5f2cca27cbbf274392ccd8f6aad28dd4c7fa05cc) Thanks [@shubham-kaushal](https://github.com/shubham-kaushal)! - - remove unused import
+
 ## 0.10.0
 
 ### Minor Changes
