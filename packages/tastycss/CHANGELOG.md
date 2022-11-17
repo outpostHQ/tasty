@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.10.2
+
+### Patch Changes
+
+- [#32](https://github.com/OutpostHQ/tasty/pull/32) [`a7e0b26`](https://github.com/OutpostHQ/tasty/commit/a7e0b26ee6d0cb3a61dbb9a5ac5fc44c3fd2b833) Thanks [@shubham-kaushal](https://github.com/shubham-kaushal)! - migrate build from `tsup` to `parcel`
+
 ## 0.10.1
 
 ### Patch Changes
