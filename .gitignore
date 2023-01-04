@@ -12,7 +12,7 @@ server/dist
 public/dist
 .yarn
 .parcel-cache
-
+parcel-bundle-reports
 
 .idea
 .vscode
