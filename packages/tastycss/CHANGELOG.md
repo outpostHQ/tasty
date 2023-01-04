@@ -1,5 +1,15 @@
 # Change Log
 
+## 0.11.0
+
+### Minor Changes
+
+- [#35](https://github.com/OutpostHQ/tasty/pull/35) [`669965a`](https://github.com/OutpostHQ/tasty/commit/669965aa10df6d18718086a680f064b51d3b9ca7) Thanks [@shubham-kaushal](https://github.com/shubham-kaushal)! - fix:
+
+  - tasty cache optimizations
+  - refactoring
+  - upgrade dependencies
+
 ## 0.10.2
 
 ### Patch Changes
