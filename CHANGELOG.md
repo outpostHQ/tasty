@@ -7,10 +7,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package tasty
 
-
-
-
-
 ## 0.8.8 (2022-10-02)
 
 ### Bug Fixes
