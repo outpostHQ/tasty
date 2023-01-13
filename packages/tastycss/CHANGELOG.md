@@ -1,5 +1,15 @@
 # Change Log
 
+## 0.12.0
+
+### Minor Changes
+
+- [#37](https://github.com/OutpostHQ/tasty/pull/37) [`049a5c8`](https://github.com/OutpostHQ/tasty/commit/049a5c8e5bb9572f7204ecc5142cd84fb63e31e4) Thanks [@shubham-kaushal](https://github.com/shubham-kaushal)! - feat:
+
+  - support icon-size preset
+  - upgrade dependencies to the latest
+  - add @types/node for Node.js type definitions
+
 ## 0.11.0
 
 ### Minor Changes
