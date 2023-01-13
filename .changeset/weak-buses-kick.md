@@ -4,6 +4,6 @@
 
 feat:
 
-- suport `icon-size` preset
-- upgrade dependencies to latest
+- support icon-size preset
+- upgrade dependencies to the latest
 - add @types/node for Node.js type definitions
