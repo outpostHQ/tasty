@@ -1,5 +1,12 @@
 # Change Log
 
+## 0.13.0
+
+### Minor Changes
+
+- [#39](https://github.com/OutpostHQ/tasty/pull/39) [`4af6598`](https://github.com/OutpostHQ/tasty/commit/4af6598bc61bb0746741dcb6778863986e566a3b) Thanks [@shubham-kaushal](https://github.com/shubham-kaushal)! - - unify all button styles in a single object
+  - upgrade dependencies
+
 ## 0.12.0
 
 ### Minor Changes
