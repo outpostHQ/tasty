@@ -16,28 +16,25 @@
     "version:dev": "changeset version --snapshot dev"
   },
   "dependencies": {
-    "@jengaui/react": "^0.2.0",
-    "@testing-library/react": "^13.4.0",
-    "@types/node": "18.11.18",
+    "@jengaui/react": "^0.2.1",
+    "@testing-library/react": "^14.0.0",
+    "@types/node": "18.14.4",
+    "find-up": "6.3.0",
     "react-transition-group": "^4.4.5"
   },
   "devDependencies": {
     "@changesets/changelog-github": "0.4.8",
     "@changesets/cli": "2.26.0",
-    "@parcel/packager-ts": "2.8.3",
-    "@parcel/transformer-typescript-types": "2.8.3",
     "@testing-library/jest-dom": "^5.16.5",
+    "@types/jest": "29.4.0",
     "@types/node": "18.11.3",
-    "eslint": "8.32.0",
-    "jest": "29.3.1",
+    "eslint": "8.35.0",
+    "jest": "29.4.3",
     "jest-styled-components": "^7.1.1",
-    "node-abort-controller": "3.0.1",
-    "parcel": "2.8.3",
-    "prettier": "^2.8.3",
-    "turbo": "^1.7.0",
-    "typescript": "~4.9.4"
-  },
-  "resolutions": {
-    "typescript": "~4.7"
+    "node-abort-controller": "3.1.1",
+    "prettier": "^2.8.4",
+    "tsup": "6.6.3",
+    "turbo": "^1.8.3",
+    "typescript": "~4.7.4"
   }
 }
