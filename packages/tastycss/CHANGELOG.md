@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.15.0
+
+### Minor Changes
+
+- [#44](https://github.com/OutpostHQ/tasty/pull/44) [`97ea66e`](https://github.com/OutpostHQ/tasty/commit/97ea66ebb054436c50008a2f23cc137548d65320) Thanks [@shubham-kaushal](https://github.com/shubham-kaushal)! - Add Variants API, camelCase support for mods, and nested mods support.
+
 ## 0.14.0
 
 ### Minor Changes
