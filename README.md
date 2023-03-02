@@ -3,7 +3,6 @@
 CSS-in-JS solution modules that include state-to-style bindings, SSR, and next-level developer experience.
 
 [![NPM Version](https://img.shields.io/npm/v/tastycss.svg?style=flat)](https://www.npmjs.com/package/tastycss)
-[![LGTM](https://img.shields.io/lgtm/grade/javascript/github/OutpostHQ/tasty?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/OutpostHQ/tasty/)
 [![Discord](https://img.shields.io/discord/793832892781690891?color=7389D8&label=chat%20on%20Discord&logo=Discord&logoColor=ffffff)](https://discord.gg/sHnHPnAPZj)
 
 ## Installation
@@ -87,7 +86,7 @@ Use `tasty()` to define global styles for elements:
 ```typescript jsx
 import { tasty } from 'tastycss';
 
-const GlobalStyledHeading = tasty('div.myButton', {
+const GlobalStyledHeading = tasty('.myButton', {
   display: 'inline-block',
   padding: '1x 2x',
   preset: 't2',
@@ -95,6 +94,40 @@ const GlobalStyledHeading = tasty('div.myButton', {
   radius: true,
 });
 ```
+
+#### Style variants
+
+You can reduce the amount of CSS for your component by splitting it into variants.
+
+```typescript jsx
+import { tasty } from 'tastycss';
+
+const StyledButton = tasty(Button, {
+  styles: {
+    /* default styles */
+  },
+  variants: {
+    // define themes using variants
+    default: {
+      // default (fallback) variant
+      // define new styles for `default` variant or override default styles.
+    },
+    danger: {
+      // define new styles for `danger` variant or override default styles.
+    },
+  },
+});
+```
+
+Usage example:
+
+```typescript jsx
+<StyledButton variant="danger">Danger Button</StyledButton>
+```
+
+If the `variant` prop is not provided then the `default` variant will be used.
+
+> IMPORTANT: It's preferred that the component will not receive any change in `variant` prop to avoid style replacement. But this case is supported.
 
 **Documentation is work in progress.**
 
