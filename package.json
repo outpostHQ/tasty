@@ -15,26 +15,35 @@
     "version": "changeset version",
     "version:dev": "changeset version --snapshot dev"
   },
-  "dependencies": {
-    "@jengaui/react": "^0.2.1",
-    "@testing-library/react": "^14.0.0",
-    "@types/node": "18.14.4",
-    "find-up": "6.3.0",
-    "react-transition-group": "^4.4.5"
-  },
   "devDependencies": {
     "@changesets/changelog-github": "0.4.8",
     "@changesets/cli": "2.26.0",
+    "@jengaui/react": "0.4.0",
+    "@size-limit/file": "8.2.4",
+    "@size-limit/webpack": "8.2.4",
+    "@size-limit/webpack-why": "8.2.4",
     "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^14.0.0",
     "@types/jest": "29.4.0",
-    "@types/node": "18.11.3",
+    "@types/node": "18.14.4",
     "eslint": "8.35.0",
+    "find-up": "6.3.0",
     "jest": "29.4.3",
     "jest-styled-components": "^7.1.1",
     "node-abort-controller": "3.1.1",
     "prettier": "^2.8.4",
+    "react-transition-group": "^4.4.5",
+    "size-limit": "8.2.4",
     "tsup": "6.6.3",
     "turbo": "^1.8.3",
     "typescript": "~4.7.4"
-  }
+  },
+  "size-limit": [
+    {
+      "name": "tasty",
+      "limit": "100 kb",
+      "path": "./packages/tastycss/dist/esm/index.js",
+      "import": "{ tasty }"
+    }
+  ]
 }

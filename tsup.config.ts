@@ -1,8 +1,11 @@
-import { defineConfig } from "tsup"
-import { findUpSync } from "find-up"
+import { defineConfig } from 'tsup';
+import { findUpSync } from 'find-up';
 
 export default defineConfig({
   clean: true,
-  format: ["cjs", "esm"],
-  inject: process.env.JSX ? [findUpSync("react-shim.js")!] : undefined,
-})
+  format: ['cjs', 'esm'],
+  inject: process.env.JSX ? [findUpSync('react-shim.js')!] : undefined,
+  treeshake: true,
+  minify: true,
+  legacyOutput: true,
+});
