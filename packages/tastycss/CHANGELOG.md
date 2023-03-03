@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.17.0
+
+### Minor Changes
+
+- [#47](https://github.com/OutpostHQ/tasty/pull/47) [`01d7164`](https://github.com/OutpostHQ/tasty/commit/01d716452d8773e560c4dcfde64b247d00582a96) Thanks [@sahilshahane](https://github.com/sahilshahane)! - Enhanced Treeshaking support..
+
 ## 0.16.0
 
 ### Minor Changes
