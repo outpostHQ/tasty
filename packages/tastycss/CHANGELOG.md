@@ -1,5 +1,13 @@
 # Change Log
 
+## 0.17.1
+
+### Patch Changes
+
+- update lockfile
+
+- [#54](https://github.com/OutpostHQ/tasty/pull/54) [`830a54f`](https://github.com/OutpostHQ/tasty/commit/830a54f5ac811ad5184e1811a33e6f376d85432e) Thanks [@sahilshahane](https://github.com/sahilshahane)! - update-lockfile
+
 ## 0.17.0
 
 ### Minor Changes
