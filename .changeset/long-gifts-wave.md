@@ -2,4 +2,4 @@
 'tastycss': minor
 ---
 
-Enhanced Treeshaking support.
+Enhanced Treeshaking support..
