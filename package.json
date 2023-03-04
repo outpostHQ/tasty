@@ -41,7 +41,7 @@
   "size-limit": [
     {
       "name": "tasty",
-      "limit": "100 kb",
+      "limit": "50 kb",
       "path": "./packages/tastycss/dist/esm/index.js",
       "import": "{ tasty }"
     }
